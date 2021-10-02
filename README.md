@@ -17,7 +17,38 @@
 5. Data should be persisted in a database
 6. Minimum 60% test coverage with an aim of 80%
 
-
+# Data model draft  - !! to discuss
+```
+{
+   user_id: 123frt4567,
+   username: "eledoro",
+   password: "supersecrethashedpassword",
+   habits: { [
+              { habit_name: "run 3K",
+                habit_frequency: {[
+                   { frq: 2,
+                     freq_setup_date: 2.09.2021
+                   },
+                   { frq: 3,
+                     freq_setup_date: 5.10.2021
+                    }
+                ]},
+               habit_completed_days:[ 2.09.2021, 4.09.2021, 10.09.2021]
+             },
+              { habit_name: "water 2L",
+                habit_frequency: {[
+                {frq: 4,
+                 freq_setup_date: 7.09.2021
+                 },
+                 {frq: 7,
+                 freq_setup_date: 5.10.2021
+                 }
+               ]}
+               habit_completed_days:[ 11.09.2021, 12.09.2021, 13.09.2021]
+             }
+             ] }
+   }
+```
 # TO DO:
 ##  Server
  1. Create an entrypoint - *index.js* 
