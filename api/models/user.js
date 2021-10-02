@@ -1,8 +1,6 @@
 const { init } = require ('../dbConfig')
 const { ObjectId } = require('mongodb')
 
-const Habit = require('./habit')
-
 class User {
     constructor(data){
         this.name = data.name
@@ -32,7 +30,7 @@ class User {
                 const db = await init();
                 //_id is actually an object, ObjectId(id)
                 let userData = await db.collection('users').find({ _id: ObjectId(id) }).toArray()
-                let user = new Dog({...userData[0], id: userData[0]._id});
+                let user = new User({...userData[0], id: userData[0]._id});
                 resolve (user);
             } catch (err) {
                 reject('User not found');
@@ -74,8 +72,22 @@ class User {
                 const user = await db.collections('users').find({_id: ObjectId(userId)});
                 const userHabitsData = user["habits"];
                 userHabitsData.push({name : name , frequency: frequency})
-                let newUser = new User(userData.ops[0]); // .rows
-                resolve (newUser);
+                resolve (userHabitsData); //check if updates have been made
+            } catch (err) {
+                reject('Error creating user');
+            }
+        });
+    }
+
+    static updateCount(userId){
+        return new Promise (async (resolve, reject) => {
+            try {
+                const db = await init();
+                const user = await db.collections('users').find({_id: ObjectId(userId)})[0]; // the zero indexing is what made it possible to extract key value in terminal. might not need it
+                const currentCount = user["habits"]["Count"]; //key value must be string in indexing. count property is in habits
+                currentCount++
+                db.collection('users').updateOne({_id: ObjectId(userId)}, { $set :{"Count": currentCount}}) //update count in database
+                resolve (currentCount); //check if updates have been made
             } catch (err) {
                 reject('Error creating user');
             }
