@@ -22,6 +22,7 @@
 {
    user_id: 123frt4567,
    username: "eledoro",
+   email: "me@eledoro.com"
    password: "supersecrethashedpassword",
    habits: { [
               { habit_name: "run 3K",
@@ -49,6 +50,13 @@
              ] }
    }
 ```
+# API Design Draft - !! to discuss
+
+|     Path      |  HTTP verb   |  Action in contollers  |  data in req  from client          |  data in res form server      |
+|---------------|--------------|------------------------|------------------------------------|-------------------------------|
+| /register     |  POST        |      create            | username, password, email, token   |                               |
+
+
 # TO DO:
 ##  Server
  1. Create an entrypoint - *index.js* 
@@ -80,7 +88,7 @@
  10. Deploy server on heroku - **must**
 
 ## Client
-1. create ***Main page (login/register)** (excalidraw page 1):
+1. create ***Main page (login/register)*** (excalidraw page 1):
   - 1.1 funcs for rendering Login form  - **must**
   - 1.2 funcs for input validation (? can be used for Registration as well)
   - 1.3 fetchers for sending Login details - **must**   (
@@ -88,17 +96,20 @@
 2. create ***Registration page*** (excalidraw page 2):
   - 2.1 funcs for rendering Registration form  - **must**
   - 2.2 fetchers for creating a new User  (API endpoint '/register')  - **must**
+3. create ***Choose habits*** page (excalidraw page 4-5 ?? should it be one page??):
+  - 4.1 funcs for rendering  - **must** 
+  - 4.2 fetchers for updating User's data - must
 
-3. create page ***User's Dashboard*** (excalidraw page 6):
+4. create page ***User's Dashboard*** (excalidraw page 6):
   - 3.1 funcs for rendering Dashboards - **must**
   - 3.2 fetchers   - **must**
   - 3.3 "see previous week" functionality  - **optional**
-4. create ***Choose habits*** page (excalidraw page 4-5 ?? should it be one page??):
+5. create ***Habit page*** page (excalidraw page 7):
   - 4.1 funcs for rendering  - **must** 
-  - 4.2 fetchers for updating User's data - must
+  - 4.2 fetchers for updating User's data - **must**
   - 4.3 "see previous week" functionality  - **optional**
-5. Write client tests ...
-6. Deploy on Netlify 
+6. Write client tests ...
+7. Deploy on Netlify 
   
 ## Database
 1. Config mongoDB database
@@ -117,6 +128,7 @@
 ## Wednsday 6.10:
   - Optional functionality
   - Bug fix
+  - start on styling
 ## Thursday 7.10
   - presentation
   - seed data for the demo
