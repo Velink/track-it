@@ -22,6 +22,7 @@
 {
    user_id: 123frt4567,
    username: "eledoro",
+   email: "me@eledoro.com"
    password: "supersecrethashedpassword",
    habits: { [
               { habit_name: "run 3K",
@@ -49,6 +50,13 @@
              ] }
    }
 ```
+# API Design Draft - !! to discuss
+
+|     Path      |  HTTP verb   |  Action in contollers  |  data in req  from client          |  data in res form server      |
+|---------------|--------------|------------------------|------------------------------------|-------------------------------|
+| /registration |  POST        |      create            | username, password, email, token   |                               |
+
+
 # TO DO:
 ##  Server
  1. Create an entrypoint - *index.js* 
