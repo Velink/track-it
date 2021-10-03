@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
 
 const User = require('../models/user')
 
@@ -19,16 +18,6 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
-        res.json(user)
-    } catch(err) {
-        res.status(404).json({err})
-    }
-})
-
-// Create User route
-router.post('/', async (req, res) => {
-    try {
-        const user = await User.create(req.body.name, req.body.hash) // returns new user
         res.json(user)
     } catch(err) {
         res.status(404).json({err})

@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb')
 // will make variables environment variables later
 const dbName = 'habitsaddicts'
 //replace 'mussie' with your name (lowercase)
-//password is habbi tsaddicts
+//password is habbitsaddicts
 const connectionUrl = process.env.CONNECTION_URL
 
 const init = async () => {

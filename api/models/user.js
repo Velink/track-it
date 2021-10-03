@@ -26,12 +26,12 @@ class User {
     }
 
     // grab single user
-    static findById (id) {
+    static findByEmail (email) {
         return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
                 //_id is actually an object, ObjectId(id)
-                let userData = await db.collection('users').find({ _id: ObjectId(id) }).toArray()
+                let userData = await db.collection('users').find({email: {$eq: email}}).toArray()
                 let user = new User({...userData[0], id: userData[0]._id});
                 resolve (user);
             } catch (err) {
@@ -86,9 +86,9 @@ class User {
             try {
                 const db = await init();
                 const user = await db.collections('users').find({_id: ObjectId(userId)})[0]; // the zero indexing is what made it possible to extract key value in terminal. might not need it
-                const currentCount = user["habits"]["Count"]; //key value must be string in indexing. count property is in habits
+                const currentCount = user["habits"]["count"]; //key value must be string in indexing. count property is in habits
                 currentCount++
-                db.collection('users').updateOne({_id: ObjectId(userId)}, { $set :{"Count": currentCount}}) //update count in database
+                db.collection('users').updateOne({_id: ObjectId(userId)}, { $set :{"count": currentCount}}) //update count in database
                 resolve (currentCount); //check if updates have been made
             } catch (err) {
                 reject('Error creating user');
