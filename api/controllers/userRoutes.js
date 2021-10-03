@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/user')
 
 // user index route
+
 router.get('/', async (req, res) => {
     try {
         const users = await User.all
@@ -37,6 +38,7 @@ router.post('/', async (req, res) => {
 router.get('/:id/habits', async (req, res)=>{
     try {
         const habits = await User.habits(req.body.id);
+        res.json(habits)
     } catch (err) {
         res.status(404).json({err})
     } 

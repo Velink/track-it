@@ -6,6 +6,7 @@ class User {
         this.id = data.id
         this.name = data.name
         this.hash = data.hash // hash == hashed password
+        // this.habits = data.habits 
     }
 
     // grab all users. may not need this
@@ -44,7 +45,7 @@ class User {
             try {
                 const db = await init();
                 let userData = await db.collection('users').insertOne({ name, hash }) 
-                let newUser = new User(userData.ops[0]); // .rows
+                let newUser = new User(userData.rows[0]); // .rows
                 resolve (newUser);
             } catch (err) {
                 reject('Error creating user');

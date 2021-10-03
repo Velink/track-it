@@ -1,10 +1,11 @@
+require('dotenv').config()
 const { MongoClient } = require('mongodb')
 
 // will make variables environment variables later
 const dbName = 'habitsaddicts'
-//replace 'mussie' with your name lowercase
-//password is habbitsaddicts
-const connectionUrl = 'mongodb+srv://mussie:habitsaddicts@habitsaddicts.vzkzm.mongodb.net/habitsaddicts'
+//replace 'mussie' with your name (lowercase)
+//password is habbi tsaddicts
+const connectionUrl = process.env.CONNECTION_URL
 
 const init = async () => {
   let client = await MongoClient.connect(connectionUrl)
