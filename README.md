@@ -52,9 +52,17 @@
 ```
 # API Design Draft - !! to discuss
 
-|     Path      |  HTTP verb   |  Action in contollers  |  data in req  from client          |  data in res form server      |
-|---------------|--------------|------------------------|------------------------------------|-------------------------------|
-| /register     |  POST        |      create            | username, password, email, token   |                               |
+| Path  |  HTTP verb |  Action in contollers  |  data in req  from client  |  data in res form server |  ent from  |
+|-------|------------|------------------------|----------------------------|--------------------------|------------|
+| /register|  POST | create | username, password, email, token |   |   Registration page (excalidraw p.2)  | 
+| /login |  |   |  |   |  Main (excalidraw. p1) |
+| /:username/choose_habits   | GET|  findHabitsForUser     | username | list of habits with frequencies | Choose habits page (excalidraw p.4)   |
+| /:username/choose_habits   | PATCH|  updateHabitsForUser   | username,list of habits with frequencies| username, list of habits with frequencies | Choose habits page (excalidraw p.4)  |
+| /:username/dashboard/:week | GET |   | username, week number| username, list of habits with frequencies and count of days when competed on the week  | User's dashboard (excalidraw p.6)   |
+| /:username/:habit/:week    | GET |   | username,habit name, week number   | username, habit name, week number, days of the week when completed | Habit page (excalidraw p.7)|
+| /:username/:habit/:week    | PATCH | updateCompleted  | username,habit name, week number, today date (to mark as completed)|  | Habit page (excalidraw p.7) |
+
+
 
 
 # TO DO:
