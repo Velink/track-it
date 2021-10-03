@@ -65,3 +65,5 @@ router.post('/:id/habits', async (req, res)=>{
 
 // update 
 
+module.exports = router
+

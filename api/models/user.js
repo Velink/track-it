@@ -1,8 +1,9 @@
-const { init } = require ('../dbConfig')
+const { init } = require ('../dbConfig/init')
 const { ObjectId } = require('mongodb')
 
 class User {
     constructor(data){
+        this.id = data.id
         this.name = data.name
         this.hash = data.hash // hash == hashed password
     }
@@ -42,7 +43,7 @@ class User {
         return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
-                let userData = await db.collection('users').insertOne({ name: name, hash : hash }) 
+                let userData = await db.collection('users').insertOne({ name, hash }) 
                 let newUser = new User(userData.ops[0]); // .rows
                 resolve (newUser);
             } catch (err) {
@@ -51,11 +52,11 @@ class User {
         });
     }
 
-    get habits(userId){
+    get habits(){
         return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
-                const user = await db.collections('users').find({_id: ObjectId(userId)}); //mongo stores id as object
+                const user = await db.collections('users').find({_id: ObjectId(this.id)}); //mongo stores id as object
                 const userHabits = user["habits"]; // user['habits'] should be stored in db as array we can push objects to
                 resolve(userHabits);
             } catch (err) {
