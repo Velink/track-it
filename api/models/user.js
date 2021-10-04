@@ -1,5 +1,6 @@
 const { init } = require('../dbConfig/init')
 const { ObjectId } = require('mongodb')
+const { currentWeekNumber} = require('current-week-number')
 
 class User {
     constructor(data) {
@@ -88,9 +89,13 @@ class User {
         return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
-// !! TODO: add an agregation by latest habits.freq_setup_date
-               const user = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); //mongo stores id as object
-              // const userHabits = user.habits; // user['habits'] should be stored in db as array we can push objects to
+                
+                const user = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); 
+                
+                const userHabits = {email:"", habits:{}} // object for response
+                userHabits.email = user.email
+                userHabits.habits = user.habits.map((a) =>{ return {habit_name: a.habit_name, frq: a.habit_frequency[a.habit_frequency.length-1].frq}} )
+
                 resolve(userHabits);
             } catch (err) {
                 reject("Users habits could not be found");
@@ -98,22 +103,82 @@ class User {
         });
     };
 
-/*   --- agreed on not keeping a count
-    static updateCount(userId){
+    // --- update list of habits with frequencies by user's email
+    // TODO
+    updateHabitsForUser(email,newHabitsData){
         return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
-                const user = await db.collections('users').find({ _id: ObjectId(userId) })[0]; // the zero indexing is what made it possible to extract key value in terminal. might not need it
-                const currentCount = user["habits"]["count"]; //key value must be string in indexing. count property is in habits
-                currentCount++
-                db.collection('users').updateOne({ _id: ObjectId(userId) }, { $set: { "count": currentCount } }) //update count in database
-                resolve(currentCount); //check if updates have been made
+                const userHabits // 
+
+               const existingHabitsData = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); 
+              // const found = existingHabitsData.some
+
+                resolve(userHabits);
             } catch (err) {
-                reject('Error creating user');
-            }
+                reject("Users habits could not be found");
+            };
         });
-    }
-  */  
+    };
+
+
+
+// --- get list of habits with frequencies and completed_count for week  by user's email
+findWeekDataTotal(email, week){
+    return new Promise (async (resolve, reject) => {
+        try {
+            const db = await init();
+            const user = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); 
+            
+            const WeekDataTotal = {email:"", habits:{ habit_name:"", frq:"" , habitCompletedCount: "" }} // object for response
+
+            WeekDataTotal.email = user.email
+            WeekDataTotal.habits = user.habits.map((a) =>{ 
+             const  habitFreq= a.habit_frequency[a.habit_frequency.length-1].frq
+  
+// TODO add  count for current week for each habit
+
+             //= user.habits.habit_completed_days.map(currentWeekNumber)
+
+                return {habit_name: a.habit_name, frq: habitFreq}} )
+        
+
+/*  helpers for count for current week
+
+        function countCompletedOnWeek(arr,week) {
+           let count = 0
+           arr.forEach((v) => (v === week && count++))
+           return count
+        }
+         weekDataTotal.habits.count = countCompletedOnWeek(habitCompletedInWeeks,week)
+         
+ */         
+            resolve(WeekDataTotal);
+        } catch (err) {
+            reject("Data for this week could not be found");
+        };
+    });
+};
+// ---- for Habit page - single habit by habit_name, email, week number
+findWeekDataHabit(email, habit_name, week){
+    return new Promise (async (resolve, reject) => {
+        try {
+            const db = await init();
+            const user = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); 
+            
+
+            const weekDataForHabit = {email:"", habits:{}} // object for response
+            weekDataForHabit.email = user.email
+            weekDataForHabit.habits = user.habits.map((a) =>{ return {habit_name: a.habit_name, frq: a.habit_frequency[a.habit_frequency.length-1].frq}} )
+
+           //  weekDataForHabit.days_completed = []
+        
+            resolve(WeekDataForHabit);
+        } catch (err) {
+            reject("Data for this week could not be found");
+        };
+    });
+};
 
 
 
