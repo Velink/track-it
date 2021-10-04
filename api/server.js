@@ -25,7 +25,7 @@ server.get('/', (req, res) => res.send('Hello, client!'))
 
 //login GET route
 server.get('/login', async (req, res) => {
-    let pathLogin = path.join(__dirname, '../client/login.html');
+    let pathLogin = path.join(__dirname, '../client/html/login.html');
     res.sendFile(pathLogin);
 })
 
