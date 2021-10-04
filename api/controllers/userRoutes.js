@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
         res.status(404).json({err})
     }
 })
-
+/*
 // get all habits for specific user route 
 router.get('/:id/habits', async (req, res)=>{
     try {
@@ -43,6 +43,7 @@ router.get('/:id/habits', async (req, res)=>{
         res.status(404).json({err})
     } 
 })
+*/
 
 // add user habit router
 router.post('/:id/habits', async (req, res)=>{
@@ -70,9 +71,9 @@ router.post('/:id/habits', async (req, res)=>{
 
 
 // findHabitsForUser
-router.get('/:username/choose_habits', async(req, res) => {
+router.get('/:email/choose_habits', async(req, res) => {
     try{
-        const allHabits = await User.findHabitsForUser(req.params.username)
+        const allHabits = await User.findHabitsForUser(req.params.email)
         res.status(200).send(allHabits)
     } catch (err) {
         res.status(404).json({err})

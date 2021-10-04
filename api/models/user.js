@@ -7,7 +7,7 @@ class User {
         this.username = data.username
         this.email = data.email
         this.hash = data.hash // hash == hashed password
-        // this.habits = data.habits 
+        this.habits = data.habits 
     }
 
     // grab all users. may not need this
@@ -62,10 +62,10 @@ class User {
                 const userHabits = user["habits"]; // user['habits'] should be stored in db as array we can push objects to
                 resolve(userHabits);
             } catch (err) {
-                reject("Users habits could not be found");
-            };
+                reject('User not found');
+            }
         });
-    };
+    }
 
     //creates habit for single user
     static createHabit(userId, name, frequency) {
@@ -82,8 +82,25 @@ class User {
         });
     }
 
-    static updateCount(userId) {
-        return new Promise(async (resolve, reject) => {
+
+// --- get list of habits with frequencies by user's email
+     findHabitsForUser(email){
+        return new Promise (async (resolve, reject) => {
+            try {
+                const db = await init();
+// !! TODO: add an agregation by latest habits.freq_setup_date
+               const user = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); //mongo stores id as object
+              // const userHabits = user.habits; // user['habits'] should be stored in db as array we can push objects to
+                resolve(userHabits);
+            } catch (err) {
+                reject("Users habits could not be found");
+            };
+        });
+    };
+
+/*   --- agreed on not keeping a count
+    static updateCount(userId){
+        return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
                 const user = await db.collections('users').find({ _id: ObjectId(userId) })[0]; // the zero indexing is what made it possible to extract key value in terminal. might not need it
@@ -96,7 +113,12 @@ class User {
             }
         });
     }
+  */  
+
+
 
 }
+
+
 
 module.exports = User;
