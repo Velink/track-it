@@ -4,8 +4,6 @@ loginBtn.addEventListener('click', (e) => {
     requestLogin(e);
 })
 
-window.addEventListener('hashchange', displayFeed);
-
 async function requestLogin(e) {
     try {
         e.preventDefault();
@@ -40,6 +38,25 @@ async function requestLogin(e) {
 
 }
 
+async function getUserInfo(){
+    try {
+        const options = {
+            headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+        }
+        // 
+        const response = await fetch('http://localhost:3000/user' , options);
+        const data = await response.json();
+        if (data.err) {
+            console.warn(data.err);
+            logout();
+        }
+        console.log(data);
+        return data;
+    } catch (err) {
+        console.warn(err);
+    }
+}
+
 
 async function login(token) {
     const user = jwt_decode(token);
@@ -48,35 +65,8 @@ async function login(token) {
     localStorage.setItem("username", user.username);
     localStorage.setItem("userEmail", user.email);
     console.log(localStorage);
-    try {
-        const options = {
-            headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
-        }
-        const response = await fetch('http://localhost:3000/user', options);
-        const data = await response.json();
-        if (data.err) {
-            console.warn(data.err);
-            logout();
-        }
-        console.log(data);
-
-        window.addEventListener('hashchange', displayFeed);
-        window.location.hash = '#dashboard';
-
-        return data;
-    } catch (err) {
-        console.warn(err);
-    }
+    await getUserInfo()
 }
 
 
-function displayFeed(data) {
-    try {
-        let body = document.getElementById('login-body');
-        console.log(body);
-        body.innerHTML = '';
-    } catch (error) {
-        console.log(error);
-    }
 
-}
