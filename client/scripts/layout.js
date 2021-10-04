@@ -1,10 +1,13 @@
-const body = document.querySelector('body')
+const body = document.querySelector('body');
 // we can make a body element or main, doesnt matter
+
+const loginPageButton = document.getElementById('render-login');
+loginPageButton.addEventListener('click', renderLoginForm());
 
 const publicRoutes = ['#login', '#register'];
 const privateRoutes = ['#dashboard'];
 
-window.addEventListener('hashchange', updateContent());
+window.addEventListener('hashchange', updateContent);
 function updateBody(path) {
     body.innerHTML = '';
     if (path) { //check if path defined
@@ -27,6 +30,7 @@ function updateBody(path) {
 
 // we will set the ids + classes here so we can style them in css after
 function renderLoginForm() {
+    body.innerHTML = '';
     const header = document.createElement('h1')
     header.textContent = 'trackIt. Login'
     const form = document.createElement('form');
@@ -53,7 +57,10 @@ function renderLoginForm() {
     const loginButton = document.createElement('input');
     loginButton.setAttribute('type', 'submit');
     loginButton.setAttribute('value', 'Login');
-    loginButton.id = "rendered-login-button";
+    loginButton.id = "login-button";
+    loginButton.addEventListener('click', (e) => {
+        requestLogin(e);
+    })
 
     const formItems = [emailLabel, emailInput, passwordLabel, passwordInput, loginButton]
     formItems.forEach(item => form.append(item))
@@ -74,25 +81,50 @@ function renderLoginForm() {
 
 async function displayDashboard() {
     try {
+        //Create Dashboard Section
         const dashboard = document.createElement('section')
-        dashboard.id = 'dashboard' // for future styling
-        const userInfo = await getUserInfo() // get user info will make a fetch request
+        dashboard.id = 'dashboard'
+
+        //Obtain User Information 
+        const userInfo = await getUserInfo()
         console.log(userInfo);
-        const userHabits = userInfo.habits // will send habits attributes in the get request
-        const renderHabit = habit => {
-            const habitDetails = document.createElement('div'); // contains habitname and frequency for each user habit
-            habitDetails.className = 'habit' // style all habits the same later
-            const habitName = document.createElement('p');
-            const habitFrequency = document.createElement('p')
-            habitName.textContent = habit.habitName; // inserts habit name into div
-            habitFrequency.textContent = habit.habitFrequency; // inserts frequency
-            // we can add more habit details later
-            habitDetails.appendChild(habitName);
-            habitDetails.appendChild(habitFrequency)
-            dashboard.appendChild(habitDetails);
+
+        //Create Navbar
+        let navbar = document.createElement('nav');
+        navbar.setAttribute('id', 'nav-bar');
+        if (currentUser()) {
+            // Logout Navbar Button
+            let logOut = document.createElement('a');
+            logOut.textContent = 'Logout';
+            logOut.addEventListener('click', logout);
+
+            // Habits Navbar Button
+            let linkHabits = document.createElement('a');
+            linkHabits.textContent = 'Habits';
+
+            // Profile Navbar Button
+            let profile = document.createElement('a');
+            profile.textContent = 'Profile';
+            navbar.appendChild(profile);
+            navbar.appendChild(linkHabits);
+            navbar.appendChild(logOut);
         }
-        userHabits.forEach(habit => renderHabit(habit))
-        body.appendChild(dashboard); // add habits dashboard to the body page
+
+        // const userHabits = userInfo.habits 
+        // const renderHabit = habit => {
+        //     const habitDetails = document.createElement('div'); 
+        //     habitDetails.className = 'habit' 
+        //     const habitName = document.createElement('p');
+        //     const habitFrequency = document.createElement('p')
+        //     habitName.textContent = habit.habitName; 
+        //     habitFrequency.textContent = habit.habitFrequency; 
+        //     habitDetails.appendChild(habitName);
+        //     habitDetails.appendChild(habitFrequency);
+        //     dashboard.appendChild(habitDetails);
+        // }
+        // userHabits.forEach(habit => renderHabit(habit))
+        // body.appendChild(dashboard); 
+        body.appendChild(navbar);
     } catch (error) {
         console.log(error);
     }
@@ -100,12 +132,18 @@ async function displayDashboard() {
 
 
 function updateContent() {
+    console.log('content update');
     const path = window.location.hash; //check current path 
     if (privateRoutes.includes(path) && !currentUser()) { //if path private or user unknown in local storage prevent access to dashboard
+        console.log('inside 1')
         window.location.hash = '#'; //change to #login or #register???
     } else if (!privateRoutes.includes(path) && currentUser()) {
+        console.log('inside  2')
         window.location.hash = '#dashboard'; // if user known to local storage let them access the dashboard
     } else {
+        console.log('inside 3');
         updateBody(path); // render the corresponding page
     }
 }
+
+
