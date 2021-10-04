@@ -67,5 +67,54 @@ router.post('/:id/habits', async (req, res)=>{
 
 // update 
 
+
+
+// findHabitsForUser
+router.get('/:username/choose_habits', async(req, res) => {
+    try{
+        const allHabits = await User.findHabitsForUser(req.params.username)
+        res.status(200).send(allHabits)
+    } catch (err) {
+        res.status(404).json({err})
+    }
+})
+
+// updateHabitsForUser
+router.patch('/:username/choose_habits', async(req, res) => {
+    try{
+        const updatedHabits = await User.updateHabitsForUser(req.body.username)
+        res.status(200).send(updatedHabits)
+    } catch (err) {
+        res.status(404).json({err})
+    }
+})
+
+router.get('/:username/dashboard/:week', async(req, res) => {
+    try{
+        const weekDataTotal = await User.findweekDataTotal(req.params.username, req.params.week)
+        res.status(200).send(weekDataTotal)
+    } catch (err) {
+        res.status(404).json({err})
+    }
+})
+
+router.get('/:username/:habit/:week', async(req, res) => {
+    try{
+        const WeekDataHabit = await User.findWeekDataHabit(req.params.username, req.params.habit, req.params.week)
+        res.status(200).send(WeekDataHabit)
+    } catch (err) {
+        res.status(404).json({err})
+    }
+})
+
+router.patch('/:username/:habit/:week', async(req, res) => {
+    try{
+        const newWeekDataHabit = await User.updateNewWeekDataHabit(req.params.username, req.params.habit, req.params.week)
+        res.status(200).send(newWeekDataHabit)
+    } catch (err) {
+        res.status(404).json({err})
+    }
+})
+
 module.exports = router
 
