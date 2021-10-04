@@ -24,30 +24,30 @@
    username: "eledoro",
    email: "me@eledoro.com"
    password: "supersecrethashedpassword",
-   habits: { [
+   habits: [
               { habit_name: "run 3K",
-                habit_frequency: {[
+                habit_frequency: [
                    { frq: 2,
                      freq_setup_date: 2.09.2021
                    },
                    { frq: 3,
                      freq_setup_date: 5.10.2021
                     }
-                ]},
+                ],
                habit_completed_days:[ 2.09.2021, 4.09.2021, 10.09.2021]
              },
               { habit_name: "water 2L",
-                habit_frequency: {[
+                habit_frequency: [
                 {frq: 4,
                  freq_setup_date: 7.09.2021
                  },
                  {frq: 7,
                  freq_setup_date: 5.10.2021
                  }
-               ]}
+               ],
                habit_completed_days:[ 11.09.2021, 12.09.2021, 13.09.2021]
              }
-             ] }
+             ] 
    }
 ```
 # API Design Draft - !! to discuss
@@ -55,7 +55,7 @@
 | Path  |  HTTP verb |  Action in contollers  |  data in req  from client  |  data in res form server |  ent from  |
 |-------|------------|------------------------|----------------------------|--------------------------|------------|
 | /register|  POST | create | username, password, email, token |   |   Registration page (excalidraw p.2)  | 
-| /login |  |   |  |   |  Main (excalidraw. p1) |
+| /login | POST  |   | token, username, password  | token   |  Main (excalidraw. p1) |
 | /:username/choose_habits   | GET|  findHabitsForUser     | username | list of habits with frequencies | Choose habits page (excalidraw p.4)   |
 | /:username/choose_habits   | PATCH|  updateHabitsForUser   | username,list of habits with frequencies| username, list of habits with frequencies | Choose habits page (excalidraw p.4)  |
 | /:username/dashboard/:week | GET |   | username, week number| username, list of habits with frequencies and count of days when competed on the week  | User's dashboard (excalidraw p.6)   |
