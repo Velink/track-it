@@ -1,10 +1,10 @@
-const { init } = require ('../dbConfig/init')
+const { init } = require('../dbConfig/init')
 const { ObjectId } = require('mongodb')
 
 class User {
-    constructor(data){
+    constructor(data) {
         this.id = data.id
-        this.name = data.name
+        this.username = data.username
         this.email = data.email
         this.hash = data.hash // hash == hashed password
         this.habits = data.habits 
@@ -12,7 +12,7 @@ class User {
 
     // grab all users. may not need this
     static get all() {
-        return new Promise (async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 const db = await init()
                 const userData = await db.collection('users').find().toArray()
@@ -26,28 +26,41 @@ class User {
         })
     }
 
-    static create(name, hash){
-        return new Promise (async (resolve, reject) => {
+    // grab single user
+    static findByEmail(email) {
+        return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                let userData = await db.collection('users').insertOne({ name, hash }) 
-                let newUser = new User(userData.rows[0]); // .rows
-                resolve (newUser);
+                //_id is actually an object, ObjectId(id)
+                let userData = await db.collection('users').find({ email: { $eq: email } }).toArray()
+                let user = new User({ ...userData[0], id: userData[0]._id });
+                resolve(user);
+            } catch (err) {
+                reject('User not found');
+            }
+        });
+    }
+
+    static create(name, email, hash) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const db = await init();
+                let userData = await db.collection('users').insertOne({ username: name, email: email, hash: hash })
+                let newUser = new User(userData); // .rows
+                resolve(newUser);
             } catch (err) {
                 reject('Error creating user');
             }
         });
     }
 
-    // ---   grab single user by Email
-    static findByEmail (email) {
-        return new Promise (async (resolve, reject) => {
+    get habits() {
+        return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                //_id is actually an object, ObjectId(id)
-                let userData = await db.collection('users').find({email: {$eq: email}}).toArray()
-                let user = new User({...userData[0], id: userData[0]._id});
-                resolve (user);
+                const user = await db.collections('users').find({ _id: ObjectId(this.id) }); //mongo stores id as object
+                const userHabits = user["habits"]; // user['habits'] should be stored in db as array we can push objects to
+                resolve(userHabits);
             } catch (err) {
                 reject('User not found');
             }
@@ -55,14 +68,14 @@ class User {
     }
 
     //creates habit for single user
-    static createHabit(userId, name, frequency){
-        return new Promise (async (resolve, reject) => {
+    static createHabit(userId, name, frequency) {
+        return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const user = await db.collections('users').find({_id: ObjectId(userId)});
+                const user = await db.collections('users').find({ _id: ObjectId(userId) });
                 const userHabitsData = user["habits"];
-                userHabitsData.push({name : name , frequency: frequency})
-                resolve (userHabitsData); //check if updates have been made
+                userHabitsData.push({ name: name, frequency: frequency })
+                resolve(userHabitsData); //check if updates have been made
             } catch (err) {
                 reject('Error creating user');
             }
@@ -90,11 +103,11 @@ class User {
         return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
-                const user = await db.collections('users').find({_id: ObjectId(userId)})[0]; // the zero indexing is what made it possible to extract key value in terminal. might not need it
+                const user = await db.collections('users').find({ _id: ObjectId(userId) })[0]; // the zero indexing is what made it possible to extract key value in terminal. might not need it
                 const currentCount = user["habits"]["count"]; //key value must be string in indexing. count property is in habits
                 currentCount++
-                db.collection('users').updateOne({_id: ObjectId(userId)}, { $set :{"count": currentCount}}) //update count in database
-                resolve (currentCount); //check if updates have been made
+                db.collection('users').updateOne({ _id: ObjectId(userId) }, { $set: { "count": currentCount } }) //update count in database
+                resolve(currentCount); //check if updates have been made
             } catch (err) {
                 reject('Error creating user');
             }
