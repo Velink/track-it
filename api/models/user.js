@@ -109,7 +109,7 @@ class User {
         return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
-                const userHabits // 
+                // const userHabits // 
 
                const existingHabitsData = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); 
               // const found = existingHabitsData.some

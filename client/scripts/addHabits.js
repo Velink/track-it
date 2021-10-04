@@ -1,8 +1,11 @@
 var habitFieldCounter = 0
+var habitData = []
 
 const newHabitBtn = document.getElementById('newHabitBtn')
+const form = document.getElementById('form')
  
 newHabitBtn.addEventListener('click', createHabitField)
+form.addEventListener('submit', submitData)
 
 {/* <div class="row">
                   <div class="col-9">
@@ -60,4 +63,35 @@ function createHabitField() {
         freq_option.setAttribute("value", `${i}`)
         select.appendChild(freq_option)
     }
+
 }
+
+function submitData(e){
+  e.preventDefault()
+  let habits = document.getElementsByTagName('input')
+  // console.log(freq_value)
+  for (let habit of habits){
+    let habitList = {habit: habit.value}
+    habitData.push(habitList)
+  }
+  let frequencySelectors = document.getElementsByTagName('select');
+  console.log(frequencySelectors)
+  for(let i = 0 ; i < frequencySelectors.length ; i++){
+    let newFreq = frequencySelectors[i].options.selectedIndex
+    habitData[i].frequency = newFreq
+  }
+
+  const options = {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+  }
+  fetch('http://localhost:3000/posts', options) // choose where to send it to
+  
+}
+
+
+
+
