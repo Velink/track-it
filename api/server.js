@@ -5,13 +5,15 @@ const cors = require('cors');
 const User = require('./models/user');
 const authenticateToken = require('./middleware/tokenAuth');
 const path = require('path');
+
 require('dotenv').config();
 
 const server = express();
 server.use(cors());
 server.use(express.json());
 
-
+// SET UP VIEW ENGINE
+server.set("view engine", 'ejs');
 
 
 const userRoutes = require('./controllers/userRoutes')
@@ -21,7 +23,10 @@ const userRoutes = require('./controllers/userRoutes')
 server.use(express.static('../client'))
 
 // Root route
-server.get('/', (req, res) => res.send('Hello, client!'))
+server.get('/', (req, res) => {
+    let pathLogin = path.join(__dirname, '../client/html/login.html');
+    res.sendFile(pathLogin);
+})
 
 //login GET route
 server.get('/login', async (req, res) => {
@@ -55,7 +60,7 @@ server.post('/login', async (req, res) => {
     }
 })
 
-server.get('/user', authenticateToken, async (req, res) => { // after running authenticateToken, req.user is the user from server.post
+server.get('/user', async (req, res) => { // after running authenticateToken, req.user is the user from server.post
     // once token verified, how do we proceed ?
     try {
         const user = await User.findByEmail(req.body.email)

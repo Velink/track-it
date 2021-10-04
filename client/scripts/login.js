@@ -4,6 +4,8 @@ loginBtn.addEventListener('click', (e) => {
     requestLogin(e);
 })
 
+window.addEventListener('hashchange', displayFeed);
+
 async function requestLogin(e) {
     try {
         e.preventDefault();
@@ -46,7 +48,6 @@ async function login(token) {
     localStorage.setItem("username", user.username);
     localStorage.setItem("userEmail", user.email);
     console.log(localStorage);
-
     try {
         const options = {
             headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
@@ -58,9 +59,24 @@ async function login(token) {
             logout();
         }
         console.log(data);
+
+        window.addEventListener('hashchange', displayFeed);
+        window.location.hash = '#dashboard';
+
         return data;
     } catch (err) {
         console.warn(err);
     }
 }
 
+
+function displayFeed(data) {
+    try {
+        let body = document.getElementById('login-body');
+        console.log(body);
+        body.innerHTML = '';
+    } catch (error) {
+        console.log(error);
+    }
+
+}
