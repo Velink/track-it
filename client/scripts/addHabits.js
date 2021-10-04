@@ -29,7 +29,7 @@ newHabitBtn.addEventListener('click', createHabitField)
                   </div> */}
 
 function createHabitField() {
-    if( habitFieldCounter > 3 ){ return alert('boo')}
+    if( habitFieldCounter > 3 ){ return alert('You may only create maximum 5 fields')}
     habitFieldCounter++
     let inputs = document.getElementById('inputs')
     let div_row = document.createElement('div')

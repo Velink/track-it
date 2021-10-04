@@ -8,7 +8,7 @@ class User {
         this.username = data.username
         this.email = data.email
         this.hash = data.hash // hash == hashed password
-        this.habits = data.habits 
+        // this.habits = data.habits
     }
 
     // grab all users. may not need this
@@ -84,9 +84,9 @@ class User {
     }
 
 
-// --- get list of habits with frequencies by user's email
-     findHabitsForUser(email){
-        return new Promise (async (resolve, reject) => {
+    // --- get list of habits with frequencies by user's email
+    findHabitsForUser(email) {
+        return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
                 
