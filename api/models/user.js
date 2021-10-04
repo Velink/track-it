@@ -8,7 +8,7 @@ class User {
         this.username = data.username
         this.email = data.email
         this.hash = data.hash // hash == hashed password
-        // this.habits = data.habits
+        // this.habits = [];
     }
 
     // grab all users. may not need this
