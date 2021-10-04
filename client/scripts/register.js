@@ -1,8 +1,8 @@
 const form = document.getElementById('form')
 
-form.addEventListener('submit', someFunction)
+form.addEventListener('submit', userDataSubmission)
 
-function someFunction(e) {
+function userDataSubmission(e) {
 
     e.preventDefault()
     const username = document.getElementById('username').value;
@@ -19,5 +19,7 @@ function someFunction(e) {
         body: JSON.stringify(userData)
     }
     fetch('http://localhost:3000/register', options)
+
+    location.assign('../html/addHabits.html')
 
 }
