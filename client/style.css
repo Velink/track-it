@@ -27,11 +27,15 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 auto;
+    margin: 3% auto;
 }
 
 .login-form input,label{
     margin: 5px 0px;
+}
+
+.login-form input{
+    padding: 10px 5px;
 }
 
 .intro-title{
