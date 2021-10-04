@@ -31,9 +31,11 @@ function updateBody(path) {
 // we will set the ids + classes here so we can style them in css after
 function renderLoginForm() {
     body.innerHTML = '';
-    const header = document.createElement('h1')
+    const header = document.createElement('h1');
+    header.setAttribute('class', 'intro-title');
     header.textContent = 'trackIt. Login'
     const form = document.createElement('form');
+    form.setAttribute('class', 'login-form')
 
     //Login Form Email Field
     const emailLabel = document.createElement('label');

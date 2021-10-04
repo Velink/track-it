@@ -20,3 +20,34 @@
 #nav-bar a:hover{
     cursor: pointer;
 }
+
+.login-form{
+    font-family: 'Roboto', cursive;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.login-form input,label{
+    margin: 5px 0px;
+}
+
+.intro-title{
+    font-family: 'Roboto', cursive;
+    margin-top: 5%;
+    text-align: center;
+}
+
+#login-button{
+    border: none;
+    padding: 10px;
+    background-color: black;
+    color: #fff;
+}
+
+#login-button:hover{
+    cursor: pointer;
+    background-color: #424242;
+}
