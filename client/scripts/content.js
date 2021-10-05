@@ -85,9 +85,9 @@ function renderLoginForm() {
 function renderRegisterForm() {
     main.innerHTML = '';
     const fields = [
-        { tag: 'input', attributes: { type: 'text', id:'username', name: 'username', placeholder: 'Username' } },
-        { tag: 'input', attributes: { type: 'text', id:"register_email", name: 'email', placeholder: 'Email',} },
-        { tag: 'input', attributes: { type: 'password', id:'password', name: 'password', placeholder: 'Password' } },
+        { tag: 'input', attributes: { type: 'text', id: 'username', name: 'username', placeholder: 'Username' } },
+        { tag: 'input', attributes: { type: 'text', id: "register_email", name: 'email', placeholder: 'Email', } },
+        { tag: 'input', attributes: { type: 'password', id: 'password', name: 'password', placeholder: 'Password' } },
         { tag: 'input', attributes: { type: 'password', name: 'passwordConfirmation', placeholder: 'Confirm Password' } },
         { tag: 'button', attributes: { type: 'button', value: 'Create Account', id: 'submitButton' } }
     ]
@@ -99,7 +99,7 @@ function renderRegisterForm() {
 
     // create form and attributes
     const form = document.createElement('form')
-    
+
     const formAttributes = { id: "register_form", class: "w-50 mx-auto" }
     Object.entries(formAttributes).forEach(([a, v]) => form.setAttribute(a, v));
 
@@ -124,7 +124,7 @@ function renderRegisterForm() {
     outerDiv.className = "container"
     // form.addEventListener('submit', requestRegistration)
     main.appendChild(outerDiv);
-    
+
     let submitButton = document.getElementById('submitButton');
 
     submitButton.addEventListener('click', async () => {
@@ -133,8 +133,8 @@ function renderRegisterForm() {
         const userEmail = localStorage.setItem("userEmail", email);
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        const storePassword = localStorage.setItem("password",password)
-        const userData = {username:username, email:email, password:password }
+        const storePassword = localStorage.setItem("password", password)
+        const userData = { username: username, email: email, password: password }
         console.log(userData)
 
 
@@ -148,16 +148,21 @@ function renderRegisterForm() {
         await fetch('http://localhost:3000/register', options)
         
     })
-    
+
+
+
+
+
+    window.location.hash = '#register';
 }
 
 
 
 // RENDER HABITS PAGE FUNCTION
 function renderAddHabits() {
-    let main = document.getElementById('main')
+    let main = document.getElementById('main');
     main.innerHTML = '';
-    
+
     // Create header
     let header_div = document.createElement('div')
     let header = document.createElement('h1')
@@ -175,17 +180,17 @@ function renderAddHabits() {
 
     // Create initial inputs fields
     let div_container = document.createElement('div')
-    div_container.setAttribute('class','container')
+    div_container.setAttribute('class', 'container')
     main.appendChild(div_container)
     let form = document.createElement('form')
-    form.setAttribute('class','w-50 mx-auto')
+    form.setAttribute('class', 'w-50 mx-auto')
     div_container.appendChild(form)
     let input_div = document.createElement('div')
     input_div.setAttribute('class', 'mb-3')
     form.appendChild(input_div)
     let label = document.createElement('label')
-    label.setAttribute('for','register')
-    label.setAttribute('class','form-label display-6 lead')
+    label.setAttribute('for', 'register')
+    label.setAttribute('class', 'form-label display-6 lead')
     input_div.appendChild(label)
     let div_row = document.createElement('div')
     input_div.appendChild(div_row)
@@ -210,7 +215,7 @@ function renderAddHabits() {
     initialOption.setAttribute("selected", "selected")
     initialOption.innerText = `Frequency`
     let submit_btn = document.createElement('button')
-    submit_btn.setAttribute('type','submit')
+    submit_btn.setAttribute('type', 'submit')
     form.appendChild(submit_btn)
 
     for (let i = 1; i <= 7; i++) {
@@ -224,7 +229,7 @@ function renderAddHabits() {
     addHabitBtn.addEventListener('click', createHabitField);
     form.addEventListener('submit', submitData)
 
-    
+
     function createHabitField() {
         console.log('mad')
         let inputCount = document.getElementsByTagName('input').length + 1
@@ -258,15 +263,21 @@ function renderAddHabits() {
             freq_option.setAttribute("value", `${i}`)
             select.appendChild(freq_option)
         }
-    
+
     }
 
-    
+
 }
 
 // RENDER USER DASHBOARD PAGE
 async function displayDashboard() {
     try {
+        var link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('href', '../style.css');
+        document.head.appendChild(link);
+
+        let main = document.getElementById('main');
         //Create Dashboard Section
         const header = document.getElementsByTagName('HEADER')[0];
         header.innerHTML = '';
@@ -299,6 +310,8 @@ async function displayDashboard() {
             navbar.appendChild(logOut);
         }
 
+        // CREATE USER HABITS SECTION 
+
         // const userHabits = userInfo.habits 
         // const renderHabit = habit => {
         //     const habitDetails = document.createElement('div'); 
@@ -314,6 +327,34 @@ async function displayDashboard() {
         // userHabits.forEach(habit => renderHabit(habit))
         // body.appendChild(dashboard); 
         header.appendChild(navbar);
+
+        //USER HABITS SECTION
+        let habitSection = document.createElement('div');
+        habitSection.setAttribute("class", "user-habits");
+        let userHabits = userInfo.habits;
+        for (let i = 0; i < userHabits.length; i++) {
+            const habitElement = document.createElement('div');
+            const freqP = document.createElement('p');
+            habitElement.setAttribute("class", "habit-card");
+            habitElement.textContent = userHabits[i].habit_name;
+            freqP.textContent = userHabits[i].frq + '/7';
+            habitElement.appendChild(freqP);
+
+            //Progress Bars - To be Updated
+            let bar = document.createElement('div');
+            // bar.setAttribute('class', 'meter');
+            bar.setAttribute('id', 'progressbar');
+            let barSpan = document.createElement('div');
+            // barSpan.setAttribute('class', 'barSpan');
+            bar.appendChild(barSpan);
+
+            habitElement.insertAdjacentElement('afterbegin', bar);
+            habitSection.appendChild(habitElement);
+        }
+        console.log(habitSection);
+        main.appendChild(habitSection);
+
+
     } catch (error) {
         console.log(error);
     }

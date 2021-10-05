@@ -108,12 +108,14 @@ class User {
     // --- update list of habits with frequencies by user's email
     // TODO
     static updateHabitsForUser(email, habitName, frequency) {
+        console.log('email name is ' + email);
+        console.log('habit name is ' + habitName);
+        console.log('frequency is ' + frequency);
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                // const userHabits //
-                
-            
+                // const userHabits // 
+
                 const existingHabitsData = await db.collection('users').findOneAndUpdate({ email: { $eq: email } }, {
                     "$push": {
 
@@ -121,7 +123,7 @@ class User {
                         {
                             "habit_name": habitName,
                             "frequency": frequency,
-                            "completed_days" : [0,0,0,0,0,0,0]
+                            "completed_days": [0, 0, 0, 0, 0, 0, 0]
                         }
 
                     },
@@ -130,7 +132,7 @@ class User {
                     { returnDocument: "after" }, { returnOriginal: false }
                 )
                 // const found = existingHabitsData.some
-
+                console.log(existingHabitsData);
                 resolve(existingHabitsData);
             } catch (err) {
                 reject("Users habits could not be found");
@@ -144,19 +146,19 @@ class User {
     static findWeekDataTotal(email) {
         return new Promise(async (resolve, reject) => {
             try {
-                
+
                 const db = await init();
                 const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
                 const userDataTotal = { email: "", habits: {} } // object for response
-                
+
                 userDataTotal.email = user[0].email
-                
+
 
 
                 userDataTotal.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency, count: a.completed_days.reduce((total, el) => { return total + el }, 0) } })
                 //userDataTotal.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency, count: a.completed_days} })
 
-               
+
 
 
                 resolve(userDataTotal);
