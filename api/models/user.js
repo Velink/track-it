@@ -120,7 +120,7 @@ class User {
                 const existingHabitsData = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 });
                 // const found = existingHabitsData.some
 
-                resolve(userHabits);
+                resolve(existingHabitsData);
             } catch (err) {
                 reject("Users habits could not be found");
             };
@@ -129,63 +129,72 @@ class User {
 
 
 
-    // --- get list of habits with frequencies and completed_count for week  by user's email
-    findWeekDataTotal(email, week) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const db = await init();
-                const user = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 });
+// --- get list of habits with frequencies and completed_count for week  by user's email
+findWeekDataTotal(email, week){
+    return new Promise (async (resolve, reject) => {
+        try {
+            const db = await init();
+            const user = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); // getting all habits data for user with email
+            
+            const WeekDataTotal = {email:"", habits:{ habit_name:"", frq:"" , habitCompletedCount: "" }} // object for response
 
-                const WeekDataTotal = { email: "", habits: { habit_name: "", frq: "", habitCompletedCount: "" } } // object for response
+            WeekDataTotal.email = user.email
+            WeekDataTotal.habits = user.habits.map((a) =>{ 
+             const  habitFreq= a.habit_frequency[a.habit_frequency.length-1].frq // getting last updated frequency for the habit
+  
+//add  count for current week for each habit
 
-                WeekDataTotal.email = user.email
-                WeekDataTotal.habits = user.habits.map((a) => {
-                    const habitFreq = a.habit_frequency[a.habit_frequency.length - 1].frq
+            const  habitCompletedWeekNumber= a.habit_completed_days.map(currentWeekNumber) // date to week number
+            const  habitCompletedThisWeek = habitCompletedWeekNumber.map((a) => {return a === week})// array of boolean, True if compl_date ===week 
+            const countForWeek = habitCompletedThisWeek.reduce((total, el) => {return total+el}, 0)// sum of elemenys. Should be count of Trues
 
-                    // TODO add  count for current week for each habit
+            return {habit_name: a.habit_name, frq: habitFreq, habitCompletedCount: countForWeek}} )
+           
+            resolve(WeekDataTotal);
+        } catch (err) {
+            reject("Data for this week could not be found");
+        };
+    });
+};
+// ---- for Habit page - single habit by habit_name, email, week number  - return days of the week whaen completed
+findWeekDataHabit(email, habitName, week){
+    return new Promise (async (resolve, reject) => {
+        try {
+            const db = await init();
+            const user = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); // getting all habits data for user
+            
+            const weekDataForHabit = {email:"", habitName: "" , weekDaysWhenCompleted: []} // creating object for response
+              
+            const findHabitByName = (habits, name) => {
+                    const result = habits.filter(a => {
+                      return a['habit_name'] === name;
+                   });
+                    return result;
+                  };
 
-                    //= user.habits.habit_completed_days.map(currentWeekNumber)
+             const habitByName = findHabitByName(user.habits, habitName)   
 
-                    return { habit_name: a.habit_name, frq: habitFreq }
-                })
+            weekDataForHabit.email = user.email
+            weekDataForHabit.habitName = habitByName.habit_name
 
+            const  habitCompletedWeekNumber= habitByName.habit_completed_days.map(currentWeekNumber) // date to week number
+            const  habitCompletedThisWeek = habitCompletedWeekNumber.map((a) => {return a === week})//array of boolean, True if compl_date ===week 
+           // const habitCompetedDatesToWeekdays = habitByName.habit_completed_days.map((a) => {return a.getDay() +1})
 
-                /*  helpers for count for current week
-                
-                        function countCompletedOnWeek(arr,week) {
-                           let count = 0
-                           arr.forEach((v) => (v === week && count++))
-                           return count
-                        }
-                         weekDataTotal.habits.count = countCompletedOnWeek(habitCompletedInWeeks,week)
-                         
-                 */
-                resolve(WeekDataTotal);
-            } catch (err) {
-                reject("Data for this week could not be found");
-            };
-        });
-    };
-    // ---- for Habit page - single habit by habit_name, email, week number
-    findWeekDataHabit(email, habit_name, week) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const db = await init();
-                const user = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 });
+            
+            
+            
+            //user.habits.map((a) =>{
+              //   return {habitName: a.habit_name, }} )
 
-
-                const weekDataForHabit = { email: "", habits: {} } // object for response
-                weekDataForHabit.email = user.email
-                weekDataForHabit.habits = user.habits.map((a) => { return { habit_name: a.habit_name, frq: a.habit_frequency[a.habit_frequency.length - 1].frq } })
-
-                //  weekDataForHabit.days_completed = []
-
-                resolve(WeekDataForHabit);
-            } catch (err) {
-                reject("Data for this week could not be found");
-            };
-        });
-    };
+           //  weekDataForHabit.days_completed = []
+        
+            resolve(WeekDataForHabit);
+        } catch (err) {
+            reject("Data for this week could not be found");
+        };
+    });
+};
 
 
 
