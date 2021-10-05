@@ -54,9 +54,11 @@ async function submitData(e){
     // let token = localStorage.getItem('token')
     const options = {
       method: 'PATCH',
-      headers: new Headers({ 'Authorization': token }),
+      headers: {'Authorization': token,"Content-Type": "application/json"},
       body: JSON.stringify(postingData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
     }
-    fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
+    const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
+    const resp2 = await resp.json()
+    console.log(resp2)
     
   }

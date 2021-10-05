@@ -111,7 +111,8 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                // const userHabits // 
+                // const userHabits //
+                
             
                 const existingHabitsData = await db.collection('users').findOneAndUpdate({ email: { $eq: email } }, {
                     "$push": {

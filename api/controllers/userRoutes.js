@@ -87,6 +87,7 @@ router.get('/:email/choose_habits',authenticateToken, async (req, res) => {
 // updateHabitsForUser
 router.patch('/:email/choose_habits',authenticateToken, async (req, res) => {
     try {
+        console.log(`${req.body.habitName} is the habit we want`)
         const updatedHabits = await User.updateHabitsForUser(req.body.email,req.body.habitName,req.body.frequency)
         res.status(200).send(updatedHabits)
     } catch (err) {
