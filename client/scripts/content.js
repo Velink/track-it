@@ -1,12 +1,39 @@
 const loginPageButton = document.getElementById('render-login');
-loginPageButton.addEventListener('click', renderLoginForm());
+loginPageButton.addEventListener('click', renderLoginForm);
+
+const homeMain = document.getElementById('main');
 
 // we will set the ids + classes here so we can style them in css after
 function renderLoginForm() {
-    body.innerHTML = '';
-    const header = document.createElement('h1');
-    header.setAttribute('class', 'intro-title');
-    header.textContent = 'Rendered trackIt. Login'
+    window.location.hash = '#login';
+    // body.innerHTML = '';
+
+    homeMain.innerHTML = '';
+
+    // Header Created
+    const header = document.createElement('header');
+
+    // Navbar Created
+    // const navbar = document.createElement('nav');
+    // navbar.setAttribute('id', 'nav-bar');
+    // const navLoginButton = document.createElement('button');
+    // navLoginButton.textContent = 'Login';
+    // const navRegisterButton = document.createElement('button');
+    // navRegisterButton.textContent = 'Register';
+    // const navHomeButton = document.createElement('button');
+    // navHomeButton.textContent = 'Home';
+    // navbar.appendChild(navLoginButton);
+    // navbar.appendChild(navRegisterButton);
+    // navbar.appendChild(navHomeButton);
+    // header.appendChild(navbar);
+
+    // Intro Title Created
+    const introTitle = document.createElement('h1');
+    introTitle.setAttribute('class', 'intro-title');
+    introTitle.textContent = 'Rendered trackIt. Login';
+    header.appendChild(introTitle);
+
+    // Form Created
     const form = document.createElement('form');
     form.setAttribute('class', 'login-form')
 

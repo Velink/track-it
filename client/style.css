@@ -17,9 +17,6 @@
     align-items: center;
 }
 
-#nav-bar a:hover{
-    cursor: pointer;
-}
 
 .login-form{
     font-family: 'Roboto', cursive;
@@ -55,3 +52,24 @@
     cursor: pointer;
     background-color: #424242;
 }
+
+/* Home Page */
+#home-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#home-body button{
+    width: auto;
+    padding: 10px;
+    border: none;
+    background-color: #424242;
+    color: #fff;
+}
+
+#home-body button:hover{
+    background-color: #424242;
+    cursor: pointer;
+}
+
