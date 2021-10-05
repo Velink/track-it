@@ -1,4 +1,5 @@
-const body = document.querySelector('body');
+// const body = document.querySelector('body');
+const main = document.querySelector('main');
 // we can make a body element or main, doesnt matter
 
 const publicRoutes = ['#login', '#register'];
@@ -6,7 +7,7 @@ const privateRoutes = ['#dashboard'];
 
 window.addEventListener('hashchange', updateContent);
 function updateBody(path) {
-    body.innerHTML = '';
+    main.innerHTML = '';
     if (path) { //check if path defined
         switch (path) {
             case '#login':

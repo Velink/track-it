@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
         res.status(404).json({ err })
     }
 })
-/*
+
 // get all habits for specific user route 
 router.get('/:id/habits', async (req, res)=>{
     try {
@@ -43,7 +43,7 @@ router.get('/:id/habits', async (req, res)=>{
         res.status(404).json({err})
     } 
 })
-*/
+
 
 // add user habit router
 router.post('/:id/habits', async (req, res) => {
