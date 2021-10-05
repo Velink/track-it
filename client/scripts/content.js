@@ -264,48 +264,48 @@ function renderAddHabits() {
         freq_option.setAttribute("value", `${i}`)
         select.appendChild(freq_option)
     }
-
-
     // Create inputs fields on button click
     addHabitBtn.addEventListener('click', createHabitField);
-}
 
-
-function createHabitField() {
-    let zsoeck = document.getElementsByTagName('input')
-    if (habitFieldCounter > 3) { return alert('You may only create maximum 5 fields') }
+    function createHabitField() {
+        console.log('mad')
+        let inputCount = document.getElementsByTagName('input').length + 1
+        console.log(inputCount)
+        if (inputCount > 5) { return alert('You may only create maximum 5 fields') }
+        let div_row = document.createElement('div')
+        input_div.appendChild(div_row)
+        div_row.setAttribute("class", "row")
+        let div_col = document.createElement('div')
+        div_row.appendChild(div_col)
+        div_col.setAttribute("class", "col-9")
+        let habitInput = document.createElement('input')
+        habitInput.setAttribute("type", "text")
+        habitInput.setAttribute("placeholder", "Add your habit name...")
+        habitInput.setAttribute("class", "form-control form-rounded mb-3")
+        div_col.appendChild(habitInput)
+        let div_freq = document.createElement('div')
+        div_freq.setAttribute("class", "col-3")
+        div_row.appendChild(div_freq)
+        let select = document.createElement('select')
+        select.setAttribute("class", "form-select")
+        div_freq.appendChild(select)
+        let initialOption = document.createElement('option')
+        select.appendChild(initialOption)
+        initialOption.setAttribute("selected", "selected")
+        initialOption.innerText = `Frequency`
+        for (let i = 1; i <= 7; i++) {
+            let freq_option = document.createElement('option')
+            freq_option.setAttribute("class", `freq_option_${i}`)
+            freq_option.innerText = `${i}`
+            freq_option.setAttribute("value", `${i}`)
+            select.appendChild(freq_option)
+        }
     
-    let inputs = document.getElementById('inputs')
-    let div_row = document.createElement('div')
-    inputs.appendChild(div_row)
-    div_row.setAttribute("class", "row")
-    let div_col = document.createElement('div')
-    div_row.appendChild(div_col)
-    div_col.setAttribute("class", "col-9")
-    let habitInput = document.createElement('input')
-    habitInput.setAttribute("type", "text")
-    habitInput.setAttribute("placeholder", "Add your habit name...")
-    habitInput.setAttribute("class", "form-control form-rounded mb-3")
-    div_col.appendChild(habitInput)
-    let div_freq = document.createElement('div')
-    div_freq.setAttribute("class", "col-3")
-    div_row.appendChild(div_freq)
-    let select = document.createElement('select')
-    select.setAttribute("class", "form-select")
-    div_freq.appendChild(select)
-    let initialOption = document.createElement('option')
-    select.appendChild(initialOption)
-    initialOption.setAttribute("selected", "selected")
-    initialOption.innerText = `Frequency`
-    for (let i = 1; i <= 7; i++) {
-        let freq_option = document.createElement('option')
-        freq_option.setAttribute("class", `freq_option_${i}`)
-        freq_option.innerText = `${i}`
-        freq_option.setAttribute("value", `${i}`)
-        select.appendChild(freq_option)
     }
-
 }
+
+
+
 
 // RENDER USER DASHBOARD PAGE
 async function displayDashboard() {
