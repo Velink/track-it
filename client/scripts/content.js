@@ -1,5 +1,5 @@
 const loginPageButton = document.getElementById('render-login');
-loginPageButton.addEventListener('click', renderLoginForm());
+loginPageButton.addEventListener('click', renderLoginForm);
 
 // we will set the ids + classes here so we can style them in css after
 function renderLoginForm() {
@@ -55,6 +55,47 @@ function renderLoginForm() {
 
 // similar with registration page
 
+function renderRegisterForm() {
+    const fields = [
+        { tag: 'input', attributes: { type: 'text', name: 'username', placeholder: 'Username' } },
+        { tag: 'input', attributes: { type: 'email', name: 'email', placeholder: 'Email' } },
+        { tag: 'input', attributes: { type: 'password', name: 'password', placeholder: 'Password' } },
+        { tag: 'input', attributes: { type: 'password', name: 'passwordConfirmation', placeholder: 'Confirm Password' } },
+        { tag: 'input', attributes: { type: 'submit', value: 'Create Account' } }
+    ]
+
+    const outerDiv = document.createElement('div')
+    const innerDiv = document.createElement('div')
+    innerDiv.id = "mb-3"
+    innerDiv.className = "inputs"
+
+    // create form and attributes
+    const form = document.createElement('form')
+    const formAttributes = {id: "form", class: "w-50 mx-auto"}
+    Object.entries(formAttributes).forEach(([a,v]) => form.setAttribute(a,v));
+
+    // add a label for register
+    const regLabel = document.createElement('label')
+    const regLabelAttributes = {for:"register", class:"form-label display-6 lead"}
+    Object.entries(regLabelAttributes).forEach(([a,v]) => regLabel.setAttribute(a,v));
+    regLabel.textContent = "Register"
+    innerDiv.appendChild(regLabel)
+
+    // create inputs, assign properties, put them in innerDiv
+    fields.forEach(f => {
+        let field = document.createElement(f.tag);
+        Object.entries(f.attributes).forEach(([a, v]) => {
+            field.setAttribute(a, v);
+            innerDiv.appendChild(field);
+        })
+    })
+
+    form.appendChild(innerDiv)
+    outerDiv.appendChild(form)
+    outerDiv.className = "container"
+    form.addEventListener('submit', requestRegistration)
+    main.appendChild(outerDiv);
+}
 
 async function displayDashboard() {
     try {
