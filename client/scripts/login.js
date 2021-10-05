@@ -39,12 +39,13 @@ async function requestLogin(e) {
 
 }
 
-async function getUserInfo() {
+async function getUserInfo(userEmail) {
     try {
+        console.log(userEmail);
         const options = {
             headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
         }
-        const response = await fetch('http://localhost:3000/user', options);
+        const response = await fetch(`http://localhost:3000/user/`, options);
         const data = await response.json();
         if (data.err) {
             console.warn(data.err);
@@ -65,8 +66,11 @@ async function login(token) {
     localStorage.setItem("username", user.username);
     localStorage.setItem("userEmail", user.email);
     console.log(localStorage);
-    await getUserInfo();
+    console.log(localStorage.userEmail);
+    let userEmail = localStorage.userEmail;
+    await getUserInfo(userEmail);
     window.location.hash = '#dashboard';
+
 }
 
 function logout() {
