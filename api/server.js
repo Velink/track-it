@@ -73,7 +73,7 @@ server.get('/user', async (req, res) => { // after running authenticateToken, re
 // registration route
 server.post('/register', async (req, res) => {
     try {
-        console.log(req.body.password)
+        console.log(req.body)
         console.log(req.body.username)
         const salt = await bcrypt.genSalt();
         const hashed = await bcrypt.hash(req.body.password, salt);

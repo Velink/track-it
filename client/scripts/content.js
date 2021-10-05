@@ -127,7 +127,7 @@ function renderRegisterForm() {
     
     let submitButton = document.getElementById('submitButton');
 
-    submitButton.addEventListener('click', () => {
+    submitButton.addEventListener('click', async () => {
         let email = document.getElementById('register_email').value
         console.log(email)
         const userEmail = localStorage.setItem("userEmail", email);
@@ -136,7 +136,7 @@ function renderRegisterForm() {
         const userData = {username:username, email:email, password:password }
         console.log(userData)
 
-        
+
         const options = {
             method: 'POST',
             headers: {
@@ -144,8 +144,8 @@ function renderRegisterForm() {
             },
             body: JSON.stringify(userData)
         }
-        fetch('http://localhost:3000/register', options)
-        // renderAddHabits()
+        await fetch('http://localhost:3000/register', options)
+        renderAddHabits()
     })
     
     
