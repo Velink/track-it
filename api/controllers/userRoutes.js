@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const joi = require('joi');
 const User = require('../models/user')
 
 const authenticateToken = require('../middleware/tokenAuth')
@@ -73,11 +73,10 @@ router.post('/:id/habits', authenticateToken, async (req, res) => {
 
 
 // findHabitsForUser
-router.get('/:email/choose_habits',authenticateToken, async (req, res) => {
+router.get('/:email/choose_habits', authenticateToken, async (req, res) => {
     try {
-        const allHabits = await User.findHabitsForUser(req.params.email)
+        const allHabits = await User.findHabitsForUser(req.params.email);
         console.log(allHabits);
-        console.log(allHabits.habits);
         res.status(200).send(allHabits)
     } catch (err) {
         res.status(404).json({ err })
@@ -85,16 +84,31 @@ router.get('/:email/choose_habits',authenticateToken, async (req, res) => {
 })
 
 // updateHabitsForUser
-router.patch('/:email/choose_habits',authenticateToken, async (req, res) => {
+router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
     try {
-        const updatedHabits = await User.updateHabitsForUser(req.body.email,req.body.habitName,req.body.frequency)
+        const data2 = {
+            "habitName": req.body.habitName,
+            "frequency": req.body.frequency
+        }
+        const schema = joi.object({
+            habitName: joi.string().min(2).max(200).required(),
+            frequency: joi.number().integer().required()
+        })
+        const result = schema.validate(data2)
+        if (result.error) {
+            console.log(result.error.details[0].message)
+            return res.send(result.error.details[0])
+        }
+        const updatedHabits = await User.updateHabitsForUser(req.body.email, req.body.habitName, req.body.frequency);
+        console.log(req.body.email);
+        console.log(req.body.habitName);
         res.status(200).send(updatedHabits)
     } catch (err) {
         res.status(404).json({ err })
     }
 })
 
-router.get('/:email/dashboard', authenticateToken,async (req, res) => {
+router.get('/:email/dashboard', authenticateToken, async (req, res) => {
     try {
         const weekDataTotal = await User.findWeekDataTotal(req.params.email)
         res.status(200).send(weekDataTotal)
