@@ -49,6 +49,59 @@
              }
              ] 
    }
+OR
+
+{
+   user_id: 123frt4567,
+   username: "eledoro",
+   email: "me@eledoro.com"
+   password: "supersecrethashedpassword",
+   habits: [
+              { habit_name: "run 3K",
+                habit_frequency: [
+                   { frq: 2,
+                     freq_setup_date: 2.09.2021
+                   },
+                   { frq: 3,
+                     freq_setup_date: 5.10.2021
+                    }
+                ],
+               completed: [
+                 {year: "2021",
+                  weeks: [{week: 1,
+                           days: [2,4]},
+                           {week: 2,
+                           days: [4]},
+                           {week: 3,
+                           days: [0,3]},
+                           ]}
+               ]
+             },
+              { habit_name: "water 2L",
+                habit_frequency: [
+                {frq: 4,
+                 freq_setup_date: 7.09.2021
+                 },
+                 {frq: 7,
+                 freq_setup_date: 5.10.2021
+                 }
+               ],
+               completed: [
+                 {year: "2021",
+                  weeks: [{week: 1,
+                           days: [2,4,5]},
+                           {week: 2,
+                           days: [1]},
+                           {week: 3,
+                           days: [1,6]},
+                           ]}
+               ]
+             
+             }
+             ] 
+   }
+
+
 ```
 # API Design Draft - !! to discuss
 
