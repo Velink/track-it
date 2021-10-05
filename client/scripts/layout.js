@@ -70,6 +70,15 @@ function renderLoginForm() {
 }
 
 // similar with registration page
+function renderRegisterForm() {
+
+
+}
+
+function renderAddHabits() {
+
+    
+}
 
 
 async function displayDashboard() {

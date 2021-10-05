@@ -81,14 +81,16 @@ function submitData(e){
     habitData[i].frequency = newFreq
   }
 
+  //get email first and then add that to the habitsdata
+
   const options = {
-    method: 'POST',
+    method: 'PATCH',
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
   }
-  fetch('http://localhost:3000/posts', options) // choose where to send it to
+  fetch('http://localhost:3000/:id/habits', options) // choose where to send it to
   
 }
 
