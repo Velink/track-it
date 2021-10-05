@@ -61,4 +61,5 @@ async function submitData(e){
     const resp2 = await resp.json()
     console.log(resp2)
     
+    window.location.hash = '#dashboard'
   }
