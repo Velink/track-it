@@ -90,9 +90,9 @@ router.patch('/:username/choose_habits', async (req, res) => {
     }
 })
 
-router.get('/:username/dashboard/:week', async (req, res) => {
+router.get('/:email/dashboard/:week', async (req, res) => {
     try {
-        const weekDataTotal = await User.findweekDataTotal(req.params.username, req.params.week)
+        const weekDataTotal = await User.findWeekDataTotal(req.params.email, req.params.week)
         res.status(200).send(weekDataTotal)
     } catch (err) {
         res.status(404).json({ err })
