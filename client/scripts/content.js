@@ -85,11 +85,11 @@ function renderLoginForm() {
 function renderRegisterForm() {
     main.innerHTML = '';
     const fields = [
-        { tag: 'input', attributes: { type: 'text', name: 'username', placeholder: 'Username' } },
-        { tag: 'input', attributes: { type: 'email', name: 'email', placeholder: 'Email' } },
-        { tag: 'input', attributes: { type: 'password', name: 'password', placeholder: 'Password' } },
+        { tag: 'input', attributes: { type: 'text', id:'username', name: 'username', placeholder: 'Username' } },
+        { tag: 'input', attributes: { type: 'text', id:"register_email", name: 'email', placeholder: 'Email',} },
+        { tag: 'input', attributes: { type: 'password', id:'password', name: 'password', placeholder: 'Password' } },
         { tag: 'input', attributes: { type: 'password', name: 'passwordConfirmation', placeholder: 'Confirm Password' } },
-        { tag: 'input', attributes: { type: 'button', value: 'Create Account', id: 'buttonRenderHabits' } }
+        { tag: 'button', attributes: { type: 'button', value: 'Create Account', id: 'submitButton' } }
     ]
 
     const outerDiv = document.createElement('div')
@@ -99,7 +99,8 @@ function renderRegisterForm() {
 
     // create form and attributes
     const form = document.createElement('form')
-    const formAttributes = { id: "form", class: "w-50 mx-auto" }
+    
+    const formAttributes = { id: "register_form", class: "w-50 mx-auto" }
     Object.entries(formAttributes).forEach(([a, v]) => form.setAttribute(a, v));
 
     // add a label for register
@@ -123,10 +124,33 @@ function renderRegisterForm() {
     outerDiv.className = "container"
     // form.addEventListener('submit', requestRegistration)
     main.appendChild(outerDiv);
+    
+    let submitButton = document.getElementById('submitButton');
 
-    // Button Render Habits Event Listener
-    let btnRenderHabits = document.getElementById('buttonRenderHabits');
-    btnRenderHabits.addEventListener('click', renderAddHabits);
+    submitButton.addEventListener('click', async () => {
+        let email = document.getElementById('register_email').value
+        console.log(email)
+        const userEmail = localStorage.setItem("userEmail", email);
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const userData = {username:username, email:email, password:password }
+        console.log(userData)
+
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        }
+        await fetch('http://localhost:3000/register', options)
+        renderAddHabits()
+    })
+    
+    
+        
+        
 
     window.location.hash = '#register';
 }
@@ -175,6 +199,7 @@ function renderAddHabits() {
     div_col.setAttribute("class", "col-9")
     let habitInput = document.createElement('input')
     habitInput.setAttribute("type", "text")
+    habitInput.id = `initHabit`
     habitInput.setAttribute("placeholder", "Add your habit name...")
     habitInput.setAttribute("class", "form-control form-rounded mb-3")
     div_col.appendChild(habitInput)
@@ -202,6 +227,8 @@ function renderAddHabits() {
     // Create inputs fields on button click
     addHabitBtn.addEventListener('click', createHabitField);
     form.addEventListener('submit', submitData)
+
+    
     function createHabitField() {
         console.log('mad')
         let inputCount = document.getElementsByTagName('input').length + 1

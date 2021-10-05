@@ -49,7 +49,6 @@ class User {
     static create(name, email, hash) {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(habits[0]);
                 const db = await init();
                 let userData = await db.collection('users').insertOne({ username: name, email: email, hash: hash })
                 console.log(userData);
