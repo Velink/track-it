@@ -1,8 +1,8 @@
-let loginBtn = document.getElementById('login-button');
+// let loginBtn = document.getElementById('login-button');
 
-loginBtn.addEventListener('click', (e) => {
-    requestLogin(e);
-})
+// loginButton.addEventListener('click', (e) => {
+//     requestLogin(e);
+// })
 
 async function requestLogin(e) {
     try {
@@ -32,19 +32,19 @@ async function requestLogin(e) {
         const data = await response.json();
         if (!data.success) { throw new Error('Login not authorised'); }
         login(data.token);
+
     } catch (e) {
         console.log(e);
     }
 
 }
 
-async function getUserInfo(){
+async function getUserInfo() {
     try {
         const options = {
             headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
         }
-        // 
-        const response = await fetch('http://localhost:3000/user' , options);
+        const response = await fetch('http://localhost:3000/user', options);
         const data = await response.json();
         if (data.err) {
             console.warn(data.err);
@@ -65,8 +65,21 @@ async function login(token) {
     localStorage.setItem("username", user.username);
     localStorage.setItem("userEmail", user.email);
     console.log(localStorage);
-    await getUserInfo()
+    await getUserInfo();
+    window.location.hash = '#dashboard';
 }
+
+function logout() {
+    localStorage.clear();
+    window.location.hash = '#';
+}
+
+
+function currentUser() {
+    const username = localStorage.getItem('username');
+    return username;
+}
+
 
 
 

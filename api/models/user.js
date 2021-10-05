@@ -1,6 +1,6 @@
 const { init } = require('../dbConfig/init')
 const { ObjectId } = require('mongodb')
-const { currentWeekNumber} = require('current-week-number')
+// const { currentWeekNumber } = require('current-week-number')
 
 class User {
     constructor(data) {
@@ -8,7 +8,7 @@ class User {
         this.username = data.username
         this.email = data.email
         this.hash = data.hash // hash == hashed password
-        // this.habits = data.habits
+        // this.habits = [];
     }
 
     // grab all users. may not need this
@@ -89,12 +89,12 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                
-                const user = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); 
-                
-                const userHabits = {email:"", habits:{}} // object for response
+
+                const user = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 });
+
+                const userHabits = { email: "", habits: {} } // object for response
                 userHabits.email = user.email
-                userHabits.habits = user.habits.map((a) =>{ return {habit_name: a.habit_name, frq: a.habit_frequency[a.habit_frequency.length-1].frq}} )
+                userHabits.habits = user.habits.map((a) => { return { habit_name: a.habit_name, frq: a.habit_frequency[a.habit_frequency.length - 1].frq } })
 
                 resolve(userHabits);
             } catch (err) {
@@ -104,15 +104,15 @@ class User {
     };
 
     // --- update list of habits with frequencies by user's email
-    //  TODO
-    updateHabitsForUser(email,newHabitsData){
-        return new Promise (async (resolve, reject) => {
+    // TODO
+    updateHabitsForUser(email, newHabitsData) {
+        return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-               // const userHabits // 
+                // const userHabits // 
 
-               const existingHabitsData = await db.collection('users').find({email: {$eq:email}}).project({ email: 1, habits: 1 }); 
-              // const found = existingHabitsData.some
+                const existingHabitsData = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 });
+                // const found = existingHabitsData.some
 
                 resolve(existingHabitsData);
             } catch (err) {

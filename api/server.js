@@ -17,7 +17,7 @@ server.set("view engine", 'ejs');
 
 
 const userRoutes = require('./controllers/userRoutes')
-// server.use('/user', userRoutes)
+server.use('/user', userRoutes)
 
 //Serve Client Folder to Localhost
 server.use(express.static('../client'))
