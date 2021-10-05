@@ -68,11 +68,11 @@ OR
                 ],
                completed: [
                  {year: "2021",
-                  weeks: [{week: 1,
+                  weeks: [{week: 4,
                            days: [2,4]},
                            {week: 2,
                            days: [4]},
-                           {week: 3,
+                           {week: 5,
                            days: [0,3]},
                            ]}
                ]
