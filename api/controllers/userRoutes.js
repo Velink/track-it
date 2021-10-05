@@ -81,36 +81,36 @@ router.get('/:email/choose_habits', async (req, res) => {
 })
 
 // updateHabitsForUser
-router.patch('/:username/choose_habits', async (req, res) => {
+router.patch('/:email/choose_habits', async (req, res) => {
     try {
-        const updatedHabits = await User.updateHabitsForUser(req.body.username)
+        const updatedHabits = await User.updateHabitsForUser(req.body.email)
         res.status(200).send(updatedHabits)
     } catch (err) {
         res.status(404).json({ err })
     }
 })
 
-router.get('/:email/dashboard/:week', async (req, res) => {
+router.get('/:email/dashboard', async (req, res) => {
     try {
-        const weekDataTotal = await User.findWeekDataTotal(req.params.email, req.params.week)
+        const weekDataTotal = await User.findWeekDataTotal(req.params.email)
         res.status(200).send(weekDataTotal)
     } catch (err) {
         res.status(404).json({ err })
     }
 })
 
-router.get('/:username/:habit/:week', async (req, res) => {
+router.get('/:email/:habit/', async (req, res) => {
     try {
-        const WeekDataHabit = await User.findWeekDataHabit(req.params.username, req.params.habit, req.params.week)
-        res.status(200).send(WeekDataHabit)
+        const dataHabit = await User.findDataHabit(req.params.email, req.params.habit)
+        res.status(200).send(dataHabit)
     } catch (err) {
         res.status(404).json({ err })
     }
 })
 
-router.patch('/:username/:habit/:week', async (req, res) => {
+router.patch('/email/:habit/', async (req, res) => {
     try {
-        const newWeekDataHabit = await User.updateNewWeekDataHabit(req.params.username, req.params.habit, req.params.week)
+        const newWeekDataHabit = await User.updateNewWeekDataHabit(req.params.email, req.params.habit)
         res.status(200).send(newWeekDataHabit)
     } catch (err) {
         res.status(404).json({ err })

@@ -71,6 +71,8 @@ async function login(token) {
 
 function logout() {
     localStorage.clear();
+
+    renderPublicNav();
     window.location.hash = '#';
 }
 
