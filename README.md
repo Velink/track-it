@@ -102,6 +102,40 @@ OR
    }
 
 
+   OR 
+   {
+   user_id: 123frt4567,
+   username: "eledoro",
+   email: "me@eledoro.com"
+   password: "supersecrethashedpassword",
+   habits: [
+              { habit_name: "run 3K",
+                habit_data : [
+                 {year: "2021",
+                  weeks: [{week: 1,
+                           frq: 2,
+                           active: 1, 
+                           days: [2,4]},
+
+                           {week: 2,
+                           frq: 3,
+                           active: 1,
+                           days: [4]},
+                           
+                           {week: 3,
+                           frq: 3,
+                           active: 0, 
+                           days: [0,3]},
+                           ]}
+                       ] 
+             }]
+               
+             
+             
+             }
+   
+
+
 ```
 # API Design Draft - !! to discuss
 
