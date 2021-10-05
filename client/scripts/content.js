@@ -132,6 +132,7 @@ function renderRegisterForm() {
 }
 
 
+
 // RENDER HABITS PAGE FUNCTION
 function renderAddHabits() {
     let main = document.getElementById('main')
@@ -189,6 +190,8 @@ function renderAddHabits() {
     initialOption.innerText = `Frequency`
     let submit_btn = document.createElement('button')
     submit_btn.setAttribute('type','submit')
+    form.appendChild(submit_btn)
+
     for (let i = 1; i <= 7; i++) {
         let freq_option = document.createElement('option')
         freq_option.setAttribute("class", `freq_option_${i}`)
@@ -198,11 +201,11 @@ function renderAddHabits() {
     }
     // Create inputs fields on button click
     addHabitBtn.addEventListener('click', createHabitField);
-
+    form.addEventListener('submit', submitData)
     function createHabitField() {
         console.log('mad')
         let inputCount = document.getElementsByTagName('input').length + 1
-        console.log(inputCount)
+        // console.log(inputCount)
         if (inputCount > 5) { return alert('You may only create maximum 5 fields') }
         let div_row = document.createElement('div')
         input_div.appendChild(div_row)
@@ -234,6 +237,8 @@ function renderAddHabits() {
         }
     
     }
+
+    
 }
 
 // RENDER USER DASHBOARD PAGE
