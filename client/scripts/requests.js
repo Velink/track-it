@@ -54,16 +54,41 @@ async function submitData(e) {
   // let token = localStorage.getItem('token')
   const options = {
     method: 'PATCH',
-    headers: {
-      'Authorization': token,
-      "Content-Type": "application/json"
-    },
+    headers: { 'Authorization': token, "Content-Type": "application/json" },
     body: JSON.stringify(postingData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
   }
-
-  console.log(JSON.stringify(postingData))
-
   const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
-  console.log(resp);
+  const resp2 = await resp.json()
+  console.log(resp2)
 
 }
+
+let options2 = {
+  method: 'POST',
+  mode: 'cors',
+  body: JSON.stringify(loginData),
+  headers: {
+    "Content-Type": "application/json"
+  },
+}
+
+const response = await fetch(`http://localhost:3000/login`, options2);
+const data = await response.json()
+let token = data.token
+
+// let token = localStorage.getItem('token')
+const options = {
+  method: 'PATCH',
+  headers: {
+    'Authorization': token,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(postingData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+}
+
+console.log(JSON.stringify(postingData))
+
+const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
+console.log(resp);
+
+
