@@ -73,16 +73,16 @@ server.get('/user', async (req, res) => { // after running authenticateToken, re
 // registration route
 server.post('/register', async (req, res) => {
     try {
-        console.log(req.body)
-        console.log(req.body.username)
+        // console.log(req.body)
+        // console.log(req.body.username)
         const salt = await bcrypt.genSalt();
         const hashed = await bcrypt.hash(req.body.password, salt);
         const username = req.body.username;
         const email = req.body.email;
-        console.log(hashed)
+        // console.log(hashed)
         // const habits = req.body.habits;
         const user = await User.create(username, email, hashed); 
-        console.log(user)
+        // console.log(user)
         res.status(201).json({ user });
     } catch (err) {
         res.status(500).json({ err });

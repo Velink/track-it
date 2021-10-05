@@ -133,6 +133,7 @@ function renderRegisterForm() {
         const userEmail = localStorage.setItem("userEmail", email);
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const storePassword = localStorage.setItem("password",password)
         const userData = {username:username, email:email, password:password }
         console.log(userData)
 

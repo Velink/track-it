@@ -23,12 +23,13 @@ async function submitData(e){
     let frequency = document.getElementsByTagName('select')[0].value
     // console.log(frequency)
     let userEmail = localStorage.getItem("userEmail")
+    let password = localStorage.getItem("password")
     let postingData = {email: userEmail, habitName: habit, frequency:frequency}
     // console.log(postingData)
     // {
     //     'Content-Type': 'application/json',
-    let token = localStorage.getItem('token')
-    console.log(token)
+    
+    // console.log(token)
     // },
 
 
@@ -47,11 +48,13 @@ async function submitData(e){
     }
 
     const response = await fetch(`http://localhost:3000/login`, options2);
+    const data = await response.json()
+    let token = data.token
 
-
+    // let token = localStorage.getItem('token')
     const options = {
       method: 'PATCH',
-      headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+      headers: new Headers({ 'Authorization': token }),
       body: JSON.stringify(postingData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
     }
     fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
