@@ -204,8 +204,9 @@ function renderRegisterForm() {
 
 // RENDER HABITS PAGE FUNCTION
 function renderAddHabits() {
+    let main = document.getElementById('main')
     main.innerHTML = '';
-
+    
     // Create header
     let header_div = document.createElement('div')
     let header = document.createElement('h1')
@@ -226,16 +227,17 @@ function renderAddHabits() {
     div_container.setAttribute('class','container')
     main.appendChild(div_container)
     let form = document.createElement('form')
-    form.id =  `form`
+    form.setAttribute('class','w-50 mx-auto')
     div_container.appendChild(form)
-    let div_row = document.createElement('div')
-    let intialHabitField = document.createElement('div')
-    intialHabitField.setAttribute('class', 'mb-3')
+    let input_div = document.createElement('div')
+    input_div.setAttribute('class', 'mb-3')
+    form.appendChild(input_div)
     let label = document.createElement('label')
     label.setAttribute('for','register')
     label.setAttribute('class','form-label display-6 lead')
-    intialHabitField.id = `inputs`
-    inputs.appendChild(div_row)
+    input_div.appendChild(label)
+    let div_row = document.createElement('div')
+    input_div.appendChild(div_row)
     div_row.setAttribute("class", "row")
     let div_col = document.createElement('div')
     div_row.appendChild(div_col)
