@@ -108,13 +108,26 @@ class User {
 
     // --- update list of habits with frequencies by user's email
     // TODO
-    updateHabitsForUser(email, newHabitsData) {
+    updateHabitsForUser(email, habitName, frequency) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
                 // const userHabits // 
 
-                const existingHabitsData = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 });
+                const existingHabitsData = await db.collection('users').findOneAndUpdate({ email: { $eq: email } }, {
+                    "$push": {
+
+                        "habits":
+                        {
+                            "habit_name": habitName,
+                            "frequency": frequency
+                        }
+
+                    },
+
+                },
+                    { returnDocument: "after" }, { returnOriginal: false }
+                )
                 // const found = existingHabitsData.some
 
                 resolve(existingHabitsData);
@@ -134,8 +147,8 @@ class User {
                 const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
                 const userDataTotal = { email: "", habits: {} } // object for response
                 userDataTotal.email = user[0].email
-                userDataTotal.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency,count: a.completed_days.reduce((total, el) => {return total+el}, 0) } })
-                
+                userDataTotal.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency, count: a.completed_days.reduce((total, el) => { return total + el }, 0) } })
+
 
 
                 resolve(userDataTotal);
@@ -144,7 +157,7 @@ class User {
 
 
 
-                
+
                 // const db = await init();
                 // const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
                 // //console.log(user)
@@ -220,7 +233,7 @@ class User {
                     return result;
                 };
 
-                userDataHabit.habit = findHabitByName(user[0].habits,habitName)
+                userDataHabit.habit = findHabitByName(user[0].habits, habitName)
 
 
                 resolve(userDataHabit)
