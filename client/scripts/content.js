@@ -1,14 +1,15 @@
 const loginPageButton = document.getElementById('render-login');
 loginPageButton.addEventListener('click', renderLoginForm);
 
-const homeMain = document.getElementById('main');
+const registerPageButton = document.getElementById('render-register');
+registerPageButton.addEventListener('click', renderRegisterForm);
 
 // we will set the ids + classes here so we can style them in css after
 function renderLoginForm() {
     window.location.hash = '#login';
     // body.innerHTML = '';
 
-    homeMain.innerHTML = '';
+    main.innerHTML = '';
 
     // Header Created
     const header = document.createElement('header');
@@ -77,16 +78,58 @@ function renderLoginForm() {
 
     //Append Login Page Items
     const loginPageItems = [header, form, loginjs, jwt_decodejs]
-    loginPageItems.forEach(item => body.appendChild(item))
+    loginPageItems.forEach(item => main.appendChild(item))
 }
 
-// similar with registration page
+// REGISTRATION FORM RENDER
 function renderRegisterForm() {
+    main.innerHTML = '';
+    // window.location.hash = '#register';
+    const fields = [
+        { tag: 'input', attributes: { type: 'text', name: 'username', placeholder: 'Username' } },
+        { tag: 'input', attributes: { type: 'email', name: 'email', placeholder: 'Email' } },
+        { tag: 'input', attributes: { type: 'password', name: 'password', placeholder: 'Password' } },
+        { tag: 'input', attributes: { type: 'password', name: 'passwordConfirmation', placeholder: 'Confirm Password' } },
+        { tag: 'input', attributes: { type: 'button', value: 'Create Account', id: 'buttonRenderHabits' } }
+    ]
 
+    const outerDiv = document.createElement('div')
+    const innerDiv = document.createElement('div')
+    innerDiv.id = "mb-3"
+    innerDiv.className = "inputs"
 
+    // create form and attributes
+    const form = document.createElement('form')
+    const formAttributes = { id: "form", class: "w-50 mx-auto" }
+    Object.entries(formAttributes).forEach(([a, v]) => form.setAttribute(a, v));
+
+    // add a label for register
+    const regLabel = document.createElement('label')
+    const regLabelAttributes = { for: "register", class: "form-label display-6 lead" }
+    Object.entries(regLabelAttributes).forEach(([a, v]) => regLabel.setAttribute(a, v));
+    regLabel.textContent = "Register"
+    innerDiv.appendChild(regLabel)
+
+    // create inputs, assign properties, put them in innerDiv
+    fields.forEach(f => {
+        let field = document.createElement(f.tag);
+        Object.entries(f.attributes).forEach(([a, v]) => {
+            field.setAttribute(a, v);
+            innerDiv.appendChild(field);
+        })
+    })
+
+    form.appendChild(innerDiv)
+    outerDiv.appendChild(form)
+    outerDiv.className = "container"
+    // form.addEventListener('submit', requestRegistration)
+    main.appendChild(outerDiv);
+
+    // Button Render Habits Event Listener
+    let btnRenderHabits = document.getElementById('buttonRenderHabits');
+    btnRenderHabits.addEventListener('click', renderAddHabits);
 
 }
-
 
 
 
@@ -159,9 +202,9 @@ function renderRegisterForm() {
 
       </div> */}
 
-
+// RENDER HABITS PAGE FUNCTION
 function renderAddHabits() {
-    let main = document.getElementById('main')
+    main.innerHTML = '';
 
     // Create header
     let header_div = document.createElement('div')
@@ -183,7 +226,7 @@ function renderAddHabits() {
 
 
     // Create inputs fields on button click
-    addHabitBtn.addEventListener('click', createHabitField)
+    addHabitBtn.addEventListener('click', createHabitField);
 }
 
 var habitFieldCounter = 0
@@ -222,47 +265,6 @@ function createHabitField() {
 
 }
 
-function renderRegisterForm() {
-    const fields = [
-        { tag: 'input', attributes: { type: 'text', name: 'username', placeholder: 'Username' } },
-        { tag: 'input', attributes: { type: 'email', name: 'email', placeholder: 'Email' } },
-        { tag: 'input', attributes: { type: 'password', name: 'password', placeholder: 'Password' } },
-        { tag: 'input', attributes: { type: 'password', name: 'passwordConfirmation', placeholder: 'Confirm Password' } },
-        { tag: 'input', attributes: { type: 'submit', value: 'Create Account' } }
-    ]
-
-    const outerDiv = document.createElement('div')
-    const innerDiv = document.createElement('div')
-    innerDiv.id = "mb-3"
-    innerDiv.className = "inputs"
-
-    // create form and attributes
-    const form = document.createElement('form')
-    const formAttributes = { id: "form", class: "w-50 mx-auto" }
-    Object.entries(formAttributes).forEach(([a, v]) => form.setAttribute(a, v));
-
-    // add a label for register
-    const regLabel = document.createElement('label')
-    const regLabelAttributes = { for: "register", class: "form-label display-6 lead" }
-    Object.entries(regLabelAttributes).forEach(([a, v]) => regLabel.setAttribute(a, v));
-    regLabel.textContent = "Register"
-    innerDiv.appendChild(regLabel)
-
-    // create inputs, assign properties, put them in innerDiv
-    fields.forEach(f => {
-        let field = document.createElement(f.tag);
-        Object.entries(f.attributes).forEach(([a, v]) => {
-            field.setAttribute(a, v);
-            innerDiv.appendChild(field);
-        })
-    })
-
-    form.appendChild(innerDiv)
-    outerDiv.appendChild(form)
-    outerDiv.className = "container"
-    form.addEventListener('submit', requestRegistration)
-    main.appendChild(outerDiv);
-}
 
 async function displayDashboard() {
     try {
