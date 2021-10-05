@@ -132,80 +132,11 @@ function renderRegisterForm() {
 }
 
 
-
-
-{/* <div>
-        <h1 class="display-3 w-50 mx-auto">
-
-            Add a new habit!
-    
-        </h1>
-
-    </div>
-
-    
-
-    
-        
-
-        <button id="newHabitBtn" class="btn btn-dark position-absolute top-10 start-0">
-             New habit 
-            </button>
-       
-      
-
-      <div class="container-fluid">
-
-        <form id="form" action="" method="POST" class="w-50 mx-auto">
-            <div class="mb-3" id="inputs">
-              <label for="register" class="form-label display-6 lead"></label><br>
-              <div class="row">
-                  <div class="col-9">
-
-                    <input
-                    type="text"
-                    placeholder="Add your habit name..."
-                    class="form-control form-rounded mb-3"
-                  
-                  />
-
-                  </div>
-                  <div class="col-3">
-                        <select class="form-select" aria-label="Disabled select example">
-                            <option selected="selected">Frequency</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                          </select>
-                    </div>
-
-                  </div>
-
-              </div>
-             
-            </div>
-              <br>
-
-              <div class="container">
-
-                <button type="submit" class="btn btn-primary" id="submit_btn">Submit</button>
-
-              </div>
-
-              
-            
-          </form>
-
-      </div> */}
-
 // RENDER HABITS PAGE FUNCTION
 function renderAddHabits() {
+    let main = document.getElementById('main')
     main.innerHTML = '';
-
+    
     // Create header
     let header_div = document.createElement('div')
     let header = document.createElement('h1')
@@ -221,21 +152,22 @@ function renderAddHabits() {
     addHabitBtn.id = `addHabitBtn`
     addHabitBtn.textContent = `New habit`
 
-
     // Create initial inputs fields
-
-
-    // Create inputs fields on button click
-    addHabitBtn.addEventListener('click', createHabitField);
-}
-
-
-function createHabitField() {
-    if (habitFieldCounter > 3) { return alert('You may only create maximum 5 fields') }
-    habitFieldCounter++
-    let inputs = document.getElementById('inputs')
+    let div_container = document.createElement('div')
+    div_container.setAttribute('class','container')
+    main.appendChild(div_container)
+    let form = document.createElement('form')
+    form.setAttribute('class','w-50 mx-auto')
+    div_container.appendChild(form)
+    let input_div = document.createElement('div')
+    input_div.setAttribute('class', 'mb-3')
+    form.appendChild(input_div)
+    let label = document.createElement('label')
+    label.setAttribute('for','register')
+    label.setAttribute('class','form-label display-6 lead')
+    input_div.appendChild(label)
     let div_row = document.createElement('div')
-    inputs.appendChild(div_row)
+    input_div.appendChild(div_row)
     div_row.setAttribute("class", "row")
     let div_col = document.createElement('div')
     div_row.appendChild(div_col)
@@ -255,6 +187,8 @@ function createHabitField() {
     select.appendChild(initialOption)
     initialOption.setAttribute("selected", "selected")
     initialOption.innerText = `Frequency`
+    let submit_btn = document.createElement('button')
+    submit_btn.setAttribute('type','submit')
     for (let i = 1; i <= 7; i++) {
         let freq_option = document.createElement('option')
         freq_option.setAttribute("class", `freq_option_${i}`)
@@ -262,7 +196,44 @@ function createHabitField() {
         freq_option.setAttribute("value", `${i}`)
         select.appendChild(freq_option)
     }
+    // Create inputs fields on button click
+    addHabitBtn.addEventListener('click', createHabitField);
 
+    function createHabitField() {
+        console.log('mad')
+        let inputCount = document.getElementsByTagName('input').length + 1
+        console.log(inputCount)
+        if (inputCount > 5) { return alert('You may only create maximum 5 fields') }
+        let div_row = document.createElement('div')
+        input_div.appendChild(div_row)
+        div_row.setAttribute("class", "row")
+        let div_col = document.createElement('div')
+        div_row.appendChild(div_col)
+        div_col.setAttribute("class", "col-9")
+        let habitInput = document.createElement('input')
+        habitInput.setAttribute("type", "text")
+        habitInput.setAttribute("placeholder", "Add your habit name...")
+        habitInput.setAttribute("class", "form-control form-rounded mb-3")
+        div_col.appendChild(habitInput)
+        let div_freq = document.createElement('div')
+        div_freq.setAttribute("class", "col-3")
+        div_row.appendChild(div_freq)
+        let select = document.createElement('select')
+        select.setAttribute("class", "form-select")
+        div_freq.appendChild(select)
+        let initialOption = document.createElement('option')
+        select.appendChild(initialOption)
+        initialOption.setAttribute("selected", "selected")
+        initialOption.innerText = `Frequency`
+        for (let i = 1; i <= 7; i++) {
+            let freq_option = document.createElement('option')
+            freq_option.setAttribute("class", `freq_option_${i}`)
+            freq_option.innerText = `${i}`
+            freq_option.setAttribute("value", `${i}`)
+            select.appendChild(freq_option)
+        }
+    
+    }
 }
 
 // RENDER USER DASHBOARD PAGE

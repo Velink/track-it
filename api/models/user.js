@@ -98,7 +98,7 @@ class User {
                 const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
                 const userHabits = { email: "", habits: {} } // object for response
                 userHabits.email = user[0].email
-                userHabits.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.habit_frequency[a.habit_frequency.length - 1].frq } })
+                userHabits.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency } })
                 resolve(userHabits);
             } catch (err) {
                 reject("Users habits could not be found");
@@ -108,13 +108,26 @@ class User {
 
     // --- update list of habits with frequencies by user's email
     // TODO
-    updateHabitsForUser(email, newHabitsData) {
+    updateHabitsForUser(email, habitName, frequency) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
                 // const userHabits // 
 
-                const existingHabitsData = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 });
+                const existingHabitsData = await db.collection('users').findOneAndUpdate({ email: { $eq: email } }, {
+                    "$push": {
+
+                        "habits":
+                        {
+                            "habit_name": habitName,
+                            "frequency": frequency
+                        }
+
+                    },
+
+                },
+                    { returnDocument: "after" }, { returnOriginal: false }
+                )
                 // const found = existingHabitsData.some
 
                 resolve(existingHabitsData);
@@ -127,54 +140,69 @@ class User {
 
 
     // --- get list of habits with frequencies and completed_count for week  by user's email
-    static findWeekDataTotal(email, week) {
+    static findWeekDataTotal(email) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
                 const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
-                //console.log(user)
-                const WeekDataTotal = { email: "", habits: { habit_name: "", frq: "", habitCompletedCount: "" } } // object for response
-
-                WeekDataTotal.email = user[0].email
-
-                console.log(WeekDataTotal)
-                console.log(user[0].habits)
-                //console.log(user[0].habits[0].habit_frequency)
-                //console.log(user[0].habits[0].habit_frequency[1])
-                console.log(user[0].habits[0].habit_frequency.length)
-                //console.log(user[0].habits[0].habit_frequency[user[0].habits[0].habit_frequency.length - 1])
-                //console.log(user[0].habits[0].habit_frequency[user[0].habits[0].habit_frequency.length - 1].frq)
-                for (let i = 0; i < user[0].habits[0].habit_frequency.length; i++) {
-                    let habitName2 = user[0].habits[i].habit_name
-                    let habitFrequency2 = user[0].habits[i].habit_frequency[user[0].habits[i].habit_frequency.length - 1].frq
+                const userDataTotal = { email: "", habits: {} } // object for response
+                userDataTotal.email = user[0].email
+                userDataTotal.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency, count: a.completed_days.reduce((total, el) => { return total + el }, 0) } })
 
 
-                    const habitCompletedWeekNumber = user[0].habits[i].habit_completed_days.map(currentWeekNumber) // date to week number
-                    console.log(habitCompletedWeekNumber)
-                    //const habitCompletedThisWeek = habitCompletedWeekNumber.map((a) => { return a === week })// array of boolean, True if compl_date ===week 
-                    //const countForWeek = habitCompletedThisWeek.reduce((total, el) => { return total + el }, 0)// sum of elemenys. Should be count of Trues
+
+                resolve(userDataTotal);
 
 
-                    WeekDataTotal.habits = { habitName2: habitName2, habitFrequency2: habitFrequency2 }
-                }
-                console.log(WeekDataTotal.habits)
 
-                // WeekDataTotal.habits = user[0].habits.map((a) => {
-                //console.log(a.habit_frequency[a.habit_frequency.length - 1].frq)
-                //     const habitFreq = a.habit_frequency[a.habit_frequency.length - 1].frq // getting last updated frequency for the habit
-                //console.log('this is habitfreq' + habitFreq)
-                //add  count for current week for each habit
 
-                //   const habitCompletedWeekNumber = a.habit_completed_days.map(currentWeekNumber) // date to week number
 
-                //     const habitCompletedThisWeek = habitCompletedWeekNumber.map((a) => { return a === week })// array of boolean, True if compl_date ===week 
-                //     const countForWeek = habitCompletedThisWeek.reduce((total, el) => { return total + el }, 0)// sum of elemenys. Should be count of Trues
 
-                console.log(countForWeek)
+                // const db = await init();
+                // const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
+                // //console.log(user)
+                // const WeekDataTotal = { email: "", habits: { habit_name: "", frq: "", habitCompletedCount: "" } } // object for response
 
-                // return { habit_name: a.habit_name, frq: habitFreq, habitCompletedCount: countForWeek }
-                console.log(WeekDataTotal)
-                resolve(WeekDataTotal);
+                // WeekDataTotal.email = user[0].email
+
+                // console.log(WeekDataTotal)
+                // console.log(user[0].habits)
+                // //console.log(user[0].habits[0].habit_frequency)
+                // //console.log(user[0].habits[0].habit_frequency[1])
+                // console.log(user[0].habits[0].habit_frequency.length)
+                // //console.log(user[0].habits[0].habit_frequency[user[0].habits[0].habit_frequency.length - 1])
+                // //console.log(user[0].habits[0].habit_frequency[user[0].habits[0].habit_frequency.length - 1].frq)
+                // for (let i = 0; i < user[0].habits[0].habit_frequency.length; i++) {
+                //     let habitName2 = user[0].habits[i].habit_name
+                //     let habitFrequency2 = user[0].habits[i].habit_frequency[user[0].habits[i].habit_frequency.length - 1].frq
+
+
+                //     const habitCompletedWeekNumber = user[0].habits[i].habit_completed_days.map(currentWeekNumber) // date to week number
+                //     console.log(habitCompletedWeekNumber)
+                //     //const habitCompletedThisWeek = habitCompletedWeekNumber.map((a) => { return a === week })// array of boolean, True if compl_date ===week 
+                //     //const countForWeek = habitCompletedThisWeek.reduce((total, el) => { return total + el }, 0)// sum of elemenys. Should be count of Trues
+
+
+                //     WeekDataTotal.habits = { habitName2: habitName2, habitFrequency2: habitFrequency2 }
+                // }
+                // console.log(WeekDataTotal.habits)
+
+                // // WeekDataTotal.habits = user[0].habits.map((a) => {
+                // //console.log(a.habit_frequency[a.habit_frequency.length - 1].frq)
+                // //     const habitFreq = a.habit_frequency[a.habit_frequency.length - 1].frq // getting last updated frequency for the habit
+                // //console.log('this is habitfreq' + habitFreq)
+                // //add  count for current week for each habit
+
+                // //   const habitCompletedWeekNumber = a.habit_completed_days.map(currentWeekNumber) // date to week number
+
+                // //     const habitCompletedThisWeek = habitCompletedWeekNumber.map((a) => { return a === week })// array of boolean, True if compl_date ===week 
+                // //     const countForWeek = habitCompletedThisWeek.reduce((total, el) => { return total + el }, 0)// sum of elemenys. Should be count of Trues
+
+                // console.log(countForWeek)
+
+                // // return { habit_name: a.habit_name, frq: habitFreq, habitCompletedCount: countForWeek }
+                // console.log(WeekDataTotal)
+                // resolve(WeekDataTotal);
             }
 
             catch (err) {
@@ -189,13 +217,14 @@ class User {
 
 
     // ---- for Habit page - single habit by habit_name, email, week number  - return days of the week whaen completed
-    findWeekDataHabit(email, habitName, week) {
+    static findDataHabit(email, habitName) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const user = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 }); // getting all habits data for user
-
-                const weekDataForHabit = { email: "", habitName: "", weekDaysWhenCompleted: [] } // creating object for response
+                const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
+                const userDataHabit = { email: "", habit: {} } // object for response
+                userDataHabit.email = user[0].email
+                //userDataHabit.habit = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency,count: a.completed_days.reduce((total, el) => {return total+el}, 0) } })
 
                 const findHabitByName = (habits, name) => {
                     const result = habits.filter(a => {
@@ -204,24 +233,42 @@ class User {
                     return result;
                 };
 
-                const habitByName = findHabitByName(user.habits, habitName)
-
-                weekDataForHabit.email = user.email
-                weekDataForHabit.habitName = habitByName.habit_name
-
-                const habitCompletedWeekNumber = habitByName.habit_completed_days.map(currentWeekNumber) // date to week number
-                const habitCompletedThisWeek = habitCompletedWeekNumber.map((a) => { return a === week })//array of boolean, True if compl_date ===week 
-                // const habitCompetedDatesToWeekdays = habitByName.habit_completed_days.map((a) => {return a.getDay() +1})
+                userDataHabit.habit = findHabitByName(user[0].habits, habitName)
 
 
+                resolve(userDataHabit)
+
+                // const db = await init();
+                // const user = await db.collection('users').find({ email: { $eq: email } }).project({ email: 1, habits: 1 }); // getting all habits data for user
+
+                // const weekDataForHabit = { email: "", habitName: "", weekDaysWhenCompleted: [] } // creating object for response
+
+                // const findHabitByName = (habits, name) => {
+                //     const result = habits.filter(a => {
+                //         return a['habit_name'] === name;
+                //     });
+                //     return result;
+                // };
+
+                // const habitByName = findHabitByName(user.habits, habitName)
+
+                // weekDataForHabit.email = user.email
+                // weekDataForHabit.habitName = habitByName.habit_name
+
+                // const habitCompletedWeekNumber = habitByName.habit_completed_days.map(currentWeekNumber) // date to week number
+                // const habitCompletedThisWeek = habitCompletedWeekNumber.map((a) => { return a === week })//array of boolean, True if compl_date ===week 
+                // // const habitCompetedDatesToWeekdays = habitByName.habit_completed_days.map((a) => {return a.getDay() +1})
 
 
-                //user.habits.map((a) =>{
-                //   return {habitName: a.habit_name, }} )
 
-                //  weekDataForHabit.days_completed = []
 
-                resolve(WeekDataForHabit);
+                // //user.habits.map((a) =>{
+                // //   return {habitName: a.habit_name, }} )
+
+                // //  weekDataForHabit.days_completed = []
+
+                // resolve(WeekDataForHabit);
+
             } catch (err) {
                 reject("Data for this week could not be found");
             };
