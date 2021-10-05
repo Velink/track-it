@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#nav-bar{
+    font-family: 'Roboto', cursive;
+    width: 100%;
+    height: 70px;
+    background-color: #424242;
+    color:#fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#nav-bar a:hover{
+    cursor: pointer;
+}
+
+.login-form{
+    font-family: 'Roboto', cursive;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 3% auto;
+}
+
+.login-form input,label{
+    margin: 5px 0px;
+}
+
+.login-form input{
+    padding: 10px 5px;
+}
+
+.intro-title{
+    font-family: 'Roboto', cursive;
+    margin-top: 5%;
+    text-align: center;
+}
+
+#login-button{
+    border: none;
+    padding: 10px;
+    background-color: black;
+    color: #fff;
+}
+
+#login-button:hover{
+    cursor: pointer;
+    background-color: #424242;
+}
