@@ -8,7 +8,7 @@ class User {
         this.username = data.username
         this.email = data.email
         this.hash = data.hash // hash == hashed password
-        // this.habits = [];
+        this.habits = data.habits
     }
 
     // grab all users. may not need this
@@ -33,10 +33,14 @@ class User {
             try {
                 const db = await init();
                 //_id is actually an object, ObjectId(id)
-                let userData = await db.collection('users').find({ email: { $eq: email } }).toArray()
-                let user = new User({ ...userData[0], id: userData[0]._id });
+                let userData = await db.collection('users').find({ email: { $eq: email } }).toArray();
+                console.log(userData);
+                // let user = new User({ ...userData[0], id: userData[0]._id });
+                // console.log(user);
+                let user = userData[0];
                 resolve(user);
             } catch (err) {
+                console.log(err);
                 reject('User not found');
             }
         });
@@ -45,8 +49,10 @@ class User {
     static create(name, email, hash) {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log(habits[0]);
                 const db = await init();
                 let userData = await db.collection('users').insertOne({ username: name, email: email, hash: hash })
+                console.log(userData);
                 let newUser = new User(userData); // .rows
                 resolve(newUser);
             } catch (err) {
@@ -55,7 +61,7 @@ class User {
         });
     }
 
-    get habits() {
+    get habitsList() {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();

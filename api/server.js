@@ -77,7 +77,8 @@ server.post('/register', async (req, res) => {
         const hashed = await bcrypt.hash(req.body.password, salt);
         const username = req.body.username;
         const email = req.body.email;
-        const user = await User.create(username, email, hashed); //feeding in the unhashed password for checking if database stored value is correct (just need to replace with 'hashed' instead)
+        const habits = req.body.habits;
+        const user = await User.create(username, email, hashed, habits); //feeding in the unhashed password for checking if database stored value is correct (just need to replace with 'hashed' instead)
         res.status(201).json({ user });
     } catch (err) {
         res.status(500).json({ err });
