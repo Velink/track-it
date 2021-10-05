@@ -6,7 +6,7 @@ function renderLoginForm() {
     body.innerHTML = '';
     const header = document.createElement('h1');
     header.setAttribute('class', 'intro-title');
-    header.textContent = 'trackIt. Login'
+    header.textContent = 'Rendered trackIt. Login'
     const form = document.createElement('form');
     form.setAttribute('class', 'login-form')
 
