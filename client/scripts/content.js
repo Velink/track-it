@@ -132,76 +132,6 @@ function renderRegisterForm() {
 }
 
 
-
-
-{/* <div>
-        <h1 class="display-3 w-50 mx-auto">
-
-            Add a new habit!
-    
-        </h1>
-
-    </div>
-
-    
-
-    
-        
-
-        <button id="newHabitBtn" class="btn btn-dark position-absolute top-10 start-0">
-             New habit 
-            </button>
-       
-      
-
-      <div class="container-fluid">
-
-        <form id="form" action="" method="POST" class="w-50 mx-auto">
-            <div class="mb-3" id="inputs">
-              <label for="register" class="form-label display-6 lead"></label><br>
-              <div class="row">
-                  <div class="col-9">
-
-                    <input
-                    type="text"
-                    placeholder="Add your habit name..."
-                    class="form-control form-rounded mb-3"
-                  
-                  />
-
-                  </div>
-                  <div class="col-3">
-                        <select class="form-select" aria-label="Disabled select example">
-                            <option selected="selected">Frequency</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                          </select>
-                    </div>
-
-                  </div>
-
-              </div>
-             
-            </div>
-              <br>
-
-              <div class="container">
-
-                <button type="submit" class="btn btn-primary" id="submit_btn">Submit</button>
-
-              </div>
-
-              
-            
-          </form>
-
-      </div> */}
-
 // RENDER HABITS PAGE FUNCTION
 function renderAddHabits() {
     let main = document.getElementById('main')
@@ -257,6 +187,8 @@ function renderAddHabits() {
     select.appendChild(initialOption)
     initialOption.setAttribute("selected", "selected")
     initialOption.innerText = `Frequency`
+    let submit_btn = document.createElement('button')
+    submit_btn.setAttribute('type','submit')
     for (let i = 1; i <= 7; i++) {
         let freq_option = document.createElement('option')
         freq_option.setAttribute("class", `freq_option_${i}`)
@@ -303,9 +235,6 @@ function renderAddHabits() {
     
     }
 }
-
-
-
 
 // RENDER USER DASHBOARD PAGE
 async function displayDashboard() {
