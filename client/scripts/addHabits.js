@@ -7,30 +7,6 @@ const form = document.getElementById('form')
 newHabitBtn.addEventListener('click', createHabitField)
 form.addEventListener('submit', submitData)
 
-{/* <div class="row">
-                  <div class="col-9">
-
-                    <input
-                    type="text"
-                    placeholder="Add your habit name..."
-                    class="form-control form-rounded mb-2"
-                    id="habit"
-                  />
-
-                  </div>
-                  <div class="col-3">
-                        <select class="form-select" aria-label="Disabled select example">
-                            <option selected>Frequency</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="1">4</option>
-                            <option value="2">5</option>
-                            <option value="3">6</option>
-                          </select>
-                    </div>
-                  </div> */}
-
 function createHabitField() {
     if( habitFieldCounter > 3 ){ return alert('You may only create maximum 5 fields')}
     habitFieldCounter++
