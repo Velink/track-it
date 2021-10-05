@@ -84,7 +84,6 @@ function renderLoginForm() {
 // REGISTRATION FORM RENDER
 function renderRegisterForm() {
     main.innerHTML = '';
-    // window.location.hash = '#register';
     const fields = [
         { tag: 'input', attributes: { type: 'text', name: 'username', placeholder: 'Username' } },
         { tag: 'input', attributes: { type: 'email', name: 'email', placeholder: 'Email' } },
@@ -129,6 +128,7 @@ function renderRegisterForm() {
     let btnRenderHabits = document.getElementById('buttonRenderHabits');
     btnRenderHabits.addEventListener('click', renderAddHabits);
 
+    window.location.hash = '#register';
 }
 
 
@@ -265,10 +265,12 @@ function createHabitField() {
 
 }
 
-
+// RENDER USER DASHBOARD PAGE
 async function displayDashboard() {
     try {
         //Create Dashboard Section
+        const header = document.getElementsByTagName('HEADER')[0];
+        header.innerHTML = '';
         const dashboard = document.createElement('section')
         dashboard.id = 'dashboard'
 
@@ -277,20 +279,21 @@ async function displayDashboard() {
         console.log(userInfo);
 
         //Create Navbar
+
         let navbar = document.createElement('nav');
         navbar.setAttribute('id', 'nav-bar');
         if (currentUser()) {
             // Logout Navbar Button
-            let logOut = document.createElement('a');
+            let logOut = document.createElement('button');
             logOut.textContent = 'Logout';
             logOut.addEventListener('click', logout);
 
             // Habits Navbar Button
-            let linkHabits = document.createElement('a');
+            let linkHabits = document.createElement('button');
             linkHabits.textContent = 'Habits';
 
             // Profile Navbar Button
-            let profile = document.createElement('a');
+            let profile = document.createElement('button');
             profile.textContent = 'Profile';
             navbar.appendChild(profile);
             navbar.appendChild(linkHabits);
@@ -311,8 +314,37 @@ async function displayDashboard() {
         // }
         // userHabits.forEach(habit => renderHabit(habit))
         // body.appendChild(dashboard); 
-        body.appendChild(navbar);
+        header.appendChild(navbar);
     } catch (error) {
         console.log(error);
     }
+}
+
+
+// RENDER PUBLIC NAVBAR 
+function renderPublicNav() {
+    let header = document.getElementsByTagName('HEADER')[0];
+    header.innerHTML = '';
+
+    let navbar = document.createElement('nav');
+    navbar.setAttribute('id', 'nav-bar');
+
+    // Logout Navbar Button
+    let logIn = document.createElement('button');
+    logIn.textContent = 'Login';
+    logIn.addEventListener('click', logout);
+
+    // Habits Navbar Button
+    let register = document.createElement('button');
+    register.textContent = 'Register';
+    register.setAttribute('id', 'render-register');
+    register.addEventListener('click', renderRegisterForm);
+
+    // Profile Navbar Button
+    let home = document.createElement('button');
+    home.textContent = 'Home';
+    navbar.appendChild(logIn);
+    navbar.appendChild(register);
+    navbar.appendChild(home);
+    header.appendChild(navbar);
 }
