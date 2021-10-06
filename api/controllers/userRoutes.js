@@ -130,7 +130,7 @@ router.get('/:email/:habit/', authenticateToken, async (req, res) => {
 
 router.patch('/:email/:habit/update_dates', authenticateToken, async (req, res) => {
     try {
-
+        
         const newDataHabit = await User.updateDataHabit(req.body.email, req.body.habit_name, req.body.completed_days)
 
         res.status(200).send(newDataHabit)
