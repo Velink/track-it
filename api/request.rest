@@ -10,3 +10,7 @@ Content-Type: application/json
     "hash": "password"
 }
 
+### 
+
+DELETE http://localhost:3000/user/max@max.com/choose_habits/5
+Content-Type: application/json

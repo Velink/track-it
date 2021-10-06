@@ -86,7 +86,7 @@ server.post('/register', async (req, res) => {
         const result = schema.validate(data)
         console.log(result)
         if (result.error) {
-            console.log(result.error.details[0].message)
+            // console.log(result.error.details[0].message)
             return res.send(result.error.details[0])
         }
         // console.log(req.body)
@@ -99,7 +99,7 @@ server.post('/register', async (req, res) => {
         // const habits = req.body.habits;
         const user = await User.create(username, email, hashed);
         // console.log(user)
-        res.status(201).json({ user });
+        return res.status(201).json({ user });
     } catch (err) {
         res.status(500).json({ err });
     }

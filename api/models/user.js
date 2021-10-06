@@ -105,6 +105,23 @@ class User {
         });
     };
 
+    static deleteUserHabit(email, habitNum){
+        return new Promise(async (resolve, reject) => {
+            try {
+                const db = await init();
+                const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
+                const userHabits = { email: "", habits: {} } // object for response
+                userHabits.email = user[0].email
+                userHabits.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency } })
+                userHabits.habits.pop(habitNum-1) // removes habit from habit
+                resolve(userHabits);
+            } catch (err) {
+                reject("Users habits could not be found");
+            };
+        });
+    };
+    
+
     // --- update list of habits with frequencies by user's email
     // TODO
     static updateHabitsForUser(email, habitName, frequency) {
