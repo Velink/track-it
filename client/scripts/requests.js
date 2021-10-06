@@ -8,29 +8,29 @@ async function submitHabits(e) {
   sendingObject.newHabitsArr = []
   let habits = document.getElementsByTagName('input')
   console.log(sendingObject)
-//   console.log(habits)
-  for (let habit of habits){
-    let habitList = {habitName: habit.value}
+  //   console.log(habits)
+  for (let habit of habits) {
+    let habitList = { habitName: habit.value }
     sendingObject.newHabitsArr.push(habitList)
   }
-//   console.log(habitData)
+  //   console.log(habitData)
   let frequencySelectors = document.getElementsByTagName('select');
-//   console.log(frequencySelectors)
-  for(let i = 0 ; i < frequencySelectors.length ; i++){
+  //   console.log(frequencySelectors)
+  for (let i = 0; i < frequencySelectors.length; i++) {
     let newFreq = frequencySelectors[i].options.selectedIndex
     sendingObject.newHabitsArr[i].frequency = newFreq
   }
   console.log(sendingObject) // returns an array of format = [{habit: <habitname>, frequency: <frequency>}]
 
-//   get email first and then add that to the habitsdata
+  //   get email first and then add that to the habitsdata
 
 
 
-//   let habit = document.getElementById('initHabit').value
-//   let frequency = document.getElementsByTagName('select')[0].value
+  //   let habit = document.getElementById('initHabit').value
+  //   let frequency = document.getElementsByTagName('select')[0].value
 
-//   let postingData = { email: userEmail, habitName: habit, frequency: frequency }
- 
+  //   let postingData = { email: userEmail, habitName: habit, frequency: frequency }
+
   const loginData = {
     email: userEmail,
     password: password
@@ -57,8 +57,8 @@ async function submitHabits(e) {
     body: JSON.stringify(sendingObject) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
   }
   const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
-//   const resp2 = await resp.json()
-//   console.log(resp2)
+  //   const resp2 = await resp.json()
+  //   console.log(resp2)
 
 window.location.hash = `#dashboard`
 
@@ -87,19 +87,62 @@ async function addHabitRequest(habit, frequency) {
 // REQUEST TO DELETE A USER HABIT
 async function deleteHabitRequest() {
 
-    let userEmail = localStorage.getItem("userEmail");
-    console.log(userEmail);
-  
-    let habitData = { email: userEmail, habitName: habit}
-  
-    const options = {
-      method: 'DELETE',
-      headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
-      body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
-    }
-    const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
-    const resp2 = await resp.json()
-    console.log(resp2)
-  
+  let userEmail = localStorage.getItem("userEmail");
+  console.log(userEmail);
 
+  let habitData = { email: userEmail, habitName: habit }
+
+  const options = {
+    method: 'DELETE',
+    headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
+    body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+  }
+  const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
+  const resp2 = await resp.json()
+  console.log(resp2)
+}
+
+
+// REQUEST UPDATE WEEKLY PROGRESS FOR A HABIT 
+async function updateWeeklyProgress(daysArray, habitSelected) {
+
+  console.log(daysArray);
+
+  let userEmail = localStorage.getItem("userEmail");
+  console.log(userEmail);
+
+  let habitData = { email: userEmail, habit_name: habitSelected, completed_days: daysArray }
+  console.log(habitData);
+
+  const options = {
+    method: 'PATCH',
+    headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
+    body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+  }
+  const resp = await fetch(`http://localhost:3000/user/${userEmail}/${habitSelected}/update_dates`, options) // choose where to send it to
+  const resp2 = await resp.json()
+  console.log(resp2)
+}
+
+//REQUEST TO FETCH LIVE WEEKLY PROGRESS 
+async function getWeeklyProgress(habitSelected) {
+
+  let userEmail = localStorage.getItem("userEmail");
+  console.log(userEmail);
+
+  let habitData = { email: userEmail, habit_name: habitSelected }
+  console.log(habitData);
+
+  const options = {
+    method: 'GET',
+    headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
+    // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+  }
+  const resp = await fetch(`http://localhost:3000/user/${userEmail}/${habitSelected}`, options) // choose where to send it to
+  const resp2 = await resp.json()
+  console.log(resp2);
+  console.log(resp2.habit);
+  console.log(resp2.habit[0].completed_days);
+  let currentCompletedDays = resp2.habit[0].completed_days;
+  return currentCompletedDays;
 }
