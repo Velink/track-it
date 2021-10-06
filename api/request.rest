@@ -11,6 +11,4 @@ Content-Type: application/json
 }
 
 ### 
-
-DELETE http://localhost:3000/user/max@max.com/choose_habits/5
-Content-Type: application/json
+GET http://localhost:3000/user/13423/choose_habits

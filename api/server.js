@@ -85,10 +85,10 @@ server.post('/register', async (req, res) => {
 
         const result = schema.validate(data)
         console.log(result)
-        if (result.error) {
-            // console.log(result.error.details[0].message)
-            return res.send(result.error.details[0])
-        }
+        // if (result.error) {
+        //     // console.log(result.error.details[0].message)
+        //     return res.send(result.error.details[0])
+        // }
         // console.log(req.body)
         // console.log(req.body.username)
         const salt = await bcrypt.genSalt();
