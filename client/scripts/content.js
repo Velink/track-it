@@ -138,7 +138,7 @@ function renderRegisterForm() {
         const userData = { username: username, email: email, password: password, passwordcon: passwordcon }
 
 
-        window.location.hash = '#register';
+        
 
         const options = {
             method: 'POST',
@@ -148,8 +148,14 @@ function renderRegisterForm() {
             body: JSON.stringify(userData)
         }
 
-        await fetch('http://localhost:3000/register', options);
-        renderAddHabits()
+        const response = await fetch('http://localhost:3000/register', options);
+        const data = await response.json()
+        console.log(data.error)
+        if (data.error){
+            console.log(data.error.details[0].message)
+        } else {
+            renderAddHabits()
+        }
     })
 
 
