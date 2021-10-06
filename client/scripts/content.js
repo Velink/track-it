@@ -84,9 +84,10 @@ function renderLoginForm() {
 // REGISTRATION FORM RENDER
 function renderRegisterForm() {
     main.innerHTML = '';
+    window.location.hash = '#register'
     const fields = [
         { tag: 'input', attributes: { type: 'text', id: 'username', name: 'username', placeholder: 'Username' } },
-        { tag: 'input', attributes: { type: 'text', id: "register_email", name: 'email', placeholder: 'Email', } },
+        { tag: 'input', attributes: { type: 'text', id: "email", name: 'email', placeholder: 'Email', } },
         { tag: 'input', attributes: { type: 'password', id: 'password', name: 'password', placeholder: 'Password' } },
         { tag: 'input', attributes: { type: 'password', id: 'passwordcon', name: 'passwordcon', placeholder: 'Confirm Password' } },
         { tag: 'button', attributes: { type: 'button', value: 'Create Account', id: 'submitButton' } }
@@ -127,9 +128,8 @@ function renderRegisterForm() {
 
     let submitButton = document.getElementById('submitButton');
 
-    submitButton.addEventListener('click', async () => {
-        let email = document.getElementById('register_email').value
-
+    submitButton.addEventListener('click', async (e) => {
+        let email = document.getElementById('email').value
         const userEmail = localStorage.setItem("userEmail", email);
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
@@ -150,7 +150,8 @@ function renderRegisterForm() {
 
         const response = await fetch('http://localhost:3000/register', options);
         const data = await response.json()
-        console.log(data.error)
+        console.log(data)
+        // console.log(data.error)
         if (data.error) {
             console.log(data.error.details[0].message)
             let errorMessage = data.error.details[0].message
@@ -175,12 +176,16 @@ function renderRegisterForm() {
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 onClick: function () {}, // Callback after click
               }).showToast();
-            renderAddHabits()
+            
         }
+        await requestLogin(e)
+
+        // renderAddHabits()
+
     })
 
 
-    window.location.hash = '#register';
+    // window.location.hash = '#register';
 }
 
 
@@ -254,7 +259,7 @@ function renderAddHabits() {
     }
     // Create inputs fields on button click
     addHabitBtn.addEventListener('click', createHabitField);
-    form.addEventListener('submit', submitData)
+    form.addEventListener('submit', submitHabits)
 
 
     function createHabitField() {

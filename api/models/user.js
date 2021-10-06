@@ -133,9 +133,9 @@ class User {
 
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init();
+                const client = await init();
                 await arrayOfNewHabits.forEach( async (habit) => { 
-                    const existingHabitsData = await db.collection('users').findOneAndUpdate({ email: { $eq: email } }, {
+                    await client.db(dbName).collection('users').findOneAndUpdate({ email: { $eq: email } }, {
                         "$push": {
                     "habits":
                             {
@@ -148,6 +148,7 @@ class User {
                     )
                 });
                 resolve("Habits were added");
+                
             } catch (err) {
                 reject("Users habits could not be found");
             };

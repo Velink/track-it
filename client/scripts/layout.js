@@ -3,7 +3,7 @@ const main = document.querySelector('main');
 // we can make a body element or main, doesnt matter
 
 const publicRoutes = ['#login', '#register'];
-const privateRoutes = ['#dashboard'];
+const privateRoutes = ['#dashboard','#addhabits'];
 
 window.addEventListener('hashchange', updateContent);
 function updateBody(path) {
@@ -19,9 +19,9 @@ function updateBody(path) {
             case '#dashboard':
                 displayDashboard();
                 break;
-            // case '#addhabits':
-            //     renderAddHabits();
-            //     break;
+            case '#addhabits':
+                renderAddHabits();
+                break;
         }
     } else {
         renderLoginForm();
@@ -29,8 +29,10 @@ function updateBody(path) {
 }
 
 function updateContent() {
-    console.log('content update');
+    // console.log('content update');
     const path = window.location.hash; //check current path 
+    // let currentuser = currentUser()
+    // console.log(currentuser)
     if (privateRoutes.includes(path) && !currentUser()) { //if path private or user unknown in local storage prevent access to dashboard
         console.log('inside 1')
         window.location.hash = '#'; //change to #login or #register???
@@ -42,5 +44,7 @@ function updateContent() {
         updateBody(path); // render the corresponding page
     }
 }
+
+updateContent()
 
 

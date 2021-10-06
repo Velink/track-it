@@ -1,8 +1,9 @@
-async function submitData(e) {
+async function submitHabits(e) {
   e.preventDefault()
 
   let userEmail = localStorage.getItem("userEmail");
   let password = localStorage.getItem("password");
+
   sendingObject = {email: userEmail}
   sendingObject.newHabitsArr = []
   let habits = document.getElementsByTagName('input')
@@ -58,6 +59,8 @@ async function submitData(e) {
   const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
 //   const resp2 = await resp.json()
 //   console.log(resp2)
+
+window.location.hash = `#dashboard`
 
 }
 

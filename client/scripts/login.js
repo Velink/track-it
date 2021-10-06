@@ -40,25 +40,31 @@ async function requestLogin(e) {
 }
 
 async function getUserInfo(userEmail) {
-    try {
-        console.log(userEmail);
-        let email = localStorage.userEmail;
-        console.log(email);
-        const options = {
-            headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+    
+
+        try {
+            console.log(userEmail);
+            let email = localStorage.userEmail;
+            console.log(email);
+            
+            const options = {
+                headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+            }
+            const response = await fetch(`http://localhost:3000/user/${email}/choose_habits`, options);
+            const data = await response.json();
+            if (data.err) {
+                console.warn(data.err);
+                logout();
+            }
+            console.log(data);
+            console.log(data.body);
+            return data;
+        } catch (err) {
+            console.warn(err);
         }
-        const response = await fetch(`http://localhost:3000/user/${email}/choose_habits`, options);
-        const data = await response.json();
-        if (data.err) {
-            console.warn(data.err);
-            logout();
-        }
-        console.log(data);
-        console.log(data.body);
-        return data;
-    } catch (err) {
-        console.warn(err);
-    }
+            
+   
+
 }
 
 
@@ -71,8 +77,14 @@ async function login(token) {
     console.log(localStorage);
     console.log(localStorage.userEmail);
     let userEmail = localStorage.userEmail;
-    await getUserInfo(userEmail);
-    window.location.hash = '#dashboard';
+    if(window.location.hash === "#register"){
+        window.location.hash = "#addhabits"
+    } else {
+        window.location.hash = "#dashboard"
+        await getUserInfo(userEmail);
+    }
+
+    // window.location.hash = '#dashboard';
 
 }
 
@@ -86,6 +98,7 @@ function logout() {
 
 function currentUser() {
     const username = localStorage.getItem('username');
+    console.log(username)
     return username;
 }
 
