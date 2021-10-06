@@ -23,7 +23,7 @@ async function submitData(e) {
   let userEmail = localStorage.getItem("userEmail");
   let password = localStorage.getItem("password");
   let postingData = { email: userEmail, habitName: habit, frequency: frequency }
- 
+
   const loginData = {
     email: userEmail,
     password: password
@@ -78,19 +78,38 @@ async function addHabitRequest(habit, frequency) {
 // REQUEST TO DELETE A USER HABIT
 async function deleteHabitRequest() {
 
-    let userEmail = localStorage.getItem("userEmail");
-    console.log(userEmail);
-  
-    let habitData = { email: userEmail, habitName: habit}
-  
-    const options = {
-      method: 'DELETE',
-      headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
-      body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
-    }
-    const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
-    const resp2 = await resp.json()
-    console.log(resp2)
-  
+  let userEmail = localStorage.getItem("userEmail");
+  console.log(userEmail);
 
+  let habitData = { email: userEmail, habitName: habit }
+
+  const options = {
+    method: 'DELETE',
+    headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
+    body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+  }
+  const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
+  const resp2 = await resp.json()
+  console.log(resp2)
+}
+
+
+// REQUEST UPDATE WEEKLY PROGRESS FOR A HABIT 
+async function updateWeeklyProgress(daysArray) {
+
+  console.log(daysArray);
+
+  // let userEmail = localStorage.getItem("userEmail");
+  // console.log(userEmail);
+
+  // let habitData = { email: userEmail, habitName: habit, frequency: frequency }
+
+  // const options = {
+  //   method: 'PATCH',
+  //   headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
+  //   body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+  // }
+  // const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
+  // const resp2 = await resp.json()
+  // console.log(resp2)
 }

@@ -444,28 +444,6 @@ async function displayDashboard() {
                 progressTitle.setAttribute('class', 'progress-container-title')
                 progressContainer.insertAdjacentElement('afterbegin', progressTitle);
 
-                //Ok Progress Popup Button
-                let okButton = document.createElement('button');
-                okButton.textContent = 'Submit';
-                okButton.setAttribute('class', 'cancel-progress-container');
-                okButton.addEventListener('click', () => {
-                    progressContainer.remove();
-                })
-
-                //Cancel Progress Popup Button
-                let backButton = document.createElement('button');
-                backButton.textContent = 'Cancel';
-                backButton.setAttribute('class', 'cancel-progress-container');
-                backButton.addEventListener('click', () => {
-                    progressContainer.remove();
-                })
-
-                //Progress Container Button Div
-                let buttonContainer = document.createElement('div');
-                buttonContainer.setAttribute('class', 'button-container');
-                buttonContainer.appendChild(backButton);
-                buttonContainer.appendChild(okButton);
-
                 main.insertAdjacentElement('beforebegin', progressContainer);
 
                 let checkboxContainer = document.createElement('div');
@@ -503,6 +481,30 @@ async function displayDashboard() {
                     checkboxContainer.appendChild(boxLabel);
                     console.log('we here');
                 }
+
+                //Ok Progress Popup Button
+                let okButton = document.createElement('button');
+                okButton.textContent = 'Submit';
+                okButton.setAttribute('class', 'cancel-progress-container');
+                okButton.addEventListener('click', () => {
+                    progressContainer.remove();
+                    updateWeeklyProgress(daysArray);
+                })
+
+                //Cancel Progress Popup Button
+                let backButton = document.createElement('button');
+                backButton.textContent = 'Cancel';
+                backButton.setAttribute('class', 'cancel-progress-container');
+                backButton.addEventListener('click', () => {
+                    progressContainer.remove();
+                })
+
+                //Progress Container Button Div
+                let buttonContainer = document.createElement('div');
+                buttonContainer.setAttribute('class', 'button-container');
+                buttonContainer.appendChild(backButton);
+                buttonContainer.appendChild(okButton);
+
                 progressContainer.appendChild(checkboxContainer);
                 progressContainer.appendChild(buttonContainer);
             }
