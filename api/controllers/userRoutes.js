@@ -88,6 +88,7 @@ router.get('/:email/choose_habits', authenticateToken, async (req, res) => {
 // updateHabitsForUser
 router.patch('/:email/choose_habits', async (req, res) => {
     try {
+        
         // const data2 = {
         //     "habitName": req.body.habitName,
         //     "frequency": req.body.frequency
@@ -142,7 +143,9 @@ router.patch('/:email/:habit/update_dates', authenticateToken, async (req, res) 
 
 router.delete('/:email/:habit/delete', authenticateToken, async (req, res) => {
     try {
-
+        console.log(req.body.email)
+        console.log(req.body.habit_name)
+        
         const dataAfterDeleting = await User.deleteHabit(req.body.email, req.body.habit_name)
 
         res.status(200).send(dataAfterDeleting)
