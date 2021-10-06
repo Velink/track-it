@@ -146,7 +146,7 @@ function renderRegisterForm() {
             body: JSON.stringify(userData)
         }
         await fetch('http://localhost:3000/register', options)
-        
+        renderAddHabits()
     })
 
 
