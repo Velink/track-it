@@ -138,7 +138,7 @@ function renderRegisterForm() {
         const userData = { username: username, email: email, password: password, passwordcon: passwordcon }
 
 
-        
+
 
         const options = {
             method: 'POST',
@@ -151,7 +151,7 @@ function renderRegisterForm() {
         const response = await fetch('http://localhost:3000/register', options);
         const data = await response.json()
         console.log(data.error)
-        if (data.error){
+        if (data.error) {
             console.log(data.error.details[0].message)
         } else {
             renderAddHabits()
@@ -418,9 +418,12 @@ async function displayDashboard() {
                 progressContainer.setAttribute('class', 'progress-container')
                 let backButton = document.createElement('button');
                 backButton.textContent = 'Cancel';
-                main.appendChild(progressContainer);
+                backButton.setAttribute('class', 'cancel-progress-container');
+                main.insertAdjacentElement('beforebegin', progressContainer);
                 console.log(progressContainer)
 
+                let checkboxContainer = document.createElement('div');
+                checkboxContainer.setAttribute('class', 'checkbox-container');
                 for (let i = 0; i < 7; i++) {
                     let box = document.createElement('input');
                     let boxLabel = document.createElement('label');
@@ -450,11 +453,11 @@ async function displayDashboard() {
                         default:
                             break;
                     }
-                    box.appendChild(boxLabel);
-                    progressContainer.appendChild(box);
+                    boxLabel.appendChild(box);
+                    checkboxContainer.appendChild(boxLabel);
                     console.log('we here');
                 }
-
+                progressContainer.appendChild(checkboxContainer);
                 progressContainer.appendChild(backButton);
             }
 
