@@ -37,11 +37,11 @@ class User {
                 //_id is actually an object, ObjectId(id)
                 let userData = await client.db(dbName).collection('users').find({ email: { $eq: email } }).toArray();
                 console.log(userData);
-                client.close()
                 // let user = new User({ ...userData[0], id: userData[0]._id });
                 // console.log(user);
                 let user = userData[0];
                 resolve(user);
+                client.close()
             } catch (err) {
                 console.log(err);
                 reject('User not found');

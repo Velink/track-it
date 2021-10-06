@@ -86,7 +86,7 @@ router.get('/:email/choose_habits', authenticateToken, async (req, res) => {
 })
 
 // updateHabitsForUser
-router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
+router.patch('/:email/choose_habits', async (req, res) => {
     try {
         // const data2 = {
         //     "habitName": req.body.habitName,
@@ -101,7 +101,7 @@ router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
         //     console.log(result.error.details[0].message)
         //     return res.send(result.error.details[0])
         // }
-        const updatedHabits = await User.updateHabitsForUser(req.body.email,req.body.newHabitsArr);
+        const updatedHabits = await User.updateHabitsForUser(req.body.email, req.body.newHabitsArr);
         // console.log(req.body.email);
         // console.log(req.body.habitName);
         res.status(200).send(updatedHabits)
@@ -130,7 +130,7 @@ router.get('/:email/:habit/', authenticateToken, async (req, res) => {
 
 router.patch('/:email/:habit/update_dates', authenticateToken, async (req, res) => {
     try {
-        
+
         const newDataHabit = await User.updateDataHabit(req.body.email, req.body.habit_name, req.body.completed_days)
 
         res.status(200).send(newDataHabit)
