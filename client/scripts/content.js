@@ -162,8 +162,8 @@ function renderRegisterForm() {
                 position: "left", // `left`, `center` or `right`
                 backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
                 stopOnFocus: true, // Prevents dismissing of toast on hover
-                onClick: function () {}, // Callback after click
-              }).showToast();
+                onClick: function () { }, // Callback after click
+            }).showToast();
         } else {
             Toastify({
                 text: 'Registration successful! Choose some habits to get started.',
@@ -173,8 +173,8 @@ function renderRegisterForm() {
                 position: "left", // `left`, `center` or `right`
                 backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
                 stopOnFocus: true, // Prevents dismissing of toast on hover
-                onClick: function () {}, // Callback after click
-              }).showToast();
+                onClick: function () { }, // Callback after click
+            }).showToast();
             renderAddHabits()
         }
     })
@@ -363,7 +363,7 @@ async function displayDashboard() {
                 cancelHabitButton.setAttribute('value', 'Cancel');
                 cancelHabitButton.setAttribute('class', 'cancel-add-habit');
                 cancelHabitButton.addEventListener('click', () => {
-                    addHabitForm.innerHTML = '';
+                    addHabitForm.remove();
                 })
 
                 //Append elements to main
@@ -436,12 +436,37 @@ async function displayDashboard() {
 
                 //Render Weekly Progress Popup
                 let progressContainer = document.createElement('div');
-                progressContainer.setAttribute('class', 'progress-container')
+                progressContainer.setAttribute('class', 'progress-container');
+
+                //Progress Container Habit Title
+                let progressTitle = document.createElement('h1');
+                progressTitle.textContent = habitSelected;
+                progressTitle.setAttribute('class', 'progress-container-title')
+                progressContainer.insertAdjacentElement('afterbegin', progressTitle);
+
+                //Ok Progress Popup Button
+                let okButton = document.createElement('button');
+                okButton.textContent = 'Submit';
+                okButton.setAttribute('class', 'cancel-progress-container');
+                okButton.addEventListener('click', () => {
+                    progressContainer.remove();
+                })
+
+                //Cancel Progress Popup Button
                 let backButton = document.createElement('button');
                 backButton.textContent = 'Cancel';
                 backButton.setAttribute('class', 'cancel-progress-container');
+                backButton.addEventListener('click', () => {
+                    progressContainer.remove();
+                })
+
+                //Progress Container Button Div
+                let buttonContainer = document.createElement('div');
+                buttonContainer.setAttribute('class', 'button-container');
+                buttonContainer.appendChild(backButton);
+                buttonContainer.appendChild(okButton);
+
                 main.insertAdjacentElement('beforebegin', progressContainer);
-                console.log(progressContainer)
 
                 let checkboxContainer = document.createElement('div');
                 checkboxContainer.setAttribute('class', 'checkbox-container');
@@ -479,7 +504,7 @@ async function displayDashboard() {
                     console.log('we here');
                 }
                 progressContainer.appendChild(checkboxContainer);
-                progressContainer.appendChild(backButton);
+                progressContainer.appendChild(buttonContainer);
             }
 
             //Progress Bars - To be Updated
