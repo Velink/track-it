@@ -146,13 +146,8 @@ function renderRegisterForm() {
             },
             body: JSON.stringify(userData)
         }
-        await fetch('http://localhost:3000/register', options)
 
-
-
-
-
-        
+        await fetch('http://localhost:3000/register', options);
         renderAddHabits()
     })
 
@@ -401,7 +396,16 @@ async function displayDashboard() {
             // PLUS ICON button to tick off week days 
             let plusIcon = document.createElement('i');
             plusIcon.setAttribute('class', 'fas fa-plus fa-5x');
+            plusIcon.setAttribute('id', `plus-${userHabits[i].habit_name}`)
             habitElement.appendChild(plusIcon);
+            plusIcon.addEventListener('click', (e) => {
+                renderWeeklyProgressForm(e);
+            })
+            async function renderWeeklyProgressForm(e) {
+                console.log(e);
+                console.log(e.target);
+                console.log(e.target.id);
+            }
 
             //Progress Bars - To be Updated
             let bar = document.createElement('div');
@@ -419,8 +423,17 @@ async function displayDashboard() {
             let delButton = document.createElement('button');
             delButton.setAttribute('class', 'del-button');
             delButton.textContent = 'Delete';
+            delButton.setAttribute('id', `del-${userHabits[i].habit_name}`)
             delButton.addEventListener('click', deleteHabitRequest);
             habitElement.appendChild(delButton);
+            delButton.addEventListener('click', (e) => {
+                deleteHabit(e);
+            })
+            async function deleteHabit(e) {
+                console.log(e);
+                console.log(e.target);
+                console.log(e.target.id);
+            }
 
             //Break Flex
             // if (i % 3 == 0) {
