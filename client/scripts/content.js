@@ -402,18 +402,51 @@ async function displayDashboard() {
             plusIcon.addEventListener('click', (e) => {
                 renderWeeklyProgressForm(e);
             })
+
             async function renderWeeklyProgressForm(e) {
                 let habitSelected = e.target.id.slice(5, e.target.id.length);
                 console.log(habitSelected);
 
                 //Render Weekly Progress Popup
                 let progressContainer = document.createElement('div');
+                progressContainer.setAttribute('class', 'progress-container')
                 let backButton = document.createElement('button');
                 backButton.textContent = 'Cancel';
+                main.appendChild(progressContainer);
+                console.log(progressContainer)
 
                 for (let i = 0; i < 7; i++) {
-                    let box
-
+                    let box = document.createElement('input');
+                    let boxLabel = document.createElement('label');
+                    box.setAttribute('type', 'checkbox');
+                    switch (i) {
+                        case 0:
+                            boxLabel.textContent = 'Mon'
+                            break;
+                        case 1:
+                            boxLabel.textContent = 'Tue'
+                            break;
+                        case 2:
+                            boxLabel.textContent = 'Wed'
+                            break;
+                        case 3:
+                            boxLabel.textContent = 'Thurs'
+                            break;
+                        case 4:
+                            boxLabel.textContent = 'Fri'
+                            break;
+                        case 5:
+                            boxLabel.textContent = 'Sat'
+                            break;
+                        case 6:
+                            boxLabel.textContent = 'Sun'
+                            break;
+                        default:
+                            break;
+                    }
+                    box.appendChild(boxLabel);
+                    progressContainer.appendChild(box);
+                    console.log('we here');
                 }
 
                 progressContainer.appendChild(backButton);
