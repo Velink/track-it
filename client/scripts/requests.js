@@ -19,20 +19,11 @@ async function submitData(e) {
 
 
   let habit = document.getElementById('initHabit').value
-  // console.log(habit)
   let frequency = document.getElementsByTagName('select')[0].value
-  // console.log(frequency)
   let userEmail = localStorage.getItem("userEmail");
   let password = localStorage.getItem("password");
   let postingData = { email: userEmail, habitName: habit, frequency: frequency }
-  // console.log(postingData)
-  // {
-  //     'Content-Type': 'application/json',
-
-  // console.log(token)
-  // },
-
-
+ 
   const loginData = {
     email: userEmail,
     password: password
@@ -47,6 +38,7 @@ async function submitData(e) {
     },
   }
 
+  // Fetch the token 
   const response = await fetch(`http://localhost:3000/login`, options2);
   const data = await response.json()
   let token = data.token;
@@ -85,5 +77,20 @@ async function addHabitRequest(habit, frequency) {
 
 // REQUEST TO DELETE A USER HABIT
 async function deleteHabitRequest() {
+
+    let userEmail = localStorage.getItem("userEmail");
+    console.log(userEmail);
+  
+    let habitData = { email: userEmail, habitName: habit}
+  
+    const options = {
+      method: 'DELETE',
+      headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
+      body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+    }
+    const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
+    const resp2 = await resp.json()
+    console.log(resp2)
+  
 
 }
