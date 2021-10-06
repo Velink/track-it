@@ -110,7 +110,7 @@ router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
     }
 })
 
-router.get('/:email/dashboard',authenticateToken, async (req, res) => {
+router.get('/:email/dashboard', authenticateToken, async (req, res) => {
     try {
         const weekDataTotal = await User.findWeekDataTotal(req.params.email)
         res.status(200).send(weekDataTotal)
