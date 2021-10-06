@@ -174,9 +174,9 @@ function renderRegisterForm() {
                 position: "left", // `left`, `center` or `right`
                 backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
                 stopOnFocus: true, // Prevents dismissing of toast on hover
-                onClick: function () {}, // Callback after click
-              }).showToast();
-            
+                onClick: function () { }, // Callback after click
+            }).showToast();
+
         }
         await requestLogin(e)
 
@@ -322,7 +322,7 @@ async function displayDashboard() {
         dashboard.id = 'dashboard'
 
         //Obtain User Information 
-        const userInfo = await getUserInfo()
+        const userInfo = await allUserInfo()
         console.log(userInfo);
 
         //Create Navbar
@@ -421,8 +421,13 @@ async function displayDashboard() {
             habitTitle.setAttribute('class', 'habit-title');
             freqP.setAttribute('class', 'frequency');
             habitElement.setAttribute("class", "habit-card");
-            habitTitle.textContent = userHabits[i].habit_name;
-            freqP.textContent = userHabits[i].frq + '/7';
+            habitTitle.textContent = userHabits[i].habit_name; //HERE!!!
+            let habitsArray = userInfo.habits;
+            let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
+            let count = currentHabit.count;
+            console.log(currentHabit);
+            console.log(count);
+            freqP.textContent = `${currentHabit.count} / ${userHabits[i].frq}`;
             habitElement.appendChild(habitTitle);
             habitElement.appendChild(freqP);
 
@@ -517,12 +522,16 @@ async function displayDashboard() {
                     //Setting Up Completed Days Aray
                     let checkBoxTicks = document.getElementsByClassName('check-box');
                     let completedDaysArray = [0, 0, 0, 0, 0, 0, 0];
+                    let newCount = 0;
                     for (let i = 0; i < checkBoxTicks.length; i++) {
                         if (checkBoxTicks[i].checked == true) {
                             console.log(checkBoxTicks[0]);
                             completedDaysArray[i] = 1;
+                            newCount++;
                         }
                     }
+                    console.log(newCount);
+                    freqP.textContent = `${newCount} / ${userHabits[i].frq}`;
                     console.log(completedDaysArray);
                     progressContainer.remove();
                     updateWeeklyProgress(completedDaysArray, habitSelected);

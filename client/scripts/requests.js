@@ -4,7 +4,7 @@ async function submitHabits(e) {
   let userEmail = localStorage.getItem("userEmail");
   let password = localStorage.getItem("password");
 
-  sendingObject = {email: userEmail}
+  sendingObject = { email: userEmail }
   sendingObject.newHabitsArr = []
   let habits = document.getElementsByTagName('input')
   console.log(sendingObject)
@@ -60,7 +60,7 @@ async function submitHabits(e) {
   //   const resp2 = await resp.json()
   //   console.log(resp2)
 
-window.location.hash = `#dashboard`
+  window.location.hash = `#dashboard`
 
 }
 
@@ -145,4 +145,27 @@ async function getWeeklyProgress(habitSelected) {
   console.log(resp2.habit[0].completed_days);
   let currentCompletedDays = resp2.habit[0].completed_days;
   return currentCompletedDays;
+}
+
+
+// REQUEST ALL USER DATA FOR DASHBOARD 
+async function allUserInfo(userEmail) {
+  try {
+    console.log(userEmail);
+    let email = localStorage.userEmail;
+    console.log(email);
+
+    const options = {
+      headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+    }
+    const response = await fetch(`http://localhost:3000/user/${email}/dashboard`, options);
+    const data = await response.json();
+
+    console.log(data);
+    console.log(data.body);
+    return data;
+  } catch (err) {
+    console.warn(err);
+  }
+
 }
