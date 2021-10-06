@@ -153,7 +153,28 @@ function renderRegisterForm() {
         console.log(data.error)
         if (data.error) {
             console.log(data.error.details[0].message)
+            let errorMessage = data.error.details[0].message
+            Toastify({
+                text: `${errorMessage}`,
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "left", // `left`, `center` or `right`
+                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                onClick: function () {}, // Callback after click
+              }).showToast();
         } else {
+            Toastify({
+                text: 'Registration successful! Choose some habits to get started.',
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "left", // `left`, `center` or `right`
+                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                onClick: function () {}, // Callback after click
+              }).showToast();
             renderAddHabits()
         }
     })
