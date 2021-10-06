@@ -392,6 +392,10 @@ async function displayDashboard() {
             habitElement.appendChild(habitTitle);
             habitElement.appendChild(freqP);
 
+            // PLUS ICON button to tick off week days 
+            let plusIcon = document.createElement('i');
+            plusIcon.setAttribute('class', 'fas fa-plus fa-5x');
+            habitElement.appendChild(plusIcon);
 
             //Progress Bars - To be Updated
             let bar = document.createElement('div');

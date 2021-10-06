@@ -110,7 +110,7 @@
 
 /* Progress Bars */
   #progressbar {
-    margin-top: 70%;
+    margin-top: 25%;
     background-color: black;
     border-radius: 13px;
     /* (height of inner div) / 2 + padding */
@@ -170,4 +170,9 @@
     border: none;
     background-color: #808000;
     color: #fff;
+  }
+
+  .fa-plus:hover{
+    color: orange;
+    cursor: pointer;
   }
