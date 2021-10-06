@@ -110,14 +110,6 @@ router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
     }
 })
 
-router.delete('/:email/choose_habits/:habitNum', authenticateToken, async (req, res) => {
-    try {
-        await User.deleteUserHabit(req.params.email, req.params.habitNum) // retrieve user habits
-    } catch (err) {
-        res.status(405).send('Unable to delete the habit')
-    }
-})
-
 router.get('/:email/dashboard', authenticateToken, async (req, res) => {
     try {
         const weekDataTotal = await User.findWeekDataTotal(req.params.email)
