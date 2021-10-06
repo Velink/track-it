@@ -101,7 +101,7 @@ router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
             console.log(result.error.details[0].message)
             return res.send(result.error.details[0])
         }
-        const updatedHabits = await User.updateHabitsForUser(req.body.email, req.body.habitName, req.body.frequency);
+        const updatedHabits = await User.updateHabitsForUser(req.body.email, req.body.newHabitsArr);
         console.log(req.body.email);
         console.log(req.body.habitName);
         res.status(200).send(updatedHabits)
