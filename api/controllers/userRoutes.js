@@ -7,7 +7,7 @@ const authenticateToken = require('../middleware/tokenAuth')
 
 // user index route
 
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/', authenticateToken,async (req, res) => {
     try {
         const users = await User.all
         res.json({ users })
@@ -37,7 +37,8 @@ router.post('/', authenticateToken, async (req, res) => {
 })
 
 // get all habits for specific user route 
-router.get('/:id/habits', authenticateToken, async (req, res) => {
+// ?? are we using this ??
+router.get('/:id/habits', authenticateToken,async (req, res) => {
     try {
         const habits = await User.habits(req.body.id);
         res.json(habits)
@@ -48,7 +49,8 @@ router.get('/:id/habits', authenticateToken, async (req, res) => {
 
 
 // add user habit router
-router.post('/:id/habits', authenticateToken, async (req, res) => {
+// ?? are we using this ??
+router.post('/:id/habits',authenticateToken,  async (req, res) => {
     try {
         // form will have action to this page with input names "name", "frequency"
         const habits = await User.habits(req.body.id, req.body.name, req.body.frequency);
@@ -59,7 +61,7 @@ router.post('/:id/habits', authenticateToken, async (req, res) => {
 })
 
 // update weekly count for habit
-router.post('/:id/habits', authenticateToken, async (req, res) => {
+router.post('/:id/habits', authenticateToken,async (req, res) => {
     try {
         const currentCount = await User.updateCount(req.params.id);
         res.send(currentCount)
@@ -99,7 +101,7 @@ router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
             console.log(result.error.details[0].message)
             return res.send(result.error.details[0])
         }
-        const updatedHabits = await User.updateHabitsForUser(req.body.email, req.body.habitName, req.body.frequency);
+        const updatedHabits = await User.updateHabitsForUser(req.body.email,req.body.newHabitsArr);
         console.log(req.body.email);
         console.log(req.body.habitName);
         res.status(200).send(updatedHabits)
@@ -108,15 +110,7 @@ router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
     }
 })
 
-router.delete('/:email/choose_habits/:habitNum', authenticateToken, async (req, res) => {
-    try {
-        await User.deleteUserHabit(req.params.email, req.params.habitNum) // retrieve user habits
-    } catch (err) {
-        res.status(405).send('Unable to delete the habit')
-    }
-})
-
-router.get('/:email/dashboard', authenticateToken, async (req, res) => {
+router.get('/:email/dashboard',authenticateToken, async (req, res) => {
     try {
         const weekDataTotal = await User.findWeekDataTotal(req.params.email)
         res.status(200).send(weekDataTotal)
@@ -125,7 +119,7 @@ router.get('/:email/dashboard', authenticateToken, async (req, res) => {
     }
 })
 
-router.get('/:email/:habit/', authenticateToken, async (req, res) => {
+router.get('/:email/:habit/' ,authenticateToken, async (req, res) => {
     try {
         const dataHabit = await User.findDataHabit(req.params.email, req.params.habit)
         res.status(200).send(dataHabit)
@@ -134,10 +128,25 @@ router.get('/:email/:habit/', authenticateToken, async (req, res) => {
     }
 })
 
-router.patch('/email/:habit/', authenticateToken, async (req, res) => {
+router.patch('/:email/:habit/update_dates', authenticateToken,async (req, res) => {
     try {
-        const newWeekDataHabit = await User.updateNewWeekDataHabit(req.params.email, req.params.habit)
-        res.status(200).send(newWeekDataHabit)
+      
+        const newDataHabit = await User.updateDataHabit(req.body.email, req.body.habit_name,req.body.completed_days)
+    
+        res.status(200).send(newDataHabit)
+
+    } catch (err) {
+        res.status(404).json({ err })
+    }
+})
+
+router.delete('/:email/:habit/delete', authenticateToken,async (req, res) => {
+    try {
+       
+        const dataAfterDeleting = await User.deleteHabit(req.body.email, req.body.habit_name)
+    
+        res.status(200).send(dataAfterDeleting)
+
     } catch (err) {
         res.status(404).json({ err })
     }

@@ -138,7 +138,7 @@ function renderRegisterForm() {
         const userData = { username: username, email: email, password: password, passwordcon: passwordcon }
 
 
-        window.location.hash = '#register';
+        
 
         const options = {
             method: 'POST',
@@ -148,8 +148,35 @@ function renderRegisterForm() {
             body: JSON.stringify(userData)
         }
 
-        await fetch('http://localhost:3000/register', options);
-        renderAddHabits()
+        const response = await fetch('http://localhost:3000/register', options);
+        const data = await response.json()
+        console.log(data.error)
+        if (data.error){
+            console.log(data.error.details[0].message)
+            let errorMessage = data.error.details[0].message
+            Toastify({
+                text: `${errorMessage}`,
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "left", // `left`, `center` or `right`
+                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                onClick: function () {}, // Callback after click
+              }).showToast();
+        } else {
+            Toastify({
+                text: 'Registration successful! Choose some habits to get started.',
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "left", // `left`, `center` or `right`
+                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                onClick: function () {}, // Callback after click
+              }).showToast();
+            renderAddHabits()
+        }
     })
 
 
@@ -402,10 +429,54 @@ async function displayDashboard() {
             plusIcon.addEventListener('click', (e) => {
                 renderWeeklyProgressForm(e);
             })
+
             async function renderWeeklyProgressForm(e) {
-                console.log(e);
-                console.log(e.target);
-                console.log(e.target.id);
+                let habitSelected = e.target.id.slice(5, e.target.id.length);
+                console.log(habitSelected);
+
+                //Render Weekly Progress Popup
+                let progressContainer = document.createElement('div');
+                progressContainer.setAttribute('class', 'progress-container')
+                let backButton = document.createElement('button');
+                backButton.textContent = 'Cancel';
+                main.appendChild(progressContainer);
+                console.log(progressContainer)
+
+                for (let i = 0; i < 7; i++) {
+                    let box = document.createElement('input');
+                    let boxLabel = document.createElement('label');
+                    box.setAttribute('type', 'checkbox');
+                    switch (i) {
+                        case 0:
+                            boxLabel.textContent = 'Mon'
+                            break;
+                        case 1:
+                            boxLabel.textContent = 'Tue'
+                            break;
+                        case 2:
+                            boxLabel.textContent = 'Wed'
+                            break;
+                        case 3:
+                            boxLabel.textContent = 'Thurs'
+                            break;
+                        case 4:
+                            boxLabel.textContent = 'Fri'
+                            break;
+                        case 5:
+                            boxLabel.textContent = 'Sat'
+                            break;
+                        case 6:
+                            boxLabel.textContent = 'Sun'
+                            break;
+                        default:
+                            break;
+                    }
+                    box.appendChild(boxLabel);
+                    progressContainer.appendChild(box);
+                    console.log('we here');
+                }
+
+                progressContainer.appendChild(backButton);
             }
 
             //Progress Bars - To be Updated
