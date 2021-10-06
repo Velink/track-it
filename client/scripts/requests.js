@@ -120,3 +120,26 @@ async function updateWeeklyProgress(daysArray, habitSelected) {
   const resp2 = await resp.json()
   console.log(resp2)
 }
+
+//REQUEST TO FETCH LIVE WEEKLY PROGRESS 
+async function getWeeklyProgress(habitSelected) {
+
+  let userEmail = localStorage.getItem("userEmail");
+  console.log(userEmail);
+
+  let habitData = { email: userEmail, habit_name: habitSelected }
+  console.log(habitData);
+
+  const options = {
+    method: 'GET',
+    headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
+    // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+  }
+  const resp = await fetch(`http://localhost:3000/user/${userEmail}/${habitSelected}`, options) // choose where to send it to
+  const resp2 = await resp.json()
+  console.log(resp2);
+  console.log(resp2.habit);
+  console.log(resp2.habit[0].completed_days);
+  let currentCompletedDays = resp2.habit[0].completed_days;
+  return currentCompletedDays;
+}

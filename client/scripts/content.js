@@ -434,6 +434,9 @@ async function displayDashboard() {
                 let habitSelected = e.target.id.slice(5, e.target.id.length);
                 console.log(habitSelected);
 
+                let weeklyProgress = await getWeeklyProgress(habitSelected);
+                console.log(weeklyProgress);
+
                 //Render Weekly Progress Popup
                 let progressContainer = document.createElement('div');
                 progressContainer.setAttribute('class', 'progress-container');
@@ -453,24 +456,45 @@ async function displayDashboard() {
                     box.setAttribute('class', 'check-box');
                     switch (i) {
                         case 0:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Mon'
                             break;
                         case 1:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Tue'
                             break;
                         case 2:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Wed'
                             break;
                         case 3:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Thurs'
                             break;
                         case 4:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Fri'
                             break;
                         case 5:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Sat'
                             break;
                         case 6:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Sun'
                             break;
                         default:
