@@ -138,6 +138,7 @@ function renderRegisterForm() {
         const userData = { username: username, email: email, password: password, passwordcon: passwordcon }
 
 
+        window.location.hash = '#register';
 
         const options = {
             method: 'POST',

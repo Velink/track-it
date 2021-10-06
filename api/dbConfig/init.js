@@ -10,7 +10,7 @@ const connectionUrl = process.env.CONNECTION_URL
 const init = async () => {
   let client = await MongoClient.connect(connectionUrl)
   console.log('connected to database!', dbName)
-  return client.db(dbName)
+  return client
 } // this should establish connection to cloud database 
 
 

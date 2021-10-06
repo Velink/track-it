@@ -1,7 +1,7 @@
 const { init } = require('../dbConfig/init')
 const { ObjectId } = require('mongodb')
 // const { currentWeekNumber } = require('current-week-number')
-
+const dbName = 'habitsaddicts'
 class User {
     constructor(data) {
         this.id = data.id
@@ -15,9 +15,10 @@ class User {
     static get all() {
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init()
-                const userData = await db.collection('users').find().toArray()
+                const client = await init() 
+                const userData = await client(dbName).collection('users').find().toArray()
                 //mongodb gives a guid to each new insertion _id even though not explicit in schema
+                client.close() //close db after each connection since only can have 500
                 const users = userData.map(u => new User({ ...u, id: u._id })) // create new user to access the methods e.g. delete etc.
                 resolve(users);
             } catch (err) {
@@ -31,10 +32,11 @@ class User {
     static findByEmail(email) {
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init();
+                const client = await init();
                 //_id is actually an object, ObjectId(id)
-                let userData = await db.collection('users').find({ email: { $eq: email } }).toArray();
+                let userData = await client.db(dbName).collection('users').find({ email: { $eq: email } }).toArray();
                 console.log(userData);
+                client.close()
                 // let user = new User({ ...userData[0], id: userData[0]._id });
                 // console.log(user);
                 let user = userData[0];
@@ -49,10 +51,11 @@ class User {
     static create(name, email, hash) {
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init();
-                let userData = await db.collection('users').insertOne({ username: name, email: email, hash: hash })
+                const client = await init();
+                let userData = await client.db(dbName).collection('users').insertOne({ username: name, email: email, hash: hash })
                 console.log(userData);
                 let newUser = new User(userData); // .rows
+                client.close()
                 resolve(newUser);
             } catch (err) {
                 reject('Error creating user');
@@ -63,8 +66,8 @@ class User {
     get habitsList() {
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init();
-                const user = await db.collections('users').find({ _id: ObjectId(this.id) }); //mongo stores id as object
+                const client = await init();
+                const user = await client.db(dbName).collections('users').find({ _id: ObjectId(this.id) }); //mongo stores id as object
                 const userHabits = user["habits"]; // user['habits'] should be stored in db as array we can push objects to
                 resolve(userHabits);
             } catch (err) {
@@ -77,8 +80,8 @@ class User {
     static createHabit(userId, name, frequency) {
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init();
-                const user = await db.collections('users').find({ _id: ObjectId(userId) });
+                const client = await init();
+                const user = await client.db(dbName).collections('users').find({ _id: ObjectId(userId) });
                 const userHabitsData = user["habits"];
                 userHabitsData.push({ name: name, frequency: frequency })
                 resolve(userHabitsData); //check if updates have been made
@@ -93,8 +96,8 @@ class User {
     static findHabitsForUser(email) {
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init();
-                const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
+                const client = await init();
+                const user = await client.db(dbName).collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
                 const userHabits = { email: "", habits: {} } // object for response
                 userHabits.email = user[0].email
                 userHabits.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency } })
@@ -105,6 +108,23 @@ class User {
         });
     };
 
+    static deleteUserHabit(email, habitNum){
+        return new Promise(async (resolve, reject) => {
+            try {
+                const client = await init();
+                const user = await client.db(dbName).collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
+                const userHabits = { email: "", habits: {} } // object for response
+                userHabits.email = user[0].email
+                userHabits.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency } })
+                userHabits.habits.pop(habitNum-1) // removes habit from habit
+                resolve(userHabits);
+            } catch (err) {
+                reject("Users habits could not be found");
+            };
+        });
+    };
+    
+
     // --- update list of habits with frequencies by user's email
     // TODO
     static updateHabitsForUser(email, habitName, frequency) {
@@ -113,10 +133,10 @@ class User {
         console.log('frequency is ' + frequency);
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init();
+                const client = await init();
                 // const userHabits // 
 
-                const existingHabitsData = await db.collection('users').findOneAndUpdate({ email: { $eq: email } }, {
+                const existingHabitsData = await client.db(dbName).collection('users').findOneAndUpdate({ email: { $eq: email } }, {
                     "$push": {
 
                         "habits":
@@ -131,6 +151,7 @@ class User {
                 },
                     { returnDocument: "after" }, { returnOriginal: false }
                 )
+                client.close()
                 // const found = existingHabitsData.some
                 console.log(existingHabitsData);
                 resolve(existingHabitsData);
@@ -147,20 +168,21 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
 
-                const db = await init();
-                const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
+                const client = await init();
+                const user = await client.db(dbName).collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
                 const userDataTotal = { email: "", habits: {} } // object for response
-
+                
                 userDataTotal.email = user[0].email
-
-
-
+                
+                
+                
                 userDataTotal.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency, count: a.completed_days.reduce((total, el) => { return total + el }, 0) } })
                 //userDataTotal.habits = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency, count: a.completed_days} })
-
-
-
-
+                
+                
+                
+                
+                client.close()
                 resolve(userDataTotal);
 
 
@@ -230,12 +252,12 @@ class User {
     static findDataHabit(email, habitName) {
         return new Promise(async (resolve, reject) => {
             try {
-                const db = await init();
-                const user = await db.collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
+                const client = await init();
+                const user = await client.db(dbName).collection('users').find(({ email: { $eq: email } })).toArray();//.project({ email: 1, habits: 1 })
                 const userDataHabit = { email: "", habit: {} } // object for response
                 userDataHabit.email = user[0].email
                 //userDataHabit.habit = user[0].habits.map((a) => { return { habit_name: a.habit_name, frq: a.frequency,count: a.completed_days.reduce((total, el) => {return total+el}, 0) } })
-
+                client.close()
                 const findHabitByName = (habits, name) => {
                     const result = habits.filter(a => {
                         return a['habit_name'] === name;
