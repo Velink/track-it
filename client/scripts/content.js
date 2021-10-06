@@ -317,68 +317,12 @@ async function displayDashboard() {
 
         let main = document.getElementById('main');
         //Create Dashboard Section
-        const header = document.getElementsByTagName('HEADER')[0];
-        header.innerHTML = '';
         const dashboard = document.createElement('section')
         dashboard.id = 'dashboard'
 
         //Obtain User Information 
         const userInfo = await allUserInfo()
         console.log(userInfo);
-
-        //Create Navbar
-
-        let navbar = document.createElement('nav');
-        navbar.setAttribute('id', 'nav-bar');
-        if (currentUser()) {
-            //Navbar Logo 
-            let logo = document.createElement('i');
-            logo.setAttribute('class', 'fas fa-check-circle fa-2x');
-
-            //Navbar Title
-            let titleNavbar = document.createElement('h1');
-            titleNavbar.textContent = 'trackIt.'
-
-            // Logout Navbar Button
-            let logOut = document.createElement('button');
-            logOut.textContent = 'Logout';
-            logOut.addEventListener('click', logout);
-
-            // Habits Navbar Button
-            let dashboardHabit = document.createElement('button');
-            dashboardHabit.textContent = 'Add Habit';
-            dashboardHabit.addEventListener('click', () => {
-                renderNewHabits();
-            });
-
-            // Profile Navbar Button
-            let profile = document.createElement('button');
-            profile.textContent = 'Profile';
-            navbar.appendChild(titleNavbar);
-            navbar.appendChild(profile);
-            navbar.appendChild(dashboardHabit);
-            navbar.appendChild(logOut);
-            navbar.appendChild(logo);
-        }
-
-
-        // CREATE USER HABITS SECTION 
-
-        // const userHabits = userInfo.habits 
-        // const renderHabit = habit => {
-        //     const habitDetails = document.createElement('div'); 
-        //     habitDetails.className = 'habit' 
-        //     const habitName = document.createElement('p');
-        //     const habitFrequency = document.createElement('p')
-        //     habitName.textContent = habit.habitName; 
-        //     habitFrequency.textContent = habit.habitFrequency; 
-        //     habitDetails.appendChild(habitName);
-        //     habitDetails.appendChild(habitFrequency);
-        //     dashboard.appendChild(habitDetails);
-        // }
-        // userHabits.forEach(habit => renderHabit(habit))
-        // body.appendChild(dashboard); 
-        header.appendChild(navbar);
 
         //USER HABITS SECTION
 
@@ -625,6 +569,47 @@ async function renderNewHabits() {
         addHabitForm.remove();
     })
 
+}
+
+// RENDER PRIVATE NAVBAR
+function renderPrivateNav() {
+    const header = document.getElementsByTagName('HEADER')[0];
+    header.innerHTML = '';
+    //Create Navbar
+
+    let navbar = document.createElement('nav');
+    navbar.setAttribute('id', 'nav-bar');
+    if (currentUser()) {
+        //Navbar Logo 
+        let logo = document.createElement('i');
+        logo.setAttribute('class', 'fas fa-check-circle fa-2x');
+
+        //Navbar Title
+        let titleNavbar = document.createElement('h1');
+        titleNavbar.textContent = 'trackIt.'
+
+        // Logout Navbar Button
+        let logOut = document.createElement('button');
+        logOut.textContent = 'Logout';
+        logOut.addEventListener('click', logout);
+
+        // Habits Navbar Button
+        let dashboardHabit = document.createElement('button');
+        dashboardHabit.textContent = 'Add Habit';
+        dashboardHabit.addEventListener('click', () => {
+            renderNewHabits();
+        });
+
+        // Profile Navbar Button
+        let profile = document.createElement('button');
+        profile.textContent = 'Profile';
+        navbar.appendChild(titleNavbar);
+        navbar.appendChild(profile);
+        navbar.appendChild(dashboardHabit);
+        navbar.appendChild(logOut);
+        navbar.appendChild(logo);
+    }
+    header.appendChild(navbar);
 }
 
 // RENDER PUBLIC NAVBAR 
