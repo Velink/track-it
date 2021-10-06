@@ -88,22 +88,22 @@ router.get('/:email/choose_habits', authenticateToken, async (req, res) => {
 // updateHabitsForUser
 router.patch('/:email/choose_habits', authenticateToken, async (req, res) => {
     try {
-        const data2 = {
-            "habitName": req.body.habitName,
-            "frequency": req.body.frequency
-        }
-        const schema = joi.object({
-            habitName: joi.string().min(2).max(200).required(),
-            frequency: joi.number().integer().required()
-        })
-        const result = schema.validate(data2)
-        if (result.error) {
-            console.log(result.error.details[0].message)
-            return res.send(result.error.details[0])
-        }
+        // const data2 = {
+        //     "habitName": req.body.habitName,
+        //     "frequency": req.body.frequency
+        // }
+        // const schema = joi.object({
+        //     habitName: joi.string().min(2).max(200).required(),
+        //     frequency: joi.number().integer().required()
+        // })
+        // const result = schema.validate(data2)
+        // if (result.error) {
+        //     console.log(result.error.details[0].message)
+        //     return res.send(result.error.details[0])
+        // }
         const updatedHabits = await User.updateHabitsForUser(req.body.email,req.body.newHabitsArr);
-        console.log(req.body.email);
-        console.log(req.body.habitName);
+        // console.log(req.body.email);
+        // console.log(req.body.habitName);
         res.status(200).send(updatedHabits)
     } catch (err) {
         res.status(404).json({ err })
