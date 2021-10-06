@@ -20,7 +20,7 @@ async function submitHabits(e) {
     let newFreq = frequencySelectors[i].options.selectedIndex
     sendingObject.newHabitsArr[i].frequency = newFreq
   }
-  console.log(sendingObject) // returns an array of format = [{habit: <habitname>, frequency: <frequency>}]
+  console.log(sendingObject) // returns an array of format = {email:userEmail, newHabitsArr : [{habitName: <habitname>, frequency: <frequency>}]
 
   //   get email first and then add that to the habitsdata
 
@@ -71,7 +71,7 @@ async function addHabitRequest(habit, frequency) {
   let userEmail = localStorage.getItem("userEmail");
   console.log(userEmail);
 
-  let habitData = { email: userEmail, habitName: habit, frequency: frequency }
+  let habitData = { email: userEmail, newHabitsArr : [{habitName: habit, frequency: frequency}] }
 
   const options = {
     method: 'PATCH',
@@ -79,27 +79,27 @@ async function addHabitRequest(habit, frequency) {
     body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
   }
   const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
-  const resp2 = await resp.json()
-  console.log(resp2)
+//   const resp2 = await resp.json()
+//   console.log(resp2)
 
 }
 
 // REQUEST TO DELETE A USER HABIT
-async function deleteHabitRequest() {
+async function deleteHabitRequest(e) {
+    let habitToDelete = e.target.id
 
   let userEmail = localStorage.getItem("userEmail");
-  console.log(userEmail);
 
-  let habitData = { email: userEmail, habitName: habit }
-
+  let habitData = { email: userEmail, habit_name: habitToDelete }
+///:email/:habit/delete
   const options = {
     method: 'DELETE',
     headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
     body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
   }
-  const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
-  const resp2 = await resp.json()
-  console.log(resp2)
+  const resp = await fetch(`http://localhost:3000/user/${userEmail}/${habitToDelete}/delete`, options) // choose where to send it to
+//   const resp2 = await resp.json()
+//   console.log(resp2)
 }
 
 

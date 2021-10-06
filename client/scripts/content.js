@@ -566,16 +566,17 @@ async function displayDashboard() {
             delButton.setAttribute('class', 'del-button');
             delButton.textContent = 'Delete';
             delButton.setAttribute('id', `del-${userHabits[i].habit_name}`)
-            delButton.addEventListener('click', deleteHabitRequest);
+            // delButton.addEventListener('click', deleteHabitRequest);
             habitElement.appendChild(delButton);
             delButton.addEventListener('click', (e) => {
-                deleteHabit(e);
+                deleteHabitRequest(e);
+                const del = document.getElementById(`${e.target.id}`)
+                // console.log(del.parentElement)
+                del.parentElement.remove()
             })
-            async function deleteHabit(e) {
-                console.log(e);
-                console.log(e.target);
-                console.log(e.target.id);
-            }
+            // async function deleteHabit(e) {
+            //     console.log(e.target.id);
+            // }
 
             //Break Flex
             // if (i % 3 == 0) {
