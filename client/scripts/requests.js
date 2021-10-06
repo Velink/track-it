@@ -101,21 +101,22 @@ async function deleteHabitRequest() {
 
 
 // REQUEST UPDATE WEEKLY PROGRESS FOR A HABIT 
-async function updateWeeklyProgress(daysArray) {
+async function updateWeeklyProgress(daysArray, habitSelected) {
 
   console.log(daysArray);
 
-  // let userEmail = localStorage.getItem("userEmail");
-  // console.log(userEmail);
+  let userEmail = localStorage.getItem("userEmail");
+  console.log(userEmail);
 
-  // let habitData = { email: userEmail, habitName: habit, frequency: frequency }
+  let habitData = { email: userEmail, habit_name: habitSelected, completed_days: daysArray }
+  console.log(habitData);
 
-  // const options = {
-  //   method: 'PATCH',
-  //   headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
-  //   body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
-  // }
-  // const resp = await fetch(`http://localhost:3000/user/${userEmail}/choose_habits`, options) // choose where to send it to
-  // const resp2 = await resp.json()
-  // console.log(resp2)
+  const options = {
+    method: 'PATCH',
+    headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
+    body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
+  }
+  const resp = await fetch(`http://localhost:3000/user/${userEmail}/${habitSelected}/update_dates`, options) // choose where to send it to
+  const resp2 = await resp.json()
+  console.log(resp2)
 }

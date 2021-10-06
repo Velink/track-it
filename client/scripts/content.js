@@ -444,14 +444,13 @@ async function displayDashboard() {
                 progressTitle.setAttribute('class', 'progress-container-title')
                 progressContainer.insertAdjacentElement('afterbegin', progressTitle);
 
-                main.insertAdjacentElement('beforebegin', progressContainer);
-
                 let checkboxContainer = document.createElement('div');
                 checkboxContainer.setAttribute('class', 'checkbox-container');
                 for (let i = 0; i < 7; i++) {
                     let box = document.createElement('input');
                     let boxLabel = document.createElement('label');
                     box.setAttribute('type', 'checkbox');
+                    box.setAttribute('class', 'check-box');
                     switch (i) {
                         case 0:
                             boxLabel.textContent = 'Mon'
@@ -479,7 +478,6 @@ async function displayDashboard() {
                     }
                     boxLabel.appendChild(box);
                     checkboxContainer.appendChild(boxLabel);
-                    console.log('we here');
                 }
 
                 //Ok Progress Popup Button
@@ -487,8 +485,18 @@ async function displayDashboard() {
                 okButton.textContent = 'Submit';
                 okButton.setAttribute('class', 'cancel-progress-container');
                 okButton.addEventListener('click', () => {
+                    //Setting Up Completed Days Aray
+                    let checkBoxTicks = document.getElementsByClassName('check-box');
+                    let completedDaysArray = [0, 0, 0, 0, 0, 0, 0];
+                    for (let i = 0; i < checkBoxTicks.length; i++) {
+                        if (checkBoxTicks[i].checked == true) {
+                            console.log(checkBoxTicks[0]);
+                            completedDaysArray[i] = 1;
+                        }
+                    }
+                    console.log(completedDaysArray);
                     progressContainer.remove();
-                    updateWeeklyProgress(daysArray);
+                    updateWeeklyProgress(completedDaysArray, habitSelected);
                 })
 
                 //Cancel Progress Popup Button
@@ -507,6 +515,9 @@ async function displayDashboard() {
 
                 progressContainer.appendChild(checkboxContainer);
                 progressContainer.appendChild(buttonContainer);
+
+                main.insertAdjacentElement('beforebegin', progressContainer);
+
             }
 
             //Progress Bars - To be Updated
