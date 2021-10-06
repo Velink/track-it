@@ -86,4 +86,6 @@ async function addHabitRequest(habit, frequency) {
 // REQUEST TO DELETE A USER HABIT
 async function deleteHabitRequest() {
 
+    
+
 }
