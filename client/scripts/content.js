@@ -402,9 +402,20 @@ async function displayDashboard() {
                 renderWeeklyProgressForm(e);
             })
             async function renderWeeklyProgressForm(e) {
-                console.log(e);
-                console.log(e.target);
-                console.log(e.target.id);
+                let habitSelected = e.target.id.slice(5, e.target.id.length);
+                console.log(habitSelected);
+
+                //Render Weekly Progress Popup
+                let progressContainer = document.createElement('div');
+                let backButton = document.createElement('button');
+                backButton.textContent = 'Cancel';
+
+                for (let i = 0; i < 7; i++) {
+                    let box
+
+                }
+
+                progressContainer.appendChild(backButton);
             }
 
             //Progress Bars - To be Updated
