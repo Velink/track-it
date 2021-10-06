@@ -42,16 +42,19 @@ async function requestLogin(e) {
 async function getUserInfo(userEmail) {
     try {
         console.log(userEmail);
+        let email = localStorage.userEmail;
+        console.log(email);
         const options = {
             headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
         }
-        const response = await fetch(`http://localhost:3000/user/`, options);
+        const response = await fetch(`http://localhost:3000/user/${email}/choose_habits`, options);
         const data = await response.json();
         if (data.err) {
             console.warn(data.err);
             logout();
         }
         console.log(data);
+        console.log(data.body);
         return data;
     } catch (err) {
         console.warn(err);

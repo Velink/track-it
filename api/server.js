@@ -5,6 +5,7 @@ const cors = require('cors');
 const User = require('./models/user');
 const authenticateToken = require('./middleware/tokenAuth');
 const path = require('path');
+const joi = require('joi')
 
 require('dotenv').config();
 
@@ -73,17 +74,32 @@ server.get('/user', async (req, res) => { // after running authenticateToken, re
 // registration route
 server.post('/register', async (req, res) => {
     try {
-        console.log(req.body)
-        console.log(req.body.username)
+        const data = req.body;
+
+        const schema = joi.object({
+            username: joi.string().min(8).required(),
+            email: joi.string().email().required(),
+            password: joi.string().min(7).required(),
+            passwordcon: joi.string().valid(joi.ref('password')).required()
+        })
+
+        const result = schema.validate(data)
+        console.log(result)
+        if (result.error) {
+            // console.log(result.error.details[0].message)
+            return res.send(result)
+        }
+        // console.log(req.body)
+        // console.log(req.body.username)
         const salt = await bcrypt.genSalt();
         const hashed = await bcrypt.hash(req.body.password, salt);
         const username = req.body.username;
         const email = req.body.email;
-        console.log(hashed)
+        // console.log(hashed)
         // const habits = req.body.habits;
-        const user = await User.create(username, email, hashed); 
-        console.log(user)
-        res.status(201).json({ user });
+        const user = await User.create(username, email, hashed);
+        // console.log(user)
+        return res.status(201).json({ user });
     } catch (err) {
         res.status(500).json({ err });
     }

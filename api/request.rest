@@ -10,3 +10,5 @@ Content-Type: application/json
     "hash": "password"
 }
 
+### 
+GET http://localhost:3000/user/13423/choose_habits

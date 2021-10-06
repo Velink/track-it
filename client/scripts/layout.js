@@ -19,6 +19,9 @@ function updateBody(path) {
             case '#dashboard':
                 displayDashboard();
                 break;
+            // case '#addhabits':
+            //     renderAddHabits();
+            //     break;
         }
     } else {
         renderLoginForm();
