@@ -31,7 +31,7 @@ function renderLoginForm() {
     // Intro Title Created
     const introTitle = document.createElement('h1');
     introTitle.setAttribute('class', 'intro-title');
-    introTitle.textContent = 'Rendered trackIt. Login';
+    introTitle.textContent = 'Login';
     header.appendChild(introTitle);
 
     // Form Created
@@ -86,11 +86,11 @@ function renderRegisterForm() {
     main.innerHTML = '';
     window.location.hash = '#register'
     const fields = [
-        { tag: 'input', attributes: { type: 'text', id: 'username', name: 'username', placeholder: 'Username' } },
-        { tag: 'input', attributes: { type: 'text', id: "email", name: 'email', placeholder: 'Email', } },
-        { tag: 'input', attributes: { type: 'password', id: 'password', name: 'password', placeholder: 'Password' } },
-        { tag: 'input', attributes: { type: 'password', id: 'passwordcon', name: 'passwordcon', placeholder: 'Confirm Password' } },
-        { tag: 'button', attributes: { type: 'button', value: 'Create Account', id: 'submitButton' } }
+        { tag: 'input', attributes: { type: 'text', id: 'username', name: 'username', placeholder: 'Username', class: 'reg-username' } },
+        { tag: 'input', attributes: { type: 'text', id: "email", name: 'email', placeholder: 'Email', class: 'reg-email' } },
+        { tag: 'input', attributes: { type: 'password', id: 'password', name: 'password', placeholder: 'Password', class: 'reg-password' } },
+        { tag: 'input', attributes: { type: 'password', id: 'passwordcon', name: 'passwordcon', placeholder: 'Confirm Password', class: 'reg-password' } },
+        { tag: 'button', attributes: { type: 'button', value: 'Create Account', id: 'submitButton', class: 'reg-button' } }
     ]
 
     const outerDiv = document.createElement('div')
@@ -101,7 +101,7 @@ function renderRegisterForm() {
     // create form and attributes
     const form = document.createElement('form')
 
-    const formAttributes = { id: "register_form", class: "w-50 mx-auto" }
+    const formAttributes = { id: "register_form", class: "register-form" }
     Object.entries(formAttributes).forEach(([a, v]) => form.setAttribute(a, v));
 
     // add a label for register
@@ -127,6 +127,7 @@ function renderRegisterForm() {
     main.appendChild(outerDiv);
 
     let submitButton = document.getElementById('submitButton');
+    submitButton.textContent = 'Create Account';
 
     submitButton.addEventListener('click', async (e) => {
         let email = document.getElementById('email').value
@@ -330,6 +331,14 @@ async function displayDashboard() {
         let navbar = document.createElement('nav');
         navbar.setAttribute('id', 'nav-bar');
         if (currentUser()) {
+            //Navbar Logo 
+            let logo = document.createElement('i');
+            logo.setAttribute('class', 'fas fa-check-circle fa-2x');
+
+            //Navbar Title
+            let titleNavbar = document.createElement('h1');
+            titleNavbar.textContent = 'trackIt.'
+
             // Logout Navbar Button
             let logOut = document.createElement('button');
             logOut.textContent = 'Logout';
@@ -339,55 +348,17 @@ async function displayDashboard() {
             let dashboardHabit = document.createElement('button');
             dashboardHabit.textContent = 'Add Habit';
             dashboardHabit.addEventListener('click', () => {
-
-                // Create Form Habit Popup for submitting a new habit
-                let addHabitForm = document.createElement('form');
-                addHabitForm.setAttribute('class', 'add-habit-form');
-                let habitNameLabel = document.createElement('label');
-                habitNameLabel.textContent = 'Enter habit';
-                let habitNameField = document.createElement('input');
-                let habitFreqLabel = document.createElement('label');
-                habitFreqLabel.textContent = 'Enter frequency';
-                let habitFreqField = document.createElement('input');
-
-                //Submit Habit Button
-                let submitHabitButton = document.createElement('input');
-                submitHabitButton.setAttribute('type', 'button');
-                submitHabitButton.setAttribute('value', 'Add Habit');
-                submitHabitButton.setAttribute('class', 'submit-add-habit');
-                submitHabitButton.addEventListener('click', () => {
-                    const newHabitName = habitNameField.value;
-                    const newHabitFrequency = habitFreqField.value;
-                    addHabitRequest(newHabitName, newHabitFrequency);
-                    addHabitForm.innerHTML = '';
-                })
-
-                //Cancel Add Habit Button
-                let cancelHabitButton = document.createElement('input');
-                cancelHabitButton.setAttribute('type', 'button');
-                cancelHabitButton.setAttribute('value', 'Cancel');
-                cancelHabitButton.setAttribute('class', 'cancel-add-habit');
-                cancelHabitButton.addEventListener('click', () => {
-                    addHabitForm.remove();
-                })
-
-                //Append elements to main
-                addHabitForm.appendChild(habitNameLabel);
-                addHabitForm.appendChild(habitNameField);
-                addHabitForm.appendChild(habitFreqLabel);
-                addHabitForm.appendChild(habitFreqField);
-                addHabitForm.appendChild(submitHabitButton);
-                addHabitForm.appendChild(cancelHabitButton);
-
-                main.insertAdjacentElement('afterbegin', addHabitForm);
+                renderNewHabits();
             });
 
             // Profile Navbar Button
             let profile = document.createElement('button');
             profile.textContent = 'Profile';
+            navbar.appendChild(titleNavbar);
             navbar.appendChild(profile);
             navbar.appendChild(dashboardHabit);
             navbar.appendChild(logOut);
+            navbar.appendChild(logo);
         }
 
 
@@ -417,7 +388,7 @@ async function displayDashboard() {
         for (let i = 0; i < userHabits.length; i++) {
             const habitElement = document.createElement('div');
             const freqP = document.createElement('p');
-            const habitTitle = document.createElement('h1');
+            const habitTitle = document.createElement('h2');
             habitTitle.setAttribute('class', 'habit-title');
             freqP.setAttribute('class', 'frequency');
             habitElement.setAttribute("class", "habit-card");
@@ -605,6 +576,57 @@ async function displayDashboard() {
 }
 
 
+//CREATE NEW HABIT AND UPDATE DOM
+async function renderNewHabits() {
+    // Create Form Habit Popup for submitting a new habit
+    let addHabitForm = document.createElement('form');
+    addHabitForm.setAttribute('class', 'add-habit-form');
+    let habitNameLabel = document.createElement('label');
+    habitNameLabel.textContent = 'Enter habit';
+    let habitNameField = document.createElement('input');
+    let habitFreqLabel = document.createElement('label');
+    habitFreqLabel.textContent = 'Enter frequency';
+    let habitFreqField = document.createElement('input');
+
+    //Submit Habit Button
+    let submitHabitButton = document.createElement('input');
+    submitHabitButton.setAttribute('type', 'button');
+    submitHabitButton.setAttribute('value', 'Add Habit');
+    submitHabitButton.setAttribute('class', 'submit-add-habit');  // HERES
+
+    //Cancel Add Habit Button
+    let cancelHabitButton = document.createElement('input');
+    cancelHabitButton.setAttribute('type', 'button');
+    cancelHabitButton.setAttribute('value', 'Cancel');
+    cancelHabitButton.setAttribute('class', 'cancel-add-habit');
+
+    //Append elements to main
+    addHabitForm.appendChild(habitNameLabel);
+    addHabitForm.appendChild(habitNameField);
+    addHabitForm.appendChild(habitFreqLabel);
+    addHabitForm.appendChild(habitFreqField);
+    addHabitForm.appendChild(submitHabitButton);
+    addHabitForm.appendChild(cancelHabitButton);
+
+    //FORM INSERTED TO MAIN
+    main.insertAdjacentElement('afterbegin', addHabitForm);
+
+    //EVENT LISTENERS
+    submitHabitButton.addEventListener('click', async () => {
+        const newHabitName = habitNameField.value;
+        const newHabitFrequency = habitFreqField.value;
+        await addHabitRequest(newHabitName, newHabitFrequency);
+        main.innerHTML = '';
+        displayDashboard();
+        addHabitForm.innerHTML = '';
+    })
+
+    cancelHabitButton.addEventListener('click', () => {
+        addHabitForm.remove();
+    })
+
+}
+
 // RENDER PUBLIC NAVBAR 
 function renderPublicNav() {
     let header = document.getElementsByTagName('HEADER')[0];
@@ -612,6 +634,15 @@ function renderPublicNav() {
 
     let navbar = document.createElement('nav');
     navbar.setAttribute('id', 'nav-bar');
+
+    //Navbar img
+    let navImg = document.createElement('img');
+    navImg.setAttribute('src', '../assets/output-onlinepngtools.png');
+    navImg.setAttribute('width', '50px');
+
+    //Navbar Title
+    let titleNavbar = document.createElement('h1');
+    titleNavbar.textContent = 'trackIt.'
 
     // Logout Navbar Button
     let logIn = document.createElement('button');
@@ -626,9 +657,15 @@ function renderPublicNav() {
 
     // Profile Navbar Button
     let home = document.createElement('button');
-    home.textContent = 'Home';
+    let homeLink = document.createElement('a');
+    homeLink.setAttribute('href', './');
+    homeLink.setAttribute('class', 'home-link');
+    homeLink.textContent = 'Home';
+    home.appendChild(homeLink);
+    navbar.appendChild(titleNavbar);
+    navbar.appendChild(home);
     navbar.appendChild(logIn);
     navbar.appendChild(register);
-    navbar.appendChild(home);
+    navbar.appendChild(navImg);
     header.appendChild(navbar);
 }

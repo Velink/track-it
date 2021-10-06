@@ -10,17 +10,27 @@
     font-family: 'Roboto', cursive;
     width: 100%;
     height: 70px;
-    background-color: #424242;
+    background-color: #fc5200;
     color:#fff;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+}
+
+.home-link{
+    color: #fff;
+    text-decoration: none;
+}
+
+.home-link:hover{
+    color: #424242;
 }
 
 
 .login-form{
     font-family: 'Roboto', cursive;
-    width: 30%;
+    width: 40%;
+    min-width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,11 +56,11 @@
     padding: 10px;
     background-color: black;
     color: #fff;
+    margin-top: 30px;
 }
 
 #login-button:hover{
     cursor: pointer;
-    background-color: #424242;
 }
 
 /* Home Page */
@@ -60,17 +70,23 @@
     justify-content: center;
 }
 
-#home-body button{
+nav button{
     width: auto;
     padding: 10px;
     border: none;
-    background-color: #424242;
+    background-color: #fc5200;
     color: #fff;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+nav i {
+    margin-right: 5%;
 }
 
 #home-body button:hover{
-    background-color: #424242;
     cursor: pointer;
+    color: #424242;
 }
 
 
@@ -95,8 +111,8 @@
     margin: 30px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     text-align: center;
-    background-color: #424242;
-    color: #fff;
+    background-color: #fff;
+    color: #000000;
     height: 350px;
     width: 240px;
     border-radius: 25px;
@@ -110,8 +126,10 @@
 
 /* Progress Bars */
   #progressbar {
-    margin-top: 25%;
-    background-color: black;
+    border: 2px solid #000000;
+    margin-top: 20%;
+    margin-bottom: 5%;
+    background-color: white;
     border-radius: 13px;
     /* (height of inner div) / 2 + padding */
     padding: 3px;
@@ -132,45 +150,59 @@
   }
 
   .del-button{
-      width: 100%;
-      border: 1px solid #000000;
+      width: 30%;
+      color: #000000;
+      background-color: #fff;
       cursor: pointer;
+      border: none;
+      margin-top: 10px;
+  }
+
+  .fa-trash-alt{
+      color: #fc5200;
   }
 
   /* Add Habit Form */
   .add-habit-form{
       position: fixed;
-      top: 30%;
-      left: 35%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
 
       border-radius: 25px;
-      width: 400px;
       display: flex;
       flex-direction: column;
-      background-color:	#686868;
+      background-color:	white;
       text-align: center;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      box-shadow: #fc5200 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      padding: 3% 2%;
   }
 
   .add-habit-form label{
       font-size: 22px;
-      color: #fff;
+      color: black;
   }
 
   .add-habit-form label, input{
       padding: 5px;
+      margin: 10px 10px;
   }
 
   .submit-add-habit{
       border: none;
-      background-color: #000000;
+      background-color: #fc5200;
       color: #fff;
   }
 
   .cancel-add-habit{
     border: none;
-    background-color: #808000;
+    background-color: black;
     color: #fff;
+  }
+
+  .fa-plus{
+      color: #fc5200;
   }
 
   .fa-plus:hover{
@@ -181,19 +213,20 @@
 
   /* PROGRESS CONTAINER */
   .progress-container{
+      font-family: 'Roboto', cursive;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background-color: #686868;
-      border-radius: 25px;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      background-color: #fff;
+      box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
       width: 700px;
       height: 500px;
-      color: #fff;
+      color: black;
 
       position: fixed;
-      top: 30%;
-      left: 25%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
   }
 
   .checkbox-container{
@@ -204,9 +237,27 @@
       margin-bottom: 100px;
   }
 
+  .checkbox-container label{
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      font-size: 22px;
+  }
+
+  .checkbox-container label input{
+      margin: 0 auto;
+      height: 25px;
+      width: 25px;
+      border: 1px black solid;
+  }
+
   .cancel-progress-container{
       width: 10%;
       margin: 0 auto;
+      border: none;
+      background-color: #fc5200;
+      color: #fff;
+      padding: 12px 8px;
   }
 
   .progress-container-title{
@@ -217,4 +268,38 @@
   .button-container{
       display: flex;
       justify-content: space-around;
+  }
+
+  /* STYLING REGISTRATION FORM */
+  .register-form{
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+      min-width: 300px;
+      margin: 0 auto;
+  }
+
+  .register-form div{
+      display: flex;
+      flex-direction: column;
+  }
+
+  .form-label{
+      text-align: center;
+      margin-top: 15%;
+      margin-bottom: 10%;
+  }
+
+  .register-form input, label{
+      margin: 12px 0px;
+  }
+
+  .reg-button{
+      height: 50px;
+      border: none;
+      background-color: black;
+      color: #fff;
+      margin-top: 20px;
+      padding: 12px 0px;
+      text-align: center;
   }
