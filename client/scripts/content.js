@@ -4,8 +4,8 @@ loginPageButton.addEventListener('click', renderLoginForm);
 const registerPageButton = document.getElementById('render-register');
 registerPageButton.addEventListener('click', renderRegisterForm);
 
-setInterval(addQuote, 3000);
-setInterval(clearQuote, 3000);
+setInterval(addQuote, 5000);
+setInterval(clearQuote, 5000);
 
 async function addQuote() {
     let quoteContainer = document.getElementById('quote-container');
