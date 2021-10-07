@@ -10,13 +10,13 @@ let quoteContainer = document.getElementById('quote-container');
 // function renderQuotes() {
 if (document.getElementById('on-home-page')) {
     console.log('passes')
-    setInterval(addQuote, 5000);
-    setInterval(clearQuote, 5000);
+    setInterval(addQuote, 4000);
+    setInterval(clearQuote, 4000);
 
     async function addQuote() {
         let quoteContainer = document.getElementById('quote-container');
         let quotes = await generateQuotes();
-        const rndInt = Math.floor(Math.random() * 10) + 1;
+        const rndInt = Math.floor(Math.random() * 7) + 1;
         let quote = quotes[rndInt];
         let quoteElement = document.createElement('p');
         let authorElement = document.createElement('h4');
