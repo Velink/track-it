@@ -27,11 +27,12 @@ describe('integration tests', () => {
     });
     beforeEach(async () => {
         // connect to the test DB 
-        console.log("before each")
+       // console.log("before each")
         const testclient = await initTest();
-        console.log("after init")
+       
+       // console.log("after init")
         // reset test tb
-        await testclient.db(dbTestName).collection('users').deleteMany({})
+      await testclient.db(dbTestName).collection('users').deleteMany({})
 // insert one test user
         await testclient.db(dbTestName).collection('users').insertMany([
           {username: 'test1234',
@@ -142,7 +143,7 @@ console.log("my token", mytoken)
         */
  
     })
-
+/*
     it('should return a list of habits with frequencies ', async () => {
         //  add token to req??
         
@@ -195,17 +196,17 @@ console.log("my token", mytoken)
                 });
 
             }); 
-            
+            */
             it('should return a list of habits with frequencies for authorised user ', async () => {
-                
-                await request(api)
-                .post('/register')
-                .send({
-                    email: 'max@max.com',
-                    username: 'super_max',
-                    password: 'password123',
-                    passwordcon: 'password123'
-                }).set('Content-Type', 'application/json')
+                console.log("api " ,api)
+              //  await request(api)                 // !!! registeringcd .. in real DB
+              //  .post('/register')
+              //  .send({
+              //      email: 'max@max.com',
+              //      username: 'super_max',
+              //      password: 'password123',
+               //     passwordcon: 'password123'
+               // }).set('Content-Type', 'application/json')
 
               //login  
                 let loginRes = await request(api)
@@ -215,51 +216,21 @@ console.log("my token", mytoken)
                 password: 'password123'
             })
             .set('Content-Type', 'application/json')
-            const token = loginRes.body.token.split(' ')[1];
-            //console.log('res', res.body)
-           //console.log('token', token)
+             mytoken = loginRes.body.token;
+            console.log('res', loginRes.body)
+           console.log('token', mytoken)
 
             // request data
             let chooseHabitsRes = await request(api)
             .get('/user/max@max.com/choose_habits')
             .set('Content-Type', 'application/json')
-            .set('auth-token', token)
-        expect(chooseHabitsRes.statusCode).toEqual(201)
+            .set('Authorization', mytoken)
 
+            console.log('mytoken', mytoken)
+        expect(chooseHabitsRes.statusCode).toEqual(200)
             });
 
  
-            it('should return a dashboard data  for authorised user ', async () => {
-                
-                await request(api)
-                .post('/register')
-                .send({
-                    email: 'max@max.com',
-                    username: 'super_max',
-                    password: 'password123',
-                    passwordcon: 'password123'
-                }).set('Content-Type', 'application/json')
-
-              //login  
-                let loginRes = await request(api)
-            .post('/login')
-            .send({
-                email: 'max@max.com',
-                password: 'password123'
-            })
-            .set('Content-Type', 'application/json')
-            const token = loginRes.body.token;
-            //console.log('res', res.body)
-           //console.log('token', token)
-
-            // request data
-            let chooseHabitsRes = await request(api)
-            .get('/user/max@max.com/dashboard')
-            .set('Content-Type', 'application/json')
-            .set('Authorization', token)
-        expect(chooseHabitsRes.statusCode).toEqual(200)
-
-            });
             
 
 

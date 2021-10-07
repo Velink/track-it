@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb')
 const connectionUrl = process.env.CONNECTION_URL_TEST
 
 const initTest = async () => {
-  console.log("starting init")
+ // console.log("starting init")
 
   let client = await MongoClient.connect(connectionUrl)
 
