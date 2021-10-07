@@ -198,7 +198,7 @@ async function addHabitRequest(habit, frequency) {
   let userEmail = localStorage.getItem("userEmail");
 //   console.log(userEmail);
 
-  let habitData = { email: userEmail, newHabitsArr : [{habitName: habit, frequency: frequency}] }
+  let habitData = { email: userEmail, newHabitsArr: [{ habitName: habit, frequency: frequency }] }
 
   const options = {
     method: 'PATCH',
@@ -206,27 +206,27 @@ async function addHabitRequest(habit, frequency) {
     body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
   }
   const resp = await fetch(`https://trackitmathusan.herokuapp.com/user/${userEmail}/choose_habits`, options) // choose where to send it to
-//   const resp2 = await resp.json()
-//   console.log(resp2)
+  //   const resp2 = await resp.json()
+  //   console.log(resp2)
 
 }
 
 // REQUEST TO DELETE A USER HABIT
 async function deleteHabitRequest(e) {
-    let habitToDelete = e.target.id
+  let habitToDelete = e.target.id
 
   let userEmail = localStorage.getItem("userEmail");
 
   let habitData = { email: userEmail, habit_name: habitToDelete }
-///:email/:habit/delete
+  ///:email/:habit/delete
   const options = {
     method: 'DELETE',
     headers: { 'Authorization': localStorage.getItem('token'), "Content-Type": "application/json" },
     body: JSON.stringify(habitData) // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
   }
   const resp = await fetch(`https://trackitmathusan.herokuapp.com/user/${userEmail}/${habitToDelete}/delete`, options) // choose where to send it to
-//   const resp2 = await resp.json()
-//   console.log(resp2)
+  //   const resp2 = await resp.json()
+  //   console.log(resp2)
 }
 
 
@@ -296,3 +296,12 @@ async function allUserInfo(userEmail) {
   }
 
 }
+
+// FETCH MOTIVATIONAL QUOTES
+async function generateQuotes() {
+  const response = await fetch(`https://trackitmathusan.herokuapp.com/quotes`);
+  const data = await response.json();
+  return data;
+}
+
+generateQuotes();
