@@ -1,8 +1,8 @@
-let loginBtn = document.getElementById('login-button');
+// let loginBtn = document.getElementById('login-button');
 
-loginBtn.addEventListener('click', (e) => {
-    requestLogin(e);
-})
+// loginButton.addEventListener('click', (e) => {
+//     requestLogin(e);
+// })
 
 async function requestLogin(e) {
     try {
@@ -28,13 +28,42 @@ async function requestLogin(e) {
             },
         }
 
-        const response = await fetch(`http://localhost:3000/login`, options);
+        const response = await fetch(`https://trackitmathusan.herokuapp.com/login`, options);
         const data = await response.json();
         if (!data.success) { throw new Error('Login not authorised'); }
         login(data.token);
+
     } catch (e) {
         console.log(e);
     }
+
+}
+
+async function getUserInfo(userEmail) {
+    
+
+        try {
+            console.log(userEmail);
+            let email = localStorage.userEmail;
+            console.log(email);
+            
+            const options = {
+                headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+            }
+            const response = await fetch(`https://trackitmathusan.herokuapp.com/user/${email}/choose_habits`, options);
+            const data = await response.json();
+            if (data.err) {
+                console.warn(data.err);
+                logout();
+            }
+            console.log(data);
+            console.log(data.body);
+            return data;
+        } catch (err) {
+            console.warn(err);
+        }
+            
+   
 
 }
 
@@ -46,21 +75,33 @@ async function login(token) {
     localStorage.setItem("username", user.username);
     localStorage.setItem("userEmail", user.email);
     console.log(localStorage);
-
-    try {
-        const options = {
-            headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
-        }
-        const response = await fetch('http://localhost:3000/user', options);
-        const data = await response.json();
-        if (data.err) {
-            console.warn(data.err);
-            logout();
-        }
-        console.log(data);
-        return data;
-    } catch (err) {
-        console.warn(err);
+    console.log(localStorage.userEmail);
+    let userEmail = localStorage.userEmail;
+    if(window.location.hash === "#register"){
+        window.location.hash = "#addhabits"
+    } else {
+        window.location.hash = "#dashboard"
+        await getUserInfo(userEmail);
     }
+
+    // window.location.hash = '#dashboard';
+
 }
+
+function logout() {
+    localStorage.clear();
+
+    renderPublicNav();
+    window.location.hash = '#';
+}
+
+
+function currentUser() {
+    const username = localStorage.getItem('username');
+    console.log(username)
+    return username;
+}
+
+
+
 

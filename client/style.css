@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#nav-bar{
+    font-family: 'Roboto', cursive;
+    width: 100%;
+    height: 70px;
+    background-color: #fc5200;
+    color:#fff;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.home-link{
+    color: #fff;
+    text-decoration: none;
+}
+
+.home-link:hover{
+    color: #424242;
+}
+
+
+.login-form{
+    font-family: 'Roboto', cursive;
+    width: 40%;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 3% auto;
+}
+
+.login-form input,label{
+    margin: 5px 0px;
+}
+
+.login-form input{
+    padding: 10px 5px;
+}
+
+.intro-title{
+    font-family: 'Roboto', cursive;
+    margin-top: 5%;
+    text-align: center;
+}
+
+#login-button{
+    border: none;
+    padding: 10px;
+    background-color: black;
+    color: #fff;
+    margin-top: 30px;
+}
+
+#login-button:hover{
+    cursor: pointer;
+}
+
+/* Home Page */
+#home-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+nav button{
+    width: auto;
+    padding: 10px;
+    border: none;
+    background-color: #fc5200;
+    color: #fff;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+nav i {
+    margin-right: 5%;
+}
+
+#home-body button:hover{
+    cursor: pointer;
+    color: #424242;
+}
+
+
+/* USER HABITS DASHBOARD SECTION */
+.user-habits{
+    margin: 0 auto;
+    border-radius: 25px;
+    height: auto;
+    width: 400px;
+    color: #000000;
+    background-color: #fff;
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    text-align: center;
+}
+
+.habit-card{
+    margin: 0 auto;
+    justify-self: center;
+    margin: 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    text-align: center;
+    background-color: #fff;
+    color: #000000;
+    height: 350px;
+    width: 240px;
+    border-radius: 25px;
+    padding: 15px;
+}
+
+.frequency{
+    font-size: 28px;
+}
+
+
+/* Progress Bars */
+  #progressbar {
+    border: 2px solid #000000;
+    margin-top: 20%;
+    margin-bottom: 5%;
+    background-color: white;
+    border-radius: 13px;
+    /* (height of inner div) / 2 + padding */
+    padding: 3px;
+  }
+  
+  #progressbar>div {
+    background-color: orange;
+    width: 40%;
+    /* Adjust with JavaScript */
+    height: 20px;
+    border-radius: 10px;
+  }
+
+  /* Break Flex */
+  .break {
+      flex-basis: 100%;
+      height: 0;
+  }
+
+  .del-button{
+      width: 30%;
+      color: #000000;
+      background-color: #fff;
+      cursor: pointer;
+      border: none;
+      margin-top: 10px;
+  }
+
+  .fa-trash-alt{
+      color: #fc5200;
+  }
+
+  /* Add Habit Form */
+  .add-habit-form{
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+
+      border-radius: 25px;
+      display: flex;
+      flex-direction: column;
+      background-color:	white;
+      text-align: center;
+      box-shadow: #fc5200 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      padding: 3% 2%;
+  }
+
+  .add-habit-form label{
+      font-size: 22px;
+      color: black;
+  }
+
+  .add-habit-form label, input{
+      padding: 5px;
+      margin: 10px 10px;
+  }
+
+  .submit-add-habit{
+      border: none;
+      background-color: #fc5200;
+      color: #fff;
+  }
+
+  .cancel-add-habit{
+    border: none;
+    background-color: black;
+    color: #fff;
+  }
+
+  .fa-plus{
+      color: #fc5200;
+  }
+
+  .fa-plus:hover{
+    color: orange;
+    cursor: pointer;
+  }
+
+
+  /* PROGRESS CONTAINER */
+  .progress-container{
+      font-family: 'Roboto', cursive;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #fff;
+      box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+      width: 700px;
+      height: 500px;
+      color: black;
+
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  }
+
+  .checkbox-container{
+      display: flex;
+      width: 80%;
+      justify-content: space-around;
+      margin: 0 auto;
+      margin-bottom: 100px;
+  }
+
+  .checkbox-container label{
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      font-size: 22px;
+  }
+
+  .checkbox-container label input{
+      margin: 0 auto;
+      height: 25px;
+      width: 25px;
+      border: 1px black solid;
+  }
+
+  .cancel-progress-container{
+      width: 10%;
+      margin: 0 auto;
+      border: none;
+      background-color: #fc5200;
+      color: #fff;
+      padding: 12px 8px;
+  }
+
+  .progress-container-title{
+      text-align: center;
+      margin-bottom: 5%;
+  }
+
+  .button-container{
+      display: flex;
+      justify-content: space-around;
+  }
+
+  /* STYLING REGISTRATION FORM */
+  .register-form{
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+      min-width: 300px;
+      margin: 0 auto;
+  }
+
+  .register-form div{
+      display: flex;
+      flex-direction: column;
+  }
+
+  .form-label{
+      text-align: center;
+      margin-top: 15%;
+      margin-bottom: 10%;
+  }
+
+  .register-form input, label{
+      margin: 12px 0px;
+  }
+
+  .reg-button{
+      height: 50px;
+      border: none;
+      background-color: black;
+      color: #fff;
+      margin-top: 20px;
+      padding: 12px 0px;
+      text-align: center;
+  }
+
+
+/* Styling Add Habits Page */
+
+.add-habit-button{
+    border: none;
+    padding: 12px 8px;
+    background-color: #fc5200;
+    color: #fff;
+    margin: 10px auto;
+    margin-left: 50%;
+    width: 150px;
+}
+
+.add-new-habit-title{
+    font-family: 'Roboto', cursive;
+    text-align: center;
+    margin-top: 5%;
+}

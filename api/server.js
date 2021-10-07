@@ -5,23 +5,29 @@ const cors = require('cors');
 const User = require('./models/user');
 const authenticateToken = require('./middleware/tokenAuth');
 const path = require('path');
+const joi = require('joi')
+
 require('dotenv').config();
 
 const server = express();
 server.use(cors());
 server.use(express.json());
 
-
+// SET UP VIEW ENGINE
+server.set("view engine", 'ejs');
 
 
 const userRoutes = require('./controllers/userRoutes')
-// server.use('/user', userRoutes)
+server.use('/user', userRoutes)
 
 //Serve Client Folder to Localhost
 server.use(express.static('../client'))
 
 // Root route
-server.get('/', (req, res) => res.send('Hello, client!'))
+server.get('/', (req, res) => {
+    let pathLogin = path.join(__dirname, '../client/html/login.html');
+    res.sendFile(pathLogin);
+})
 
 //login GET route
 server.get('/login', async (req, res) => {
@@ -55,7 +61,7 @@ server.post('/login', async (req, res) => {
     }
 })
 
-server.get('/user', authenticateToken, async (req, res) => { // after running authenticateToken, req.user is the user from server.post
+server.get('/user', async (req, res) => { // after running authenticateToken, req.user is the user from server.post
     // once token verified, how do we proceed ?
     try {
         const user = await User.findByEmail(req.body.email)
@@ -68,12 +74,32 @@ server.get('/user', authenticateToken, async (req, res) => { // after running au
 // registration route
 server.post('/register', async (req, res) => {
     try {
+        const data = req.body;
+
+        const schema = joi.object({
+            username: joi.string().min(8).required(),
+            email: joi.string().email().required(),
+            password: joi.string().min(7).required(),
+            passwordcon: joi.string().valid(joi.ref('password')).required()
+        })
+
+        const result = schema.validate(data)
+        console.log(result)
+        if (result.error) {
+            // console.log(result.error.details[0].message)
+            return res.send(result)
+        }
+        // console.log(req.body)
+        // console.log(req.body.username)
         const salt = await bcrypt.genSalt();
         const hashed = await bcrypt.hash(req.body.password, salt);
         const username = req.body.username;
         const email = req.body.email;
-        const user = await User.create(username, email, hashed); //feeding in the unhashed password for checking if database stored value is correct (just need to replace with 'hashed' instead)
-        res.status(201).json({ user });
+        // console.log(hashed)
+        // const habits = req.body.habits;
+        const user = await User.create(username, email, hashed);
+        // console.log(user)
+        return res.status(201).json({ user });
     } catch (err) {
         res.status(500).json({ err });
     }
