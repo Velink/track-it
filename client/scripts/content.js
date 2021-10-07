@@ -353,7 +353,7 @@ async function displayDashboard() {
             let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
             let count = currentHabit.count;
             console.log(currentHabit);
-            console.log(count);
+            // console.log(count);
             freqP.textContent = `${currentHabit.count} / ${userHabits[i].frq}`;
             habitElement.appendChild(habitTitle);
             habitElement.appendChild(freqP);
@@ -445,7 +445,7 @@ async function displayDashboard() {
                 let okButton = document.createElement('button');
                 okButton.textContent = 'Submit';
                 okButton.setAttribute('class', 'cancel-progress-container');
-                okButton.addEventListener('click', () => {
+                okButton.addEventListener('click', async () => {
                     //Setting Up Completed Days Aray
                     let checkBoxTicks = document.getElementsByClassName('check-box');
                     let completedDaysArray = [0, 0, 0, 0, 0, 0, 0];
@@ -457,11 +457,52 @@ async function displayDashboard() {
                             newCount++;
                         }
                     }
-                    console.log(newCount);
+                    // console.log(newCount);
                     freqP.textContent = `${newCount} / ${userHabits[i].frq}`;
-                    console.log(completedDaysArray);
+                    // console.log(completedDaysArray);
                     progressContainer.remove();
-                    updateWeeklyProgress(completedDaysArray, habitSelected);
+                    await updateWeeklyProgress(completedDaysArray, habitSelected);
+                    let userInfo = await allUserInfo()
+                    let habitsArray = userInfo.habits;
+                    // console.log(`${habitsArray} THIS IS THE WAY`)
+                    let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
+                    console.log(currentHabit.count)
+                    let count = currentHabit.count;
+                    let ratio = count/userHabits[i].frq 
+                    // console.log(`${count} is on button click`)
+                    // console.log(userHabits[i].frq)
+                    console.log(ratio)
+            switch(true){
+                case (ratio>=1) :
+                    barDiv.style.width = '100%';
+                    barDiv.style.backgroundColor = 'greenyellow';
+                    console.log(barDiv.style.width)
+                    break;
+                case(ratio>=0.75 && ratio<1):
+                    barDiv.style.width = `${ratio*100}%`;
+                    barDiv.style.backgroundColor = 'green';
+                    console.log(barDiv.style.width)
+                    break;
+                case(ratio>=0.5 && ratio<0.75):
+                    barDiv.style.width = `${ratio*100}%`;
+                    barDiv.style.backgroundColor = 'yellow';
+                    console.log(barDiv.style.width)
+                    break;
+                case(ratio>=0.25 && ratio<0.5):
+                    barDiv.style.width = `${ratio*100}%`;
+                    barDiv.style.backgroundColor = 'orange';
+                    console.log(barDiv.style.width)
+                    break;
+                case(ratio>=0 && ratio<0.25):
+                    barDiv.style.width = `${ratio*100}%`;
+                    barDiv.style.backgroundColor = 'red';
+                    console.log(barDiv.style.width)
+                    break;
+                default:
+                console.log('MAAAD');
+            }
+
+            
                 })
 
                 //Cancel Progress Popup Button
@@ -491,6 +532,34 @@ async function displayDashboard() {
             let barDiv = document.createElement('div');
             bar.appendChild(barDiv);
             habitElement.insertAdjacentElement('beforeend', bar);
+            // dynamic progress bar
+            // let userInfo = await userInfo()
+            // let habitsArray = userInfo.habits;
+            // let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
+            // let count = currentHabit.count;
+            let ratio = count/userHabits[i].frq 
+            console.log(`${count} is initial`)
+            console.log(userHabits[i].frq)
+            console.log(ratio)
+            switch(true){
+                case (ratio>=1) :
+                    barDiv.style.width = '100%';
+                    barDiv.style.backgroundColor = 'green';
+                    break;
+                case(ratio>=0.75 && ratio<1):
+                    barDiv.style.width = `${ratio*100}%`;
+                    barDiv.style.backgroundColor = 'yellow';
+                    break;
+                case(ratio>=0.5 && ratio<0.75):
+                    barDiv.style.width = `${ratio*100}%`;
+                    barDiv.style.backgroundColor = 'orange';
+                    break;
+                case(0.25<= ratio <0.5):
+                    barDiv.style.width = `${ratio*100}%`;
+                    barDiv.style.backgroundColor = 'red';
+                    break;
+            }
+            console.log(barDiv.style.width)
 
             //Delete ICON button 
             let delIcon = document.createElement('i');
@@ -573,7 +642,7 @@ async function renderNewHabits() {
         const newHabitFrequency = habitFreqField.value;
         await addHabitRequest(newHabitName, newHabitFrequency);
         main.innerHTML = '';
-        displayDashboard();
+        await displayDashboard();
         addHabitForm.innerHTML = '';
     })
 
