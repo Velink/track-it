@@ -360,8 +360,36 @@ nav i {
     background-color: #fc5200;
     color: #fff;
     margin: 10px auto;
-    margin-left: 50%;
     width: 150px;
+
+
+}
+
+.submit-habit-button{
+    border: none;
+    padding: 12px 8px;
+    background-color: #fc5200;
+    color: #fff;
+    margin: 10px auto;
+    width: 150px;
+}
+
+.container form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container form div{
+    margin-left: 10%;
+    margin: 0 auto;
+}
+
+.instructions{
+    font-family: 'Roboto', cursive;
+    padding-top: 10%;
+    font-size: 20px;
+    text-align: center;
 }
 
 .add-new-habit-title{
@@ -369,5 +397,12 @@ nav i {
     text-align: center;
     margin-top: 5%;
 }
+
+.form-select{
+    width: 150px;
+    margin-top: 10px;
+}
+
+
 
 /* Media Queries */

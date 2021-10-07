@@ -10,8 +10,8 @@ let quoteContainer = document.getElementById('quote-container');
 // function renderQuotes() {
 if (document.getElementById('on-home-page')) {
     console.log('passes')
-    setInterval(addQuote, 4000);
-    setInterval(clearQuote, 4000);
+    // setInterval(addQuote, 4000);
+    // setInterval(clearQuote, 4000);
 
     async function addQuote() {
         let quoteContainer = document.getElementById('quote-container');
@@ -251,14 +251,23 @@ function renderAddHabits() {
 
     // Create button
     let addHabitBtn = document.createElement('button')
-    addHabitBtn.setAttribute('class', 'add-habit-button')
+    addHabitBtn.setAttribute('class', 'add-habit-button');
+    addHabitBtn.setAttribute('type', 'button');
     addHabitBtn.id = `addHabitBtn`
     addHabitBtn.textContent = `New habit`
 
     // Create initial inputs fields
     let div_container = document.createElement('div')
-    div_container.setAttribute('class', 'container')
-    main.appendChild(div_container)
+    div_container.setAttribute('class', 'container');
+    main.appendChild(div_container);
+
+    // Append Form Instructions
+    let p_instructions = document.createElement('p');
+    p_instructions.setAttribute('class', 'instructions');
+    p_instructions.textContent = 'Welcome, to start please add the habits that you would like to track and how often you would like to do each of them per week';
+    div_container.appendChild(p_instructions);
+
+    // Create Form
     let form = document.createElement('form')
     form.setAttribute('class', 'w-50 mx-auto')
     div_container.appendChild(form)
@@ -295,10 +304,12 @@ function renderAddHabits() {
     // Submit Habits after registration button
     let submit_btn = document.createElement('button');
     submit_btn.setAttribute('type', 'submit');
-    submit_btn.setAttribute('class', 'add-habit-button')
+    submit_btn.setAttribute('class', 'submit-habit-button')
     submit_btn.textContent = 'Submit';
+    form.appendChild(addHabitBtn);
     form.appendChild(submit_btn);
-    main.appendChild(addHabitBtn)
+
+
 
     for (let i = 1; i <= 7; i++) {
         let freq_option = document.createElement('option')
