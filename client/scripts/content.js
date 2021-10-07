@@ -10,8 +10,8 @@ let quoteContainer = document.getElementById('quote-container');
 // function renderQuotes() {
 if (document.getElementById('on-home-page')) {
     console.log('passes')
-    // setInterval(addQuote, 4000);
-    // setInterval(clearQuote, 4000);
+    setInterval(addQuote, 4000);
+    setInterval(clearQuote, 4000);
 
     async function addQuote() {
         let quoteContainer = document.getElementById('quote-container');
