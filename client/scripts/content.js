@@ -4,28 +4,41 @@ loginPageButton.addEventListener('click', renderLoginForm);
 const registerPageButton = document.getElementById('render-register');
 registerPageButton.addEventListener('click', renderRegisterForm);
 
-setInterval(addQuote, 5000);
-setInterval(clearQuote, 5000);
+let pageTitle = document.getElementsByClassName('intro-title')[0];
+let quoteContainer = document.getElementById('quote-container');
 
-async function addQuote() {
-    let quoteContainer = document.getElementById('quote-container');
-    let quotes = await generateQuotes();
-    const rndInt = Math.floor(Math.random() * 7) + 1;
-    let quote = quotes[rndInt];
-    let quoteElement = document.createElement('p');
-    let authorElement = document.createElement('h4');
-    authorElement.setAttribute('class', 'quote-author')
-    authorElement.textContent = `- ${quote.a}`;
-    quoteElement.setAttribute('class', 'displayed-quote');
-    quoteElement.textContent = quote.q;
-    quoteElement.appendChild(authorElement);
-    quoteContainer.appendChild(quoteElement);
-}
+// function renderQuotes() {
+if (document.getElementById('on-home-page')) {
+    console.log('passes')
+    setInterval(addQuote, 5000);
+    setInterval(clearQuote, 5000);
 
-async function clearQuote() {
-    let quoteContainer = document.getElementById('quote-container');
-    quoteContainer.innerHTML = '';
+    async function addQuote() {
+        let quoteContainer = document.getElementById('quote-container');
+        let quotes = await generateQuotes();
+        const rndInt = Math.floor(Math.random() * 7) + 1;
+        let quote = quotes[rndInt];
+        let quoteElement = document.createElement('p');
+        let authorElement = document.createElement('h4');
+        authorElement.setAttribute('class', 'quote-author')
+        authorElement.textContent = `- ${quote.a}`;
+        quoteElement.setAttribute('class', 'displayed-quote');
+        quoteElement.textContent = quote.q;
+        quoteElement.appendChild(authorElement);
+        quoteContainer.appendChild(quoteElement);
+    }
+
+    async function clearQuote() {
+        let quoteContainer = document.getElementById('quote-container');
+        quoteContainer.innerHTML = '';
+    }
 }
+else {
+    console.log('doesn\'nt pass');
+}
+// }
+
+// renderQuotes();
 
 
 // we will set the ids + classes here so we can style them in css after
@@ -496,35 +509,35 @@ async function displayDashboard() {
                     // console.log(`${count} is on button click`)
                     // console.log(userHabits[i].frq)
                     // console.log(ratio)
-            switch(true){
-                case (ratio>=1) :
-                    barDiv.style.width = '100%';
-                    barDiv.style.backgroundColor = 'greenyellow';
-                    // console.log(barDiv.style.width)
-                    break;
-                case(ratio>=0.75 && ratio<1):
-                    barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'green';
-                    // console.log(barDiv.style.width)
-                    break;
-                case(ratio>=0.5 && ratio<0.75):
-                    barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'yellow';
-                    // console.log(barDiv.style.width)
-                    break;
-                case(ratio>=0.25 && ratio<0.5):
-                    barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'orange';
-                    // console.log(barDiv.style.width)
-                    break;
-                case(ratio>=0 && ratio<0.25):
-                    barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'red';
-                    // console.log(barDiv.style.width)
-                    break;
-                default:
-                console.log('MAAAD');
-            }
+                    switch (true) {
+                        case (ratio >= 1):
+                            barDiv.style.width = '100%';
+                            barDiv.style.backgroundColor = 'greenyellow';
+                            // console.log(barDiv.style.width)
+                            break;
+                        case (ratio >= 0.75 && ratio < 1):
+                            barDiv.style.width = `${ratio * 100}%`;
+                            barDiv.style.backgroundColor = 'green';
+                            // console.log(barDiv.style.width)
+                            break;
+                        case (ratio >= 0.5 && ratio < 0.75):
+                            barDiv.style.width = `${ratio * 100}%`;
+                            barDiv.style.backgroundColor = 'yellow';
+                            // console.log(barDiv.style.width)
+                            break;
+                        case (ratio >= 0.25 && ratio < 0.5):
+                            barDiv.style.width = `${ratio * 100}%`;
+                            barDiv.style.backgroundColor = 'orange';
+                            // console.log(barDiv.style.width)
+                            break;
+                        case (ratio >= 0 && ratio < 0.25):
+                            barDiv.style.width = `${ratio * 100}%`;
+                            barDiv.style.backgroundColor = 'red';
+                            // console.log(barDiv.style.width)
+                            break;
+                        default:
+                            console.log('MAAAD');
+                    }
 
                 })
 
@@ -560,38 +573,38 @@ async function displayDashboard() {
             // let habitsArray = userInfo.habits;
             // let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
             // let count = currentHabit.count;
-            let ratio = count/userHabits[i].frq 
+            let ratio = count / userHabits[i].frq
             // console.log(`${count} is initial`)
             // console.log(userHabits[i].frq)
             // console.log(ratio)
-            switch(true){
-                case (ratio>=1) :
+            switch (true) {
+                case (ratio >= 1):
                     barDiv.style.width = '100%';
                     barDiv.style.backgroundColor = 'greenyellow';
                     // console.log(barDiv.style.width)
                     break;
-                case(ratio>=0.75 && ratio<1):
-                    barDiv.style.width = `${ratio*100}%`;
+                case (ratio >= 0.75 && ratio < 1):
+                    barDiv.style.width = `${ratio * 100}%`;
                     barDiv.style.backgroundColor = 'green';
                     // console.log(barDiv.style.width)
                     break;
-                case(ratio>=0.5 && ratio<0.75):
-                    barDiv.style.width = `${ratio*100}%`;
+                case (ratio >= 0.5 && ratio < 0.75):
+                    barDiv.style.width = `${ratio * 100}%`;
                     barDiv.style.backgroundColor = 'yellow';
                     // console.log(barDiv.style.width)
                     break;
-                case(ratio>=0.25 && ratio<0.5):
-                    barDiv.style.width = `${ratio*100}%`;
+                case (ratio >= 0.25 && ratio < 0.5):
+                    barDiv.style.width = `${ratio * 100}%`;
                     barDiv.style.backgroundColor = 'orange';
                     // console.log(barDiv.style.width)
                     break;
-                case(ratio>=0 && ratio<0.25):
-                    barDiv.style.width = `${ratio*100}%`;
+                case (ratio >= 0 && ratio < 0.25):
+                    barDiv.style.width = `${ratio * 100}%`;
                     barDiv.style.backgroundColor = 'red';
                     // console.log(barDiv.style.width)
                     break;
                 default:
-                console.log('MAAAD');
+                    console.log('MAAAD');
             }
             // console.log(barDiv.style.width)
 

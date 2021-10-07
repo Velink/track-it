@@ -6,11 +6,16 @@
     box-sizing: border-box;
 }
 
+#render-login{
+    margin-right: 3%;
+}
 
-.quote-container{
-    width: 500px;
+
+#quote-container{
     margin: 0 auto;
-    text-align: center;
+    width: 60%;
+    min-width:300px;
+
 }
 
 .displayed-quote{
@@ -29,11 +34,11 @@
 #nav-bar{
     font-family: 'Roboto', cursive;
     width: 100%;
-    height: 70px;
+    height: 80px;
     background-color: #fc5200;
     color:#fff;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -102,6 +107,7 @@ nav button{
     color: #fff;
     padding-left: 5%;
     padding-right: 5%;
+    font-size: 18px;
 }
 
 nav i {
@@ -247,6 +253,7 @@ nav i {
 
   /* PROGRESS CONTAINER */
   .progress-container{
+      z-index: 7;
       font-family: 'Roboto', cursive;
       display: flex;
       flex-direction: column;
