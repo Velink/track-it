@@ -84,9 +84,10 @@ function renderLoginForm() {
 // REGISTRATION FORM RENDER
 function renderRegisterForm() {
     main.innerHTML = '';
+    window.location.hash = '#register'
     const fields = [
         { tag: 'input', attributes: { type: 'text', id: 'username', name: 'username', placeholder: 'Username' } },
-        { tag: 'input', attributes: { type: 'text', id: "register_email", name: 'email', placeholder: 'Email', } },
+        { tag: 'input', attributes: { type: 'text', id: "email", name: 'email', placeholder: 'Email', } },
         { tag: 'input', attributes: { type: 'password', id: 'password', name: 'password', placeholder: 'Password' } },
         { tag: 'input', attributes: { type: 'password', id: 'passwordcon', name: 'passwordcon', placeholder: 'Confirm Password' } },
         { tag: 'button', attributes: { type: 'button', value: 'Create Account', id: 'submitButton' } }
@@ -127,9 +128,8 @@ function renderRegisterForm() {
 
     let submitButton = document.getElementById('submitButton');
 
-    submitButton.addEventListener('click', async () => {
-        let email = document.getElementById('register_email').value
-
+    submitButton.addEventListener('click', async (e) => {
+        let email = document.getElementById('email').value
         const userEmail = localStorage.setItem("userEmail", email);
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
@@ -150,7 +150,8 @@ function renderRegisterForm() {
 
         const response = await fetch('http://localhost:3000/register', options);
         const data = await response.json()
-        console.log(data.error)
+        console.log(data)
+        // console.log(data.error)
         if (data.error) {
             console.log(data.error.details[0].message)
             let errorMessage = data.error.details[0].message
@@ -175,12 +176,16 @@ function renderRegisterForm() {
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 onClick: function () { }, // Callback after click
             }).showToast();
-            renderAddHabits()
+
         }
+        await requestLogin(e)
+
+        // renderAddHabits()
+
     })
 
 
-    window.location.hash = '#register';
+    // window.location.hash = '#register';
 }
 
 
@@ -254,7 +259,7 @@ function renderAddHabits() {
     }
     // Create inputs fields on button click
     addHabitBtn.addEventListener('click', createHabitField);
-    form.addEventListener('submit', submitData)
+    form.addEventListener('submit', submitHabits)
 
 
     function createHabitField() {
@@ -317,7 +322,7 @@ async function displayDashboard() {
         dashboard.id = 'dashboard'
 
         //Obtain User Information 
-        const userInfo = await getUserInfo()
+        const userInfo = await allUserInfo()
         console.log(userInfo);
 
         //Create Navbar
@@ -416,8 +421,13 @@ async function displayDashboard() {
             habitTitle.setAttribute('class', 'habit-title');
             freqP.setAttribute('class', 'frequency');
             habitElement.setAttribute("class", "habit-card");
-            habitTitle.textContent = userHabits[i].habit_name;
-            freqP.textContent = userHabits[i].frq + '/7';
+            habitTitle.textContent = userHabits[i].habit_name; //HERE!!!
+            let habitsArray = userInfo.habits;
+            let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
+            let count = currentHabit.count;
+            console.log(currentHabit);
+            console.log(count);
+            freqP.textContent = `${currentHabit.count} / ${userHabits[i].frq}`;
             habitElement.appendChild(habitTitle);
             habitElement.appendChild(freqP);
 
@@ -434,6 +444,9 @@ async function displayDashboard() {
                 let habitSelected = e.target.id.slice(5, e.target.id.length);
                 console.log(habitSelected);
 
+                let weeklyProgress = await getWeeklyProgress(habitSelected);
+                console.log(weeklyProgress);
+
                 //Render Weekly Progress Popup
                 let progressContainer = document.createElement('div');
                 progressContainer.setAttribute('class', 'progress-container');
@@ -444,34 +457,54 @@ async function displayDashboard() {
                 progressTitle.setAttribute('class', 'progress-container-title')
                 progressContainer.insertAdjacentElement('afterbegin', progressTitle);
 
-                main.insertAdjacentElement('beforebegin', progressContainer);
-
                 let checkboxContainer = document.createElement('div');
                 checkboxContainer.setAttribute('class', 'checkbox-container');
                 for (let i = 0; i < 7; i++) {
                     let box = document.createElement('input');
                     let boxLabel = document.createElement('label');
                     box.setAttribute('type', 'checkbox');
+                    box.setAttribute('class', 'check-box');
                     switch (i) {
                         case 0:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Mon'
                             break;
                         case 1:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Tue'
                             break;
                         case 2:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Wed'
                             break;
                         case 3:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Thurs'
                             break;
                         case 4:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Fri'
                             break;
                         case 5:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Sat'
                             break;
                         case 6:
+                            if (weeklyProgress[i] == 1) {
+                                box.setAttribute('checked', 'true');
+                            }
                             boxLabel.textContent = 'Sun'
                             break;
                         default:
@@ -479,7 +512,6 @@ async function displayDashboard() {
                     }
                     boxLabel.appendChild(box);
                     checkboxContainer.appendChild(boxLabel);
-                    console.log('we here');
                 }
 
                 //Ok Progress Popup Button
@@ -487,8 +519,22 @@ async function displayDashboard() {
                 okButton.textContent = 'Submit';
                 okButton.setAttribute('class', 'cancel-progress-container');
                 okButton.addEventListener('click', () => {
+                    //Setting Up Completed Days Aray
+                    let checkBoxTicks = document.getElementsByClassName('check-box');
+                    let completedDaysArray = [0, 0, 0, 0, 0, 0, 0];
+                    let newCount = 0;
+                    for (let i = 0; i < checkBoxTicks.length; i++) {
+                        if (checkBoxTicks[i].checked == true) {
+                            console.log(checkBoxTicks[0]);
+                            completedDaysArray[i] = 1;
+                            newCount++;
+                        }
+                    }
+                    console.log(newCount);
+                    freqP.textContent = `${newCount} / ${userHabits[i].frq}`;
+                    console.log(completedDaysArray);
                     progressContainer.remove();
-                    updateWeeklyProgress(daysArray);
+                    updateWeeklyProgress(completedDaysArray, habitSelected);
                 })
 
                 //Cancel Progress Popup Button
@@ -507,6 +553,9 @@ async function displayDashboard() {
 
                 progressContainer.appendChild(checkboxContainer);
                 progressContainer.appendChild(buttonContainer);
+
+                main.insertAdjacentElement('beforebegin', progressContainer);
+
             }
 
             //Progress Bars - To be Updated
@@ -526,16 +575,17 @@ async function displayDashboard() {
             delButton.setAttribute('class', 'del-button');
             delButton.textContent = 'Delete';
             delButton.setAttribute('id', `del-${userHabits[i].habit_name}`)
-            delButton.addEventListener('click', deleteHabitRequest);
+            // delButton.addEventListener('click', deleteHabitRequest);
             habitElement.appendChild(delButton);
             delButton.addEventListener('click', (e) => {
-                deleteHabit(e);
+                deleteHabitRequest(e);
+                const del = document.getElementById(`${e.target.id}`)
+                // console.log(del.parentElement)
+                del.parentElement.remove()
             })
-            async function deleteHabit(e) {
-                console.log(e);
-                console.log(e.target);
-                console.log(e.target.id);
-            }
+            // async function deleteHabit(e) {
+            //     console.log(e.target.id);
+            // }
 
             //Break Flex
             // if (i % 3 == 0) {

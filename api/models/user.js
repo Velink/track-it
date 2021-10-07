@@ -37,11 +37,11 @@ class User {
                 //_id is actually an object, ObjectId(id)
                 let userData = await client.db(dbName).collection('users').find({ email: { $eq: email } }).toArray();
                 console.log(userData);
-                client.close()
                 // let user = new User({ ...userData[0], id: userData[0]._id });
                 // console.log(user);
                 let user = userData[0];
                 resolve(user);
+                client.close()
             } catch (err) {
                 console.log(err);
                 reject('User not found');
@@ -134,7 +134,7 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const client = await init();
-                await arrayOfNewHabits.forEach(async (habit) => {
+                await arrayOfNewHabits.forEach( async (habit) => { 
                     await client.db(dbName).collection('users').findOneAndUpdate({ email: { $eq: email } }, {
                         "$push": {
                             "habits":
@@ -148,6 +148,7 @@ class User {
                     )
                 });
                 resolve("Habits were added");
+                
             } catch (err) {
                 reject("Users habits could not be found");
             };
