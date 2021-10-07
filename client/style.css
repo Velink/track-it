@@ -45,6 +45,10 @@
     padding: 10px 5px;
 }
 
+.login-form input:focus{
+  outline: 1px solid #fc5200;
+}
+
 .intro-title{
     font-family: 'Roboto', cursive;
     margin-top: 5%;
@@ -106,6 +110,8 @@ nav i {
 }
 
 .habit-card{
+    z-index: 5;
+
     margin: 0 auto;
     justify-self: center;
     margin: 30px;
@@ -171,6 +177,7 @@ nav i {
 
   /* Add Habit Form */
   .add-habit-form{
+      z-index: 10;
       position: fixed;
       top: 50%;
       left: 50%;

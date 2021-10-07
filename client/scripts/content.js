@@ -319,7 +319,7 @@ async function displayDashboard() {
     try {
         var link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('href', './assets/style.css');
+        link.setAttribute('href', './style.css');
         document.head.appendChild(link);
 
         var fontAwesome = document.createElement('link');
@@ -468,41 +468,41 @@ async function displayDashboard() {
                     let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
                     console.log(currentHabit.count)
                     let count = currentHabit.count;
-                    let ratio = count/userHabits[i].frq 
+                    let ratio = count / userHabits[i].frq
                     // console.log(`${count} is on button click`)
                     // console.log(userHabits[i].frq)
                     console.log(ratio)
-            switch(true){
-                case (ratio>=1) :
-                    barDiv.style.width = '100%';
-                    barDiv.style.backgroundColor = 'greenyellow';
-                    console.log(barDiv.style.width)
-                    break;
-                case(ratio>=0.75 && ratio<1):
-                    barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'green';
-                    console.log(barDiv.style.width)
-                    break;
-                case(ratio>=0.5 && ratio<0.75):
-                    barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'yellow';
-                    console.log(barDiv.style.width)
-                    break;
-                case(ratio>=0.25 && ratio<0.5):
-                    barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'orange';
-                    console.log(barDiv.style.width)
-                    break;
-                case(ratio>=0 && ratio<0.25):
-                    barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'red';
-                    console.log(barDiv.style.width)
-                    break;
-                default:
-                console.log('MAAAD');
-            }
+                    switch (true) {
+                        case (ratio >= 1):
+                            barDiv.style.width = '100%';
+                            barDiv.style.backgroundColor = 'greenyellow';
+                            console.log(barDiv.style.width)
+                            break;
+                        case (ratio >= 0.75 && ratio < 1):
+                            barDiv.style.width = `${ratio * 100}%`;
+                            barDiv.style.backgroundColor = 'green';
+                            console.log(barDiv.style.width)
+                            break;
+                        case (ratio >= 0.5 && ratio < 0.75):
+                            barDiv.style.width = `${ratio * 100}%`;
+                            barDiv.style.backgroundColor = 'yellow';
+                            console.log(barDiv.style.width)
+                            break;
+                        case (ratio >= 0.25 && ratio < 0.5):
+                            barDiv.style.width = `${ratio * 100}%`;
+                            barDiv.style.backgroundColor = 'orange';
+                            console.log(barDiv.style.width)
+                            break;
+                        case (ratio >= 0 && ratio < 0.25):
+                            barDiv.style.width = `${ratio * 100}%`;
+                            barDiv.style.backgroundColor = 'red';
+                            console.log(barDiv.style.width)
+                            break;
+                        default:
+                            console.log('MAAAD');
+                    }
 
-            
+
                 })
 
                 //Cancel Progress Popup Button
@@ -537,25 +537,25 @@ async function displayDashboard() {
             // let habitsArray = userInfo.habits;
             // let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
             // let count = currentHabit.count;
-            let ratio = count/userHabits[i].frq 
+            let ratio = count / userHabits[i].frq
             console.log(`${count} is initial`)
             console.log(userHabits[i].frq)
             console.log(ratio)
-            switch(true){
-                case (ratio>=1) :
+            switch (true) {
+                case (ratio >= 1):
                     barDiv.style.width = '100%';
                     barDiv.style.backgroundColor = 'green';
                     break;
-                case(ratio>=0.75 && ratio<1):
-                    barDiv.style.width = `${ratio*100}%`;
+                case (ratio >= 0.75 && ratio < 1):
+                    barDiv.style.width = `${ratio * 100}%`;
                     barDiv.style.backgroundColor = 'yellow';
                     break;
-                case(ratio>=0.5 && ratio<0.75):
-                    barDiv.style.width = `${ratio*100}%`;
+                case (ratio >= 0.5 && ratio < 0.75):
+                    barDiv.style.width = `${ratio * 100}%`;
                     barDiv.style.backgroundColor = 'orange';
                     break;
-                case(0.25<= ratio <0.5):
-                    barDiv.style.width = `${ratio*100}%`;
+                case (0.25 <= ratio < 0.5):
+                    barDiv.style.width = `${ratio * 100}%`;
                     barDiv.style.backgroundColor = 'red';
                     break;
             }
