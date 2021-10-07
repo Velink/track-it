@@ -84,7 +84,15 @@ function renderLoginForm() {
 // REGISTRATION FORM RENDER
 function renderRegisterForm() {
     main.innerHTML = '';
-    window.location.hash = '#register'
+    window.location.hash = '#register';
+
+    //Attach Styling before rendering 
+    // let head = document.getElementsByTagName('head')[0];
+    // let link = document.createElement('link');
+    // link.setAttribute('rel', 'stylesheet');
+    // link.setAttribute('href', '../style.css');
+    // head.appendChild(link);
+
     const fields = [
         { tag: 'input', attributes: { type: 'text', id: 'username', name: 'username', placeholder: 'Username', class: 'reg-username' } },
         { tag: 'input', attributes: { type: 'text', id: "email", name: 'email', placeholder: 'Email', class: 'reg-email' } },
@@ -95,11 +103,11 @@ function renderRegisterForm() {
 
     const outerDiv = document.createElement('div')
     const innerDiv = document.createElement('div')
-    innerDiv.id = "mb-3"
-    innerDiv.className = "inputs"
+    innerDiv.id = "mb-3";
+    innerDiv.className = "inputs";
 
     // create form and attributes
-    const form = document.createElement('form')
+    const form = document.createElement('form');
 
     const formAttributes = { id: "register_form", class: "register-form" }
     Object.entries(formAttributes).forEach(([a, v]) => form.setAttribute(a, v));
@@ -202,12 +210,11 @@ function renderAddHabits() {
     main.appendChild(header_div)
     header_div.appendChild(header)
     header.textContent = `Add a new habit!`
-    header.setAttribute('class', 'display-3 w-50 mx-auto')
+    header.setAttribute('class', 'add-new-habit-title');
 
     // Create button
     let addHabitBtn = document.createElement('button')
-    main.appendChild(addHabitBtn)
-    addHabitBtn.setAttribute('class', 'btn btn-dark position-absolute top-10 start-0')
+    addHabitBtn.setAttribute('class', 'add-habit-button')
     addHabitBtn.id = `addHabitBtn`
     addHabitBtn.textContent = `New habit`
 
@@ -246,10 +253,15 @@ function renderAddHabits() {
     let initialOption = document.createElement('option')
     select.appendChild(initialOption)
     initialOption.setAttribute("selected", "selected")
-    initialOption.innerText = `Frequency`
-    let submit_btn = document.createElement('button')
-    submit_btn.setAttribute('type', 'submit')
-    form.appendChild(submit_btn)
+    initialOption.innerText = `Frequency`;
+
+    // Submit Habits after registration button
+    let submit_btn = document.createElement('button');
+    submit_btn.setAttribute('type', 'submit');
+    submit_btn.setAttribute('class', 'add-habit-button')
+    submit_btn.textContent = 'Submit';
+    form.appendChild(submit_btn);
+    main.appendChild(addHabitBtn)
 
     for (let i = 1; i <= 7; i++) {
         let freq_option = document.createElement('option')

@@ -303,3 +303,22 @@ nav i {
       padding: 12px 0px;
       text-align: center;
   }
+
+
+/* Styling Add Habits Page */
+
+.add-habit-button{
+    border: none;
+    padding: 12px 8px;
+    background-color: #fc5200;
+    color: #fff;
+    margin: 10px auto;
+    margin-left: 50%;
+    width: 150px;
+}
+
+.add-new-habit-title{
+    font-family: 'Roboto', cursive;
+    text-align: center;
+    margin-top: 5%;
+}
