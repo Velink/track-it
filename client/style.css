@@ -341,6 +341,14 @@ nav i {
       margin: 12px 0px;
   }
 
+  .register-form input{
+      width: 100%;
+  }
+
+  #mb-3{
+      width: 100%;
+  }
+
   .reg-button{
       height: 50px;
       border: none;

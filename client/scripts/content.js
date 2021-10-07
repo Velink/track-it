@@ -206,8 +206,8 @@ function renderRegisterForm() {
                 duration: 3000,
                 close: true,
                 gravity: "top", // `top` or `bottom`
-                position: "left", // `left`, `center` or `right`
-                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                position: "center", // `left`, `center` or `right`
+                backgroundColor: "linear-gradient(to right, #000000, #000000)",
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 onClick: function () { }, // Callback after click
             }).showToast();
@@ -217,8 +217,8 @@ function renderRegisterForm() {
                 duration: 3000,
                 close: true,
                 gravity: "top", // `top` or `bottom`
-                position: "left", // `left`, `center` or `right`
-                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                position: "center", // `left`, `center` or `right`
+                backgroundColor: "linear-gradient(to right, #000000, #000000)",
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 onClick: function () { }, // Callback after click
             }).showToast();
