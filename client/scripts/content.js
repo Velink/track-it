@@ -160,7 +160,7 @@ function renderRegisterForm() {
         const response = await fetch('https://trackitmathusan.herokuapp.com/register', options);
         const data = await response.json()
         console.log(data)
-        // console.log(data.error)
+        console.log(data.error)
         if (data.error) {
             console.log(data.error.details[0].message)
             let errorMessage = data.error.details[0].message
@@ -319,7 +319,7 @@ async function displayDashboard() {
     try {
         var link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('href', './assets/style.css');
+        link.setAttribute('href', './style.css');
         document.head.appendChild(link);
 
         var fontAwesome = document.createElement('link');
@@ -334,7 +334,7 @@ async function displayDashboard() {
 
         //Obtain User Information 
         const userInfo = await allUserInfo()
-        console.log(userInfo);
+        // console.log(userInfo);
 
         //USER HABITS SECTION
 
@@ -352,7 +352,7 @@ async function displayDashboard() {
             let habitsArray = userInfo.habits;
             let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
             let count = currentHabit.count;
-            console.log(currentHabit);
+            // console.log(currentHabit);
             // console.log(count);
             freqP.textContent = `${currentHabit.count} / ${userHabits[i].frq}`;
             habitElement.appendChild(habitTitle);
@@ -369,10 +369,10 @@ async function displayDashboard() {
 
             async function renderWeeklyProgressForm(e) {
                 let habitSelected = e.target.id.slice(5, e.target.id.length);
-                console.log(habitSelected);
+                // console.log(habitSelected);
 
                 let weeklyProgress = await getWeeklyProgress(habitSelected);
-                console.log(weeklyProgress);
+                // console.log(weeklyProgress);
 
                 //Render Weekly Progress Popup
                 let progressContainer = document.createElement('div');
@@ -452,7 +452,7 @@ async function displayDashboard() {
                     let newCount = 0;
                     for (let i = 0; i < checkBoxTicks.length; i++) {
                         if (checkBoxTicks[i].checked == true) {
-                            console.log(checkBoxTicks[0]);
+                            // console.log(checkBoxTicks[0]);
                             completedDaysArray[i] = 1;
                             newCount++;
                         }
@@ -466,37 +466,37 @@ async function displayDashboard() {
                     let habitsArray = userInfo.habits;
                     // console.log(`${habitsArray} THIS IS THE WAY`)
                     let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
-                    console.log(currentHabit.count)
+                    // console.log(currentHabit.count)
                     let count = currentHabit.count;
                     let ratio = count/userHabits[i].frq 
                     // console.log(`${count} is on button click`)
                     // console.log(userHabits[i].frq)
-                    console.log(ratio)
+                    // console.log(ratio)
             switch(true){
                 case (ratio>=1) :
                     barDiv.style.width = '100%';
                     barDiv.style.backgroundColor = 'greenyellow';
-                    console.log(barDiv.style.width)
+                    // console.log(barDiv.style.width)
                     break;
                 case(ratio>=0.75 && ratio<1):
                     barDiv.style.width = `${ratio*100}%`;
                     barDiv.style.backgroundColor = 'green';
-                    console.log(barDiv.style.width)
+                    // console.log(barDiv.style.width)
                     break;
                 case(ratio>=0.5 && ratio<0.75):
                     barDiv.style.width = `${ratio*100}%`;
                     barDiv.style.backgroundColor = 'yellow';
-                    console.log(barDiv.style.width)
+                    // console.log(barDiv.style.width)
                     break;
                 case(ratio>=0.25 && ratio<0.5):
                     barDiv.style.width = `${ratio*100}%`;
                     barDiv.style.backgroundColor = 'orange';
-                    console.log(barDiv.style.width)
+                    // console.log(barDiv.style.width)
                     break;
                 case(ratio>=0 && ratio<0.25):
                     barDiv.style.width = `${ratio*100}%`;
                     barDiv.style.backgroundColor = 'red';
-                    console.log(barDiv.style.width)
+                    // console.log(barDiv.style.width)
                     break;
                 default:
                 console.log('MAAAD');
@@ -538,28 +538,39 @@ async function displayDashboard() {
             // let currentHabit = habitsArray.find(habit => habit.habit_name == userHabits[i].habit_name);
             // let count = currentHabit.count;
             let ratio = count/userHabits[i].frq 
-            console.log(`${count} is initial`)
-            console.log(userHabits[i].frq)
-            console.log(ratio)
+            // console.log(`${count} is initial`)
+            // console.log(userHabits[i].frq)
+            // console.log(ratio)
             switch(true){
                 case (ratio>=1) :
                     barDiv.style.width = '100%';
-                    barDiv.style.backgroundColor = 'green';
+                    barDiv.style.backgroundColor = 'greenyellow';
+                    // console.log(barDiv.style.width)
                     break;
                 case(ratio>=0.75 && ratio<1):
                     barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'yellow';
+                    barDiv.style.backgroundColor = 'green';
+                    // console.log(barDiv.style.width)
                     break;
                 case(ratio>=0.5 && ratio<0.75):
                     barDiv.style.width = `${ratio*100}%`;
-                    barDiv.style.backgroundColor = 'orange';
+                    barDiv.style.backgroundColor = 'yellow';
+                    // console.log(barDiv.style.width)
                     break;
-                case(0.25<= ratio <0.5):
+                case(ratio>=0.25 && ratio<0.5):
+                    barDiv.style.width = `${ratio*100}%`;
+                    barDiv.style.backgroundColor = 'orange';
+                    // console.log(barDiv.style.width)
+                    break;
+                case(ratio>=0 && ratio<0.25):
                     barDiv.style.width = `${ratio*100}%`;
                     barDiv.style.backgroundColor = 'red';
+                    // console.log(barDiv.style.width)
                     break;
+                default:
+                console.log('MAAAD');
             }
-            console.log(barDiv.style.width)
+            // console.log(barDiv.style.width)
 
             //Delete ICON button 
             let delIcon = document.createElement('i');
@@ -596,7 +607,7 @@ async function displayDashboard() {
 
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 

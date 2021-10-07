@@ -98,7 +98,7 @@ function logout() {
 
 function currentUser() {
     const username = localStorage.getItem('username');
-    console.log(username)
+    // console.log(username)
     return username;
 }
 

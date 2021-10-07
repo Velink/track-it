@@ -34,13 +34,13 @@ function updateContent() {
     // let currentuser = currentUser()
     // console.log(currentuser)
     if (privateRoutes.includes(path) && !currentUser()) { //if path private or user unknown in local storage prevent access to dashboard
-        console.log('inside 1')
+        // console.log('inside 1')
         window.location.hash = '#'; //change to #login or #register???
     } else if (!privateRoutes.includes(path) && currentUser()) {
-        console.log('inside  2')
+        // console.log('inside  2')
         window.location.hash = '#dashboard'; // if user known to local storage let them access the dashboard
     } else {
-        console.log('inside 3');
+        // console.log('inside 3');
         if (window.location.hash == '#login' || window.location.hash == '#register') {
             renderPublicNav();
         } else {

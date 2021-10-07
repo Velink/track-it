@@ -87,26 +87,40 @@ router.get('/:email/choose_habits', authenticateToken, async (req, res) => {
 
 // updateHabitsForUser
 router.patch('/:email/choose_habits', async (req, res) => {
-    try {
+    try {   
+
+        const schema = joi.object({
+            habitName: joi.string().min(2).max(200).required(),
+            frequency: joi.number().integer().required()
+        })
         
-        // const data2 = {
-        //     "habitName": req.body.habitName,
-        //     "frequency": req.body.frequency
-        // }
-        // const schema = joi.object({
-        //     habitName: joi.string().min(2).max(200).required(),
-        //     frequency: joi.number().integer().required()
-        // })
-        // const result = schema.validate(data2)
-        // if (result.error) {
-        //     console.log(result.error.details[0].message)
-        //     return res.send(result.error.details[0])
-        // }
+
+        console.log('entered router.patch')
+        let habitsArray = req.body.newHabitsArr
+        console.log(habitsArray)
+        for(let i = 0 ; i < habitsArray.length ; i++){
+
+            
+            console.log(`checking habit ${i}`)
+            
+            const result = schema.validate(habitsArray[i])
+            if (result.error) {
+                console.log(result.error.details[0].message)
+                return res.json(result.error.details[0])
+            }
+
+
+
+
+
+        }
+        console.log(`out of for loop`)
         const updatedHabits = await User.updateHabitsForUser(req.body.email, req.body.newHabitsArr);
         // console.log(req.body.email);
         // console.log(req.body.habitName);
-        res.status(200).send(updatedHabits)
+        res.status(200).json(updatedHabits)
     } catch (err) {
+        console.log(`we be here!`)
         res.status(404).json({ err })
     }
 })
