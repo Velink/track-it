@@ -28,7 +28,7 @@ async function requestLogin(e) {
             },
         }
 
-        const response = await fetch(`http://localhost:3000/login`, options);
+        const response = await fetch(`https://trackitmathusan.herokuapp.com/login`, options);
         const data = await response.json();
         if (!data.success) { throw new Error('Login not authorised'); }
         login(data.token);
@@ -50,7 +50,7 @@ async function getUserInfo(userEmail) {
             const options = {
                 headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
             }
-            const response = await fetch(`http://localhost:3000/user/${email}/choose_habits`, options);
+            const response = await fetch(`https://trackitmathusan.herokuapp.com/user/${email}/choose_habits`, options);
             const data = await response.json();
             if (data.err) {
                 console.warn(data.err);

@@ -157,7 +157,7 @@ function renderRegisterForm() {
             body: JSON.stringify(userData)
         }
 
-        const response = await fetch('http://localhost:3000/register', options);
+        const response = await fetch('https://trackitmathusan.herokuapp.com/register', options);
         const data = await response.json()
         console.log(data)
         // console.log(data.error)
