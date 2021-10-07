@@ -29,6 +29,7 @@
 .quote-author{
     margin-top: 30px;
     color: #fc5200;
+    text-align: center;
 }
 
 #nav-bar{
@@ -363,3 +364,5 @@ nav i {
     text-align: center;
     margin-top: 5%;
 }
+
+/* Media Queries */

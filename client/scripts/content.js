@@ -16,7 +16,7 @@ if (document.getElementById('on-home-page')) {
     async function addQuote() {
         let quoteContainer = document.getElementById('quote-container');
         let quotes = await generateQuotes();
-        const rndInt = Math.floor(Math.random() * 7) + 1;
+        const rndInt = Math.floor(Math.random() * 10) + 1;
         let quote = quotes[rndInt];
         let quoteElement = document.createElement('p');
         let authorElement = document.createElement('h4');
