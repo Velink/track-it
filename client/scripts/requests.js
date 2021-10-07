@@ -162,7 +162,7 @@ async function allUserInfo(userEmail) {
     const data = await response.json();
 
     console.log(data);
-    console.log(data.body);
+    // console.log(data.body);
     return data;
   } catch (err) {
     console.warn(err);
