@@ -4,6 +4,30 @@ loginPageButton.addEventListener('click', renderLoginForm);
 const registerPageButton = document.getElementById('render-register');
 registerPageButton.addEventListener('click', renderRegisterForm);
 
+setInterval(addQuote, 3000);
+setInterval(clearQuote, 3000);
+
+async function addQuote() {
+    let quoteContainer = document.getElementById('quote-container');
+    let quotes = await generateQuotes();
+    const rndInt = Math.floor(Math.random() * 7) + 1;
+    let quote = quotes[rndInt];
+    let quoteElement = document.createElement('p');
+    let authorElement = document.createElement('h4');
+    authorElement.setAttribute('class', 'quote-author')
+    authorElement.textContent = `- ${quote.a}`;
+    quoteElement.setAttribute('class', 'displayed-quote');
+    quoteElement.textContent = quote.q;
+    quoteElement.appendChild(authorElement);
+    quoteContainer.appendChild(quoteElement);
+}
+
+async function clearQuote() {
+    let quoteContainer = document.getElementById('quote-container');
+    quoteContainer.innerHTML = '';
+}
+
+
 // we will set the ids + classes here so we can style them in css after
 function renderLoginForm() {
     window.location.hash = '#login';
@@ -165,7 +189,7 @@ function renderRegisterForm() {
             console.log(data.error.details[0].message)
             let errorMessage = data.error.details[0].message
             Toastify({
-                text: `${errorMessage}`,
+                text: `${errorMessage} `,
                 duration: 3000,
                 close: true,
                 gravity: "top", // `top` or `bottom`
@@ -265,9 +289,9 @@ function renderAddHabits() {
 
     for (let i = 1; i <= 7; i++) {
         let freq_option = document.createElement('option')
-        freq_option.setAttribute("class", `freq_option_${i}`)
-        freq_option.innerText = `${i}`
-        freq_option.setAttribute("value", `${i}`)
+        freq_option.setAttribute("class", `freq_option_${i} `)
+        freq_option.innerText = `${i} `
+        freq_option.setAttribute("value", `${i} `)
         select.appendChild(freq_option)
     }
     // Create inputs fields on button click
@@ -303,9 +327,9 @@ function renderAddHabits() {
         initialOption.innerText = `Frequency`
         for (let i = 1; i <= 7; i++) {
             let freq_option = document.createElement('option')
-            freq_option.setAttribute("class", `freq_option_${i}`)
-            freq_option.innerText = `${i}`
-            freq_option.setAttribute("value", `${i}`)
+            freq_option.setAttribute("class", `freq_option_${i} `)
+            freq_option.innerText = `${i} `
+            freq_option.setAttribute("value", `${i} `)
             select.appendChild(freq_option)
         }
 

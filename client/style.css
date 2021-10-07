@@ -6,6 +6,26 @@
     box-sizing: border-box;
 }
 
+
+.quote-container{
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.displayed-quote{
+    font-size: 34px;
+    font-style: italic;
+    font-family: 'Roboto', cursive;
+    text-align: center;
+    margin-top: 10%;
+}
+
+.quote-author{
+    margin-top: 30px;
+    color: #fc5200;
+}
+
 #nav-bar{
     font-family: 'Roboto', cursive;
     width: 100%;

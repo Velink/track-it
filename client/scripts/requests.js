@@ -170,32 +170,11 @@ async function allUserInfo(userEmail) {
 
 }
 
-
 // FETCH MOTIVATIONAL QUOTES
 async function generateQuotes() {
-  let mode = 'quotes';
-  let key = 'b727b7859776ae18fef3449a4349402058a01a0f'
-
-  const options = {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      "Access-Control-Allow-Origin": "http://127.0.0.1:5500/client/",
-      "Access-Control-Allow-Credentials": true,
-      "Authorization": "b727b7859776ae18fef3449a4349402058a01a0f",
-      "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, PATCH, OPTIONS",
-      "Content-Type": "application/json"
-    },
-    // sends data of all chosen habits in the form of =>    habitData = [{habit: chosenhabit, frequency: chosen frequency}]
-  }
-
-  // const response = await fetch(`https://zenquotes.io/api/${mode}/${key}`, options);
-  const response = await fetch(`http://quotes.rest/qod.json`, options);
-
-  console.log(response);
+  const response = await fetch(`https://trackitmathusan.herokuapp.com/quotes`);
   const data = await response.json();
-  console.log(response.body);
-  console.log(data);
+  return data;
 }
 
 generateQuotes();
