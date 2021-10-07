@@ -319,7 +319,7 @@ async function displayDashboard() {
     try {
         var link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('href', '../style.css');
+        link.setAttribute('href', '../assets/style.css');
         document.head.appendChild(link);
 
         var fontAwesome = document.createElement('link');
