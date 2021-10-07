@@ -41,7 +41,11 @@ function updateContent() {
         window.location.hash = '#dashboard'; // if user known to local storage let them access the dashboard
     } else {
         console.log('inside 3');
-        renderPrivateNav();
+        if (window.location.hash == '#login' || window.location.hash == '#register') {
+            renderPublicNav();
+        } else {
+            renderPrivateNav();
+        }
         updateBody(path); // render the corresponding page
     }
 }
