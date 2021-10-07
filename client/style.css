@@ -10,6 +10,10 @@
     margin-right: 3%;
 }
 
+.center-login{
+    margin-right: 3%;
+}
+
 
 #quote-container{
     margin: 0 auto;
@@ -27,6 +31,7 @@
 }
 
 .quote-author{
+    font-family: 'Roboto', cursive;
     margin-top: 30px;
     color: #fc5200;
     text-align: center;

@@ -760,6 +760,7 @@ function renderPublicNav() {
     // Logout Navbar Button
     let logIn = document.createElement('button');
     logIn.textContent = 'Login';
+    logIn.setAttribute('class', 'center-login')
     logIn.addEventListener('click', logout);
 
     // Habits Navbar Button
