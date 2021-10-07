@@ -72,9 +72,9 @@ function renderLoginForm() {
     const loginjs = document.createElement('script');
     const jwt_decodejs = document.createElement('script');
     const layoutjs = document.createElement('script');
-    loginjs.src = "../scripts/login.js";
-    jwt_decodejs.src = "../scripts/jwt-decode.js";
-    layoutjs.src = "../scripts/layout.js"
+    loginjs.src = "./scripts/login.js";
+    jwt_decodejs.src = "./scripts/jwt-decode.js";
+    layoutjs.src = "./scripts/layout.js"
 
     //Append Login Page Items
     const loginPageItems = [header, form, loginjs, jwt_decodejs]
@@ -319,7 +319,7 @@ async function displayDashboard() {
     try {
         var link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('href', '../assets/style.css');
+        link.setAttribute('href', './assets/style.css');
         document.head.appendChild(link);
 
         var fontAwesome = document.createElement('link');
@@ -634,7 +634,7 @@ function renderPublicNav() {
 
     //Navbar img
     let navImg = document.createElement('img');
-    navImg.setAttribute('src', '../assets/output-onlinepngtools.png');
+    navImg.setAttribute('src', './assets/output-onlinepngtools.png');
     navImg.setAttribute('width', '50px');
 
     //Navbar Title
