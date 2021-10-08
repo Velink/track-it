@@ -386,16 +386,18 @@ nav i {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 0;
 }
 
 .container form div{
+    
     margin-left: 10%;
     margin: 0 auto;
 }
 
 .instructions{
     font-family: 'Roboto', cursive;
-    padding-top: 10%;
+    padding-top: 5%;
     font-size: 20px;
     text-align: center;
 }
@@ -411,6 +413,32 @@ nav i {
     margin-top: 10px;
 }
 
-
-
 /* Media Queries */
+@media(max-width: 500px){
+    #nav-bar h1{
+        display: none;
+    }
+
+    #render-login{
+        margin-right: 0;
+    }
+
+    #quote-container p{
+        font-size: 20px;
+    }
+
+    #navbar-img{
+        display: none;
+        margin-right: 20px;
+        width: 40px;
+    }
+
+    #nav-bar img{
+        display: none;
+    }
+
+    .center-login{
+        margin-right: 0;
+        margin-left: 4%;
+    }
+}
